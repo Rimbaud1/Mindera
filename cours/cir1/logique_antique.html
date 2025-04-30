@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours de Syllogisme Ancien</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .logic-card {
+            transition: all 0.3s ease;
+        }
+        .logic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .truth-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .truth-table th, .truth-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .truth-table th {
+            background-color: #f8f9fa;
+        }
+        .valid {
+            background-color: rgba(52, 211, 153, 0.2);
+            border-left: 4px solid #10b981;
+        }
+        .invalid {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #ef4444;
+        }
+        .exercise {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .exercise:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-2">Cours de Syllogisme Ancien</h1>
+            <p class="text-lg text-gray-600">Logique formelle et raisonnement déductif</p>
+            <div class="w-24 h-1 bg-indigo-500 mx-auto mt-4 rounded-full"></div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+            <button class="tab-btn px-6 py-3 font-medium text-indigo-600 border-b-2 border-indigo-600" data-tab="intro">Introduction</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="conditional">Conditionnel</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="disjunctive">Disjonctif</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="incompatibility">Incompatibilité</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="exercises">Exercices</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="intro">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Introduction au Syllogisme Ancien</h2>
+                    <p class="text-gray-600 mb-4">
+                        Le syllogisme est une forme de raisonnement logique qui consiste à déduire une conclusion à partir de deux prémisses. 
+                        Ce cours couvre différents types de syllogismes au-delà du syllogisme catégorique classique, en se concentrant sur les formes conditionnelles, disjonctives et d'incompatibilité.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div class="logic-card bg-white p-6 rounded-lg shadow border border-gray-100">
+                            <div class="text-indigo-600 text-3xl mb-4">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Syllogisme Conditionnel</h3>
+                            <p class="text-gray-600">Forme "Si p alors q" avec ses variantes valides et sophismes.</p>
+                        </div>
+                        
+                        <div class="logic-card bg-white p-6 rounded-lg shadow border border-gray-100">
+                            <div class="text-indigo-600 text-3xl mb-4">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Syllogisme Disjonctif</h3>
+                            <p class="text-gray-600">Forme "p ou q" avec disjonction stricte ou large.</p>
+                        </div>
+                        
+                        <div class="logic-card bg-white p-6 rounded-lg shadow border border-gray-100">
+                            <div class="text-indigo-600 text-3xl mb-4">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Syllogisme d'Incompatibilité</h3>
+                            <p class="text-gray-600">Forme "non (p et q)" avec ses règles spécifiques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conditional Syllogism -->
+        <div class="tab-content" id="conditional">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Syllogisme Conditionnel</h2>
+                    <p class="text-gray-600 mb-4">
+                        Forme de base : <span class="font-mono bg-gray-100 px-2 py-1 rounded">Si p alors q</span> (If p then q)
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Composants :</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                            <li><strong>Prémisse majeure</strong> : L'énoncé conditionnel (Si p alors q)</li>
+                            <li><strong>Prémisse mineure</strong> : Un énoncé affirmant ou niant p ou q</li>
+                            <li><strong>Conclusion</strong> : Déduite des prémisses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Valid Forms -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Formes Valides</h3>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg mb-4 valid">
+                                <h4 class="font-bold text-green-800 mb-2">Modus Ponens</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>Si p alors q</p>
+                                    <p>Or p</p>
+                                    <p class="font-bold">Donc q</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg valid">
+                                <h4 class="font-bold text-green-800 mb-2">Modus Tollens</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>Si p alors q</p>
+                                    <p>Or non q (négation du conséquent)</p>
+                                    <p class="font-bold">Donc non p (négation de l'antécédent)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "Un amateur de carottes (p) n'est jamais malade du foie (q). Je suis constamment malade du foie (non q). Donc je ne suis pas amateur de carottes (non p)."
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Invalid Forms -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Formes Invalides (Sophismes)</h3>
+                            
+                            <div class="bg-red-50 p-4 rounded-lg mb-4 invalid">
+                                <h4 class="font-bold text-red-800 mb-2">Négation de l'Antécédent</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>Si p alors q</p>
+                                    <p>Or non p</p>
+                                    <p class="font-bold">Donc non q (Conclusion invalide)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "Si la philo de Rousseau est fausse (p), l'état de nature n'est pas un état de liberté (q). Or la philo de Rousseau est vraie (non p). Donc l'état de nature est un état de liberté (non q)." → Sophisme.
+                                </p>
+                            </div>
+                            
+                            <div class="bg-red-50 p-4 rounded-lg invalid">
+                                <h4 class="font-bold text-red-800 mb-2">Affirmation du Conséquent</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>Si p alors q</p>
+                                    <p>Or q</p>
+                                    <p class="font-bold">Donc p (Conclusion invalide)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "Si vous ne mentez pas (non p), vous pourrez bénéficier de circonstances atténuantes (q). Or vous bénéficiez de circonstances atténuantes (q)." → Conclusion invalide (ne permet pas de conclure non p ou p).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disjunctive Syllogism -->
+        <div class="tab-content" id="disjunctive">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Syllogisme Disjonctif</h2>
+                    <p class="text-gray-600 mb-4">
+                        Forme de la majeure : <span class="font-mono bg-gray-100 px-2 py-1 rounded">p ou q</span> (p or q). La disjonction est commutative (p ou q ⇔ q ou p).
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Deux Types de Disjonction :</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800 mb-2">Stricte (Exclusive OU / XOR)</h4>
+                                <p class="text-gray-600">L'un ou l'autre, mais pas les deux.</p>
+                                <p class="text-sm mt-2 italic">Ex: La porte est ouverte OU fermée.</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-purple-800 mb-2">Large (Inclusive OU)</h4>
+                                <p class="text-gray-600">L'un ou l'autre, ou les deux.</p>
+                                <p class="text-sm mt-2 italic">Ex: Vous êtes idiot OU ignorant... ou les deux.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Valid Forms -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Formes Valides</h3>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg mb-4 valid">
+                                <h4 class="font-bold text-green-800 mb-2">Ponendo Tollens</h4>
+                                <p class="text-sm text-gray-600 mb-2">Valide SEULEMENT pour la disjonction STRICTE</p>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>p OU (strict) q</p>
+                                    <p>Or p</p>
+                                    <p class="font-bold">Donc non q (et vice-versa)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "La porte est ouverte (p) ou fermée (q) [strict]. Or elle est ouverte (p). Donc elle n'est pas fermée (non q)."
+                                </p>
+                            </div>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg valid">
+                                <h4 class="font-bold text-green-800 mb-2">Tollendo Ponens</h4>
+                                <p class="text-sm text-gray-600 mb-2">Valide pour les disjonctions STRICTE et LARGE</p>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>p OU q</p>
+                                    <p>Or non p</p>
+                                    <p class="font-bold">Donc q (et vice-versa)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "[Une oeuvre est] soit géniale (P), soit l'oeuvre d'un fou (Q). Or [l'auteur n'est] rien d'un fou (non Q). Donc [l'oeuvre est] géniale (P)." (Valide dans les deux cas).
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Truth Table -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Tableau des Conclusions Valides</h3>
+                            <div class="overflow-x-auto">
+                                <table class="truth-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Prémisse mineure</th>
+                                            <th>Conclusion (Stricte)</th>
+                                            <th>Conclusion (Large)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Ponendo Tollens</td>
+                                            <td>p</td>
+                                            <td>non q</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ponendo Tollens</td>
+                                            <td>q</td>
+                                            <td>non p</td>
+                                            <td>?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tollendo Ponens</td>
+                                            <td>non p</td>
+                                            <td>q</td>
+                                            <td>q</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tollendo Ponens</td>
+                                            <td>non q</td>
+                                            <td>p</td>
+                                            <td>p</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="mt-3 text-sm text-gray-600">
+                                Remarque : Ne pas interpréter le type de disjonction d'après le contexte ; donner les réponses pour les deux types (large et stricte) si ambiguïté.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incompatibility Syllogism -->
+        <div class="tab-content" id="incompatibility">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Syllogisme d'Incompatibilité</h2>
+                    <p class="text-gray-600 mb-4">
+                        Forme de la majeure : <span class="font-mono bg-gray-100 px-2 py-1 rounded">non (p et q)</span> - Il n'est pas possible d'avoir p et q en même temps. C'est la négation d'une conjonction. Commutative.
+                    </p>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Distinction avec la disjonction stricte :</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-yellow-800 mb-2">Incompatibilité</h4>
+                                <p class="text-gray-600">non (p et q) permet le cas où ni p ni q ne sont vrais.</p>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800 mb-2">Disjonction Stricte</h4>
+                                <p class="text-gray-600">p XOR q exige qu'exactement un des deux soit vrai.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Équivalence (Loi de De Morgan) :</h3>
+                        <div class="font-mono bg-gray-100 p-4 rounded-lg text-center">
+                            non (p et q) ⇔ (non p ou non q)
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">Disjonction LARGE des termes niés</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Valid Forms -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Forme Valide</h3>
+                            
+                            <div class="bg-green-50 p-4 rounded-lg valid">
+                                <h4 class="font-bold text-green-800 mb-2">Ponendo Tollens pour l'incompatibilité</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>non (p et q)</p>
+                                    <p>Or p (Prémisse mineure AFFIRMATIVE)</p>
+                                    <p class="font-bold">Donc non q (et vice-versa : Or q, Donc non p)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "On ne peut contenter et son père (p) et sa mère (q) → non(p et q). Or ma mère est contente (q). Donc [on ne contente pas] son père (non p)."
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Invalid Forms -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-3">Forme Invalide</h3>
+                            
+                            <div class="bg-red-50 p-4 rounded-lg invalid">
+                                <h4 class="font-bold text-red-800 mb-2">Utiliser une prémisse mineure négative</h4>
+                                <div class="font-mono bg-white p-3 rounded text-sm">
+                                    <p>non (p et q)</p>
+                                    <p>Or non p</p>
+                                    <p class="font-bold">Donc ? (Conclusion invalide)</p>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Exemple : "Chercher son profit (P) et ne pas s'occuper de soi (Q) s'excluent → non(P et Q). Tu ne t'occupes pas de toi (non Q). Donc tu ne cherches pas ton profit (non P)." → Sophisme (la mineure est négative).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Tableau Récapitulatif</h3>
+                        <div class="overflow-x-auto">
+                            <table class="truth-table">
+                                <thead>
+                                    <tr>
+                                        <th>Forme</th>
+                                        <th>Prémisse mineure</th>
+                                        <th>Conclusion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Valide</td>
+                                        <td>p</td>
+                                        <td>non q</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valide</td>
+                                        <td>q</td>
+                                        <td>non p</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Invalide</td>
+                                        <td>non p</td>
+                                        <td>?</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Invalide</td>
+                                        <td>non q</td>
+                                        <td>?</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercises -->
+        <div class="tab-content" id="exercises">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Exercices sur les Syllogismes</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Type 1 Exercises -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                                <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                                Type 1 : Identifier la structure
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Identifier la structure logique et déduire la conclusion si le raisonnement est valide selon les règles.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="exercise">
+                                    <p>q = faire beau temps, p = pleuvoir et non p, non (q et p), non p donc ?</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p>non (q et p) ∧ non p → Pas de conclusion valide (forme invalide avec prémisse négative)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="exercise">
+                                    <p>p = mentez, q = circonstances atténuantes, (p U q), or p donc non q (cas strict) ou ? (cas large)</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p>Strict : non q (Ponendo Tollens valide)</p>
+                                        <p>Large : ? (pas de conclusion certaine)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="exercise">
+                                    <p>Si vous mentez (p), vous ne pouvez disposer de circonstances atténuantes (non q); or vous ne mentez pas (non p). Donc ?</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p>Forme invalide : Négation de l'antécédent (si p alors non q, or non p → pas de conclusion valide)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Type 2 Exercises -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                                <span class="bg-purple-100 text-purple-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                                Type 2 : Analyser un raisonnement
+                            </h3>
+                            <p class="text-gray-600 mb-4">
+                                Analyser un raisonnement donné et déterminer s'il est valide ou s'il s'agit d'un sophisme.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="exercise">
+                                    <p>Un kangourou asthmatique n'a jamais fait de marathon ; mon voisin de palier a donc fait un marathon puisqu'il n'est pas un kangourou.</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p class="text-red-600">Sophisme : Négation de l'antécédent (si p alors q, or non p donc non q → invalide)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="exercise">
+                                    <p>Cette œuvre est géniale, puisque son auteur n'a rien d'un fou, et qu'une telle œuvre ne peut être que soit géniale, soit l'œuvre d'un fou.</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p class="text-green-600">Correct : Tollendo Ponens (p ou q, or non q, donc p) - valide pour disjonction stricte ou large</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="exercise">
+                                    <p>Chercher son profit et ne pas s'occuper de soi sont deux attitudes qui s'excluent. Tu ne cherches donc pas ton profit, puisque tu ne t'occupes pas de toi.</p>
+                                    <button class="show-solution mt-2 text-sm text-blue-600 hover:text-blue-800">Voir solution</button>
+                                    <div class="solution hidden mt-2 p-3 bg-gray-50 rounded text-sm">
+                                        <p class="text-red-600">Sophisme : non (p et q), or non q donc non p → forme invalide (prémisse négative)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Truth Tables -->
+                    <div class="mt-12">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Tables de Vérité (Synthèse)</h3>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-bold text-gray-700 mb-2">Implication (p → q)</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="truth-table">
+                                        <thead>
+                                            <tr>
+                                                <th>p</th>
+                                                <th>q</th>
+                                                <th>p → q</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>V</td>
+                                                <td>V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>F</td>
+                                                <td>F</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F</td>
+                                                <td>V</td>
+                                                <td>V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F</td>
+                                                <td>F</td>
+                                                <td>V</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">Faux seulement si p est Vrai et q est Faux.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold text-gray-700 mb-2">Disjonction Exclusive (p W q)</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="truth-table">
+                                        <thead>
+                                            <tr>
+                                                <th>p</th>
+                                                <th>q</th>
+                                                <th>p W q</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>V</td>
+                                                <td>F</td>
+                                            </tr>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>F</td>
+                                                <td>V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F</td>
+                                                <td>V</td>
+                                                <td>V</td>
+                                            </tr>
+                                            <tr>
+                                                <td>F</td>
+                                                <td>F</td>
+                                                <td>F</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-600">Vrai seulement si p et q ont des valeurs différentes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('text-indigo-600', 'border-indigo-600'));
+                tabBtns.forEach(b => b.classList.add('text-gray-500', 'hover:text-indigo-600'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('text-indigo-600', 'border-indigo-600');
+                btn.classList.remove('text-gray-500', 'hover:text-indigo-600');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Show solution buttons
+        const showSolutionBtns = document.querySelectorAll('.show-solution');
+        showSolutionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const solution = btn.nextElementSibling;
+                solution.classList.toggle('hidden');
+                
+                if (solution.classList.contains('hidden')) {
+                    btn.textContent = 'Voir solution';
+                } else {
+                    btn.textContent = 'Cacher solution';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
