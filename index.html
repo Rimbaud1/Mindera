@@ -1,26 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>MindEra - Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
+        
+        :root {
+            --primary: #000000;
+            --secondary: #111111;
+            --accent: #ffffff;
+            --highlight: #e2e8f0;
         }
-        h1 {
-            font-size: 3rem;
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary);
+            color: var(--accent);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Subtle Grid Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        /* Elegant Title Animation */
+        .title-container {
+            position: relative;
+        }
+        
+        .title-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title-text::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -8px;
+            left: 0;
+            background: var(--accent);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .title-text:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Mystic Floating Effect */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Subtle Glow */
+        .subtle-glow {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Particle Background */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Elegant Underline */
+        .elegant-underline {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .elegant-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background: var(--accent);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .elegant-underline:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Access Boxes */
+        .access-box {
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .access-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .access-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .access-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .access-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
     </style>
 </head>
 <body>
-    <h1>Coming Soon</h1>
+    <!-- Background Elements -->
+    <div class="grid-overlay"></div>
+    <div id="particles-container"></div>
+    
+    <!-- Main Content -->
+    <main class="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative z-10">
+        <!-- Clean Animated Logo -->
+        <div class="title-container mb-12">
+            <h1 class="text-6xl md:text-8xl font-extralight tracking-tight text-center">
+                <span class="title-text">MindEra</span>
+            </h1>
+        </div>
+        
+        <!-- Coming Soon Badge -->
+        <div class="floating">
+            <div class="px-8 py-4 rounded-full border border-gray-700 bg-black bg-opacity-40 backdrop-blur-sm subtle-glow">
+                <span class="text-xl md:text-2xl font-light tracking-widest uppercase">
+                    <span class="elegant-underline">Coming Soon</span>
+                </span>
+            </div>
+        </div>
+        
+        <!-- Countdown (optional) -->
+        <div class="mt-16 text-gray-400 text-sm tracking-widest">
+            <span>STAY TUNED</span>
+        </div>
+    </main>
+    
+    <!-- Temporary Access Section -->
+    <section class="relative z-10 pb-20 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-light mb-4 tracking-wider">ACCÈS TEMPORAIRE</h2>
+            <div class="w-24 h-px bg-white mx-auto mb-6"></div>
+            <p class="text-gray-400 max-w-2xl mx-auto">Accédez à nos ressources exclusives pendant notre développement</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Box 1 -->
+            <div class="access-box rounded-lg p-6 hover:subtle-glow">
+                <h3 class="text-xl font-light mb-3">Cours Logique Antique</h3>
+                <p class="text-gray-400 mb-4">Résumé et exos pour réviser le partiel d'Epistemologie</p>
+                <a href="./cours/cir1/logique_antique.html" class="access-link inline-block text-sm tracking-wider">Y aller →</a>
+            </div>
+
+            <!-- Box 1 -->
+            <div class="access-box rounded-lg p-6 hover:subtle-glow">
+                <h3 class="text-xl font-light mb-3">Coefficients CIR1 S2</h3>
+                <p class="text-gray-400 mb-4">Calcul tes moyennes et tes notes nécessaires pour atteindre tes objectifs</p>
+                <a href="./cours/cir1/coeffsS2.html" class="access-link inline-block text-sm tracking-wider">Y aller →</a>
+            </div>
+
+
+            
+
+        </div>
+    </section>
+    
+    <!-- Particle Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create subtle particles
+            const container = document.getElementById('particles-container');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                const opacity = Math.random() * 0.2 + 0.05;
+                
+                // Apply properties
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = opacity;
+                
+                // GSAP animation
+                gsap.to(particle, {
+                    y: window.innerHeight + 100,
+                    x: `+=${(Math.random() - 0.5) * 50}`,
+                    opacity: 0,
+                    duration: duration,
+                    delay: delay,
+                    ease: 'none',
+                    onComplete: () => {
+                        particle.remove();
+                        createParticle();
+                    }
+                });
+                
+                container.appendChild(particle);
+            }
+            
+            // Initial particles
+            for (let i = 0; i < 30; i++) {
+                createParticle();
+            }
+            
+            // Title animation on hover
+            const title = document.querySelector('.title-text');
+            title.addEventListener('mouseenter', () => {
+                gsap.to(title, {
+                    letterSpacing: '2px',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            title.addEventListener('mouseleave', () => {
+                gsap.to(title, {
+                    letterSpacing: '0px',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,713 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CIR1 S2 – Visualisation & Calcul</title>
+  <!-- Google Charts -->
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles */
+    .gradient-bg {
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+    }
+    .chart-container {
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .chart-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .input-radio-container:hover .radio-label {
+      color: #4f46e5;
+    }
+    .radio-custom {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      position: relative;
+      cursor: pointer;
+    }
+    .radio-custom:checked {
+      border-color: #4f46e5;
+      background-color: #4f46e5;
+    }
+    .radio-custom:checked::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+    }
+    .note-input {
+      transition: all 0.2s ease;
+      border: 1px solid #d1d5db;
+    }
+    .note-input:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+    .btn-primary {
+      transition: all 0.2s ease;
+      background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .btn-secondary {
+      transition: all 0.2s ease;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    }
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .result-box {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-left: 4px solid #3b82f6;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="gradient-bg text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4">
+      <h1 class="text-3xl font-bold text-center">
+        <i class="fas fa-chart-pie mr-2"></i> Pondérations CIR1 S2
+      </h1>
+      <p class="text-center text-blue-100 mt-2">
+        Visualisation interactive & calculateur de moyenne
+      </p>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Chart Section -->
+      <div class="flex-1">
+        <div class="bg-white rounded-xl p-6 chart-container">
+          <div id="chart_div" class="w-full h-[500px]"></div>
+        </div>
+        <div class="text-center mt-4">
+          <button id="backBtn" class="btn-secondary py-2 px-6 rounded-lg font-medium text-gray-700 hidden" onclick="goBack()">
+            <i class="fas fa-arrow-left mr-2"></i> Retour
+          </button>
+        </div>
+      </div>
+
+      <!-- Calculator Section -->
+      <div class="w-full lg:w-96">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="gradient-bg px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center">
+              <i class="fas fa-calculator mr-3"></i> Calculateur de moyenne
+            </h2>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-6 text-sm">
+              Saisissez les notes déjà connues. Cochez la case pour la note inconnue. 
+              Cliquez sur « Calculer » pour savoir combien il faut pour avoir 10 de moyenne.
+            </p>
+            
+            <div id="notesForm" class="space-y-4 mb-6"></div>
+            
+            <button onclick="calculerMoyenne()" class="btn-primary w-full py-3 rounded-lg text-white font-medium">
+              <i class="fas fa-calculator mr-2"></i> Calculer
+            </button>
+            
+            <div id="calcResult" class="result-box p-4 mt-6 rounded-lg hidden">
+              <div class="flex items-start">
+                <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                <div id="resultContent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 py-6 mt-12">
+    <div class="container mx-auto px-4 text-center text-gray-600">
+      <p>© 2025 CIR1 S2 - Outil de visualisation des pondérations</p>
+    </div>
+  </footer>
+
+<script>
+  // --------------------------------------------------------------------
+  // 1) Données en 3 niveaux (UE → Modules → Épreuves)
+  // --------------------------------------------------------------------
+  google.charts.load('current', { packages: ['corechart'] });
+  google.charts.setOnLoadCallback(drawLevel1);
+
+  // -- NIVEAU 1 : 5 UE (nom + ECTS)
+  const dataNiveau1 = [
+    ['Maths (UE1.2.1)', 8],
+    ['Physique/Elec (UE1.2.2)', 7],
+    ['Informatique (UE1.2.3)', 7],
+    ['Hum.&Langues (UE1.2.4)', 6],
+    ['Projet (UE1.2.5)', 2],
+  ];
+
+  // -- NIVEAU 2 : sous-modules pour chaque UE, avec poids en %
+  //    (ex : Maths = M3(35), M4(50), TP(15))
+  const dataNiveau2 = [
+    {
+      name: 'Maths (UE1.2.1)',
+      modules: [
+        ['M3 : Arithmétique', 35],
+        ['M4 : Algèbre linéaire', 50],
+        ['Maths TP', 15]
+      ]
+    },
+    {
+      name: 'Physique/Elec (UE1.2.2)',
+      modules: [
+        ['Electronique TP', 20],
+        ['Mécanique du point', 50],
+        ['Thermodynamique', 30]
+      ]
+    },
+    {
+      name: 'Informatique (UE1.2.3)',
+      modules: [
+        ['Prog 2 Approfondissement', 50],
+        ['Prog 2 TP', 15],
+        ['Développement web', 35]
+      ]
+    },
+    {
+      name: 'Hum.&Langues (UE1.2.4)',
+      modules: [
+        ['Anglais', 50],
+        ['Epistémologie/EEO', 50]
+      ]
+    },
+    {
+      name: 'Projet (UE1.2.5)',
+      modules: [
+        ['Projet de fin d\'année', 100]
+      ]
+    }
+  ];
+
+  // -- NIVEAU 3 : épreuves pour chaque sous-module
+  const dataNiveau3 = {
+    // MATHS
+    "M3 : Arithmétique": [
+      ["Partiel", 60],
+      ["CC1", 20],
+      ["CC2", 20]
+    ],
+    "M4 : Algèbre linéaire": [
+      ["Partiel", 60],
+      ["CC1", 10],
+      ["CC2", 10],
+      ["CC3", 10],
+      ["CC4", 10]
+    ],
+    "Maths TP": [
+      ["TP1", 33.33],
+      ["TP2", 33.33],
+      ["TP3", 33.33]
+    ],
+
+    // PHYSIQUE / ELEC
+    "Electronique TP": [
+      ["TP", 100]
+    ],
+    "Mécanique du point": [
+      ["Partiel", 60],
+      ["CC1", 30],
+      ["TP1", 10]
+    ],
+    "Thermodynamique": [
+      ["Partiel", 60],
+      ["CC1", 40]
+    ],
+
+    // INFORMATIQUE
+    "Prog 2 Approfondissement": [
+      ["DS", 30],
+      ["Partiel", 40],
+      ["CC1", 30]
+    ],
+    "Prog 2 TP": [
+      ["TP1", 100]
+    ],
+    "Développement web": [
+      ["DS", 40],
+      ["CC1", 20],
+      ["Projet", 40]
+    ],
+
+    // HUMANITÉS & LANGUES
+    "Anglais": [
+      ["Epreuve finale", 50],
+      ["CC1", 30],
+      ["TP1", 20]
+    ],
+    "Epistémologie/EEO": [
+      ["Partiel", 33.33],
+      ["CC1", 33.33],
+      ["CC2", 33.33]
+    ],
+
+    // PROJET
+    "Projet de fin d'année": [
+      ["Note projet", 100]
+    ]
+  };
+
+  // Variables d'état
+  let currentLevel = 1;
+  let currentUEName = "";
+  let currentSubModuleName = "";
+
+  // --------------------------------------------------------------------
+  // Fonctions de dessin des camemberts
+  // --------------------------------------------------------------------
+  function drawLevel1() {
+    currentLevel = 1;
+    document.getElementById('backBtn').classList.add('hidden');
+    renderCalcForm();
+
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'UE');
+    data.addColumn('number', 'ECTS');
+    data.addRows(dataNiveau1);
+
+    const options = {
+      title: "Répartition des UE (en ECTS)",
+      backgroundColor: 'transparent',
+      chartArea: {
+        left: 50,
+        top: 50,
+        width: "80%",
+        height: "70%"
+      },
+      legend: { position: 'right' },
+      colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b'],
+      titleTextStyle: {
+        fontSize: 18,
+        bold: true,
+        color: '#374151'
+      }
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    google.visualization.events.addListener(chart, 'select', function() {
+      const sel = chart.getSelection()[0];
+      if (sel) {
+        const ueName = data.getValue(sel.row, 0);
+        currentUEName = ueName;
+        drawLevel2(ueName);
+      }
+    });
+    chart.draw(data, options);
+  }
+
+  function drawLevel2(ueName) {
+    currentLevel = 2;
+    document.getElementById('backBtn').classList.remove('hidden');
+    renderCalcForm();
+
+    const ueObj = dataNiveau2.find(o => o.name === ueName);
+    if (!ueObj) return;
+
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Module');
+    data.addColumn('number', 'Poids %');
+    data.addRows(ueObj.modules);
+
+    const options = {
+      title: ueName,
+      backgroundColor: 'transparent',
+      chartArea: {
+        left: 50,
+        top: 50,
+        width: "80%",
+        height: "70%"
+      },
+      legend: { position: 'right' },
+      colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b'],
+      titleTextStyle: {
+        fontSize: 18,
+        bold: true,
+        color: '#374151'
+      }
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    google.visualization.events.addListener(chart, 'select', function() {
+      const sel = chart.getSelection()[0];
+      if (sel) {
+        const subModuleName = data.getValue(sel.row, 0);
+        currentSubModuleName = subModuleName;
+        drawLevel3(subModuleName);
+      }
+    });
+    chart.draw(data, options);
+  }
+
+  function drawLevel3(subModuleName) {
+    currentLevel = 3;
+    document.getElementById('backBtn').classList.remove('hidden');
+    renderCalcForm();
+
+    const epreuves = dataNiveau3[subModuleName];
+    if (!epreuves) return;
+
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Epreuve');
+    data.addColumn('number', 'Coeff %');
+    data.addRows(epreuves);
+
+    const options = {
+      title: subModuleName,
+      backgroundColor: 'transparent',
+      chartArea: {
+        left: 50,
+        top: 50,
+        width: "80%",
+        height: "70%"
+      },
+      legend: { position: 'right' },
+      colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b'],
+      titleTextStyle: {
+        fontSize: 18,
+        bold: true,
+        color: '#374151'
+      }
+    };
+
+    const chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+
+  // Bouton "Retour"
+  function goBack() {
+    if (currentLevel === 3) {
+      drawLevel2(currentUEName);
+    } else if (currentLevel === 2) {
+      drawLevel1();
+    }
+  }
+
+  // --------------------------------------------------------------------
+  // Génération du FORMULAIRE de notes
+  // --------------------------------------------------------------------
+  function renderCalcForm() {
+    const formZone = document.getElementById('notesForm');
+    formZone.innerHTML = '';
+    document.getElementById('calcResult').classList.add('hidden');
+
+    if (currentLevel === 1) {
+      // Niveau 1: UEs
+      dataNiveau1.forEach((row, idx) => {
+        const ueName = row[0];
+        const ueECTS = row[1];
+        
+        const div = document.createElement('div');
+        div.className = 'input-radio-container flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+        
+        const label = document.createElement('label');
+        label.className = 'radio-label text-sm font-medium text-gray-700 flex-1';
+        label.textContent = `${ueName} (ECTS: ${ueECTS})`;
+        
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'flex items-center space-x-3';
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '0.1';
+        input.min = '0';
+        input.max = '20';
+        input.id = `lvl1_input_${idx}`;
+        input.className = 'note-input w-20 px-3 py-2 rounded-md text-sm';
+        input.placeholder = '/20';
+        
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'unknownNote';
+        radio.value = idx;
+        radio.className = 'radio-custom';
+        radio.id = `lvl1_radio_${idx}`;
+        
+        const radioLabel = document.createElement('label');
+        radioLabel.htmlFor = `lvl1_radio_${idx}`;
+        radioLabel.className = 'text-xs text-gray-500 ml-1';
+        radioLabel.innerHTML = '<i class="fas fa-question-circle"></i>';
+        radioLabel.title = "Note inconnue";
+        
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(radio);
+        inputContainer.appendChild(radioLabel);
+        
+        div.appendChild(label);
+        div.appendChild(inputContainer);
+        formZone.appendChild(div);
+      });
+
+    } else if (currentLevel === 2) {
+      // Niveau 2: Modules
+      const ueObj = dataNiveau2.find(o => o.name === currentUEName);
+      if (!ueObj) return;
+
+      ueObj.modules.forEach((m, idx) => {
+        const moduleName = m[0];
+        const modulePct = m[1];
+        
+        const div = document.createElement('div');
+        div.className = 'input-radio-container flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+        
+        const label = document.createElement('label');
+        label.className = 'radio-label text-sm font-medium text-gray-700 flex-1';
+        label.textContent = `${moduleName} (${modulePct}%)`;
+        
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'flex items-center space-x-3';
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '0.1';
+        input.min = '0';
+        input.max = '20';
+        input.id = `lvl2_input_${idx}`;
+        input.className = 'note-input w-20 px-3 py-2 rounded-md text-sm';
+        input.placeholder = '/20';
+        
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'unknownNote';
+        radio.value = idx;
+        radio.className = 'radio-custom';
+        radio.id = `lvl2_radio_${idx}`;
+        
+        const radioLabel = document.createElement('label');
+        radioLabel.htmlFor = `lvl2_radio_${idx}`;
+        radioLabel.className = 'text-xs text-gray-500 ml-1';
+        radioLabel.innerHTML = '<i class="fas fa-question-circle"></i>';
+        radioLabel.title = "Note inconnue";
+        
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(radio);
+        inputContainer.appendChild(radioLabel);
+        
+        div.appendChild(label);
+        div.appendChild(inputContainer);
+        formZone.appendChild(div);
+      });
+
+    } else if (currentLevel === 3) {
+      // Niveau 3: Épreuves
+      const epList = dataNiveau3[currentSubModuleName];
+      if (!epList) return;
+
+      epList.forEach((ep, idx) => {
+        const epName = ep[0];
+        const epPct = ep[1];
+        
+        const div = document.createElement('div');
+        div.className = 'input-radio-container flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+        
+        const label = document.createElement('label');
+        label.className = 'radio-label text-sm font-medium text-gray-700 flex-1';
+        label.textContent = `${epName} (${epPct}%)`;
+        
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'flex items-center space-x-3';
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.step = '0.1';
+        input.min = '0';
+        input.max = '20';
+        input.id = `lvl3_input_${idx}`;
+        input.className = 'note-input w-20 px-3 py-2 rounded-md text-sm';
+        input.placeholder = '/20';
+        
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'unknownNote';
+        radio.value = idx;
+        radio.className = 'radio-custom';
+        radio.id = `lvl3_radio_${idx}`;
+        
+        const radioLabel = document.createElement('label');
+        radioLabel.htmlFor = `lvl3_radio_${idx}`;
+        radioLabel.className = 'text-xs text-gray-500 ml-1';
+        radioLabel.innerHTML = '<i class="fas fa-question-circle"></i>';
+        radioLabel.title = "Note inconnue";
+        
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(radio);
+        inputContainer.appendChild(radioLabel);
+        
+        div.appendChild(label);
+        div.appendChild(inputContainer);
+        formZone.appendChild(div);
+      });
+    }
+  }
+
+  // --------------------------------------------------------------------
+  // Calcul de la note inconnue pour obtenir 10/20 de moyenne
+  // --------------------------------------------------------------------
+  function calculerMoyenne() {
+    const resultDiv = document.getElementById('calcResult');
+    const resultContent = document.getElementById('resultContent');
+    resultDiv.classList.remove('hidden');
+    resultContent.innerHTML = '';
+
+    if (currentLevel === 1) {
+      const totalECTS = dataNiveau1.reduce((acc, row) => acc + row[1], 0);
+      const unknownIndex = getUnknownIndex(5);
+      let sumKnown = 0;
+      let knownECTSSum = 0;
+      
+      dataNiveau1.forEach((row, idx) => {
+        const ects = row[1];
+        const val = parseFloat(document.getElementById(`lvl1_input_${idx}`).value);
+        if (idx !== unknownIndex && !isNaN(val)) {
+          sumKnown += (ects / totalECTS) * val;
+          knownECTSSum += ects;
+        }
+      });
+      
+      if (unknownIndex === -1) {
+        const finalMoy = sumKnown.toFixed(2);
+        resultContent.innerHTML = `
+          <p class="font-medium text-gray-800">Moyenne globale calculée</p>
+          <p class="text-lg text-blue-600 font-bold mt-1">${finalMoy}/20</p>
+          <p class="text-sm text-gray-600 mt-1">Aucune note inconnue sélectionnée</p>
+        `;
+        return;
+      }
+      
+      const ectsUnknown = dataNiveau1[unknownIndex][1];
+      const needed = (10 - sumKnown) / (ectsUnknown / totalECTS);
+      showCalcResult(needed, dataNiveau1[unknownIndex][0], resultContent);
+
+    } else if (currentLevel === 2) {
+      const ueObj = dataNiveau2.find(o => o.name === currentUEName);
+      if (!ueObj) return;
+      
+      const modules = ueObj.modules;
+      const unknownIndex = getUnknownIndex(modules.length);
+      let sumKnown = 0;
+      let knownPct = 0;
+
+      modules.forEach((m, idx) => {
+        const modPct = m[1];
+        const val = parseFloat(document.getElementById(`lvl2_input_${idx}`).value);
+        if (idx !== unknownIndex && !isNaN(val)) {
+          sumKnown += (modPct / 100) * val;
+          knownPct += (modPct / 100);
+        }
+      });
+      
+      if (unknownIndex === -1) {
+        const finalMoy = sumKnown.toFixed(2);
+        resultContent.innerHTML = `
+          <p class="font-medium text-gray-800">Moyenne du bloc "${currentUEName}"</p>
+          <p class="text-lg text-blue-600 font-bold mt-1">${finalMoy}/20</p>
+          <p class="text-sm text-gray-600 mt-1">Aucune note inconnue sélectionnée</p>
+        `;
+        return;
+      }
+      
+      const unknownPct = modules[unknownIndex][1];
+      const needed = (10 - sumKnown) / (unknownPct / 100);
+      showCalcResult(needed, modules[unknownIndex][0], resultContent);
+
+    } else if (currentLevel === 3) {
+      const epList = dataNiveau3[currentSubModuleName];
+      if (!epList) return;
+      
+      const unknownIndex = getUnknownIndex(epList.length);
+      let sumKnown = 0;
+      let knownPct = 0;
+
+      epList.forEach((e, idx) => {
+        const epPct = e[1];
+        const val = parseFloat(document.getElementById(`lvl3_input_${idx}`).value);
+        if (idx !== unknownIndex && !isNaN(val)) {
+          sumKnown += (epPct / 100) * val;
+          knownPct += (epPct / 100);
+        }
+      });
+
+      if (unknownIndex === -1) {
+        const finalMoy = sumKnown.toFixed(2);
+        resultContent.innerHTML = `
+          <p class="font-medium text-gray-800">Moyenne pour "${currentSubModuleName}"</p>
+          <p class="text-lg text-blue-600 font-bold mt-1">${finalMoy}/20</p>
+          <p class="text-sm text-gray-600 mt-1">Aucune note inconnue sélectionnée</p>
+        `;
+        return;
+      }
+      
+      const unknownPct = epList[unknownIndex][1];
+      const needed = (10 - sumKnown) / (unknownPct / 100);
+      showCalcResult(needed, epList[unknownIndex][0], resultContent);
+    }
+  }
+
+  function getUnknownIndex(count) {
+    const radios = document.getElementsByName('unknownNote');
+    let idx = -1;
+    for (let r of radios) {
+      if (r.checked) {
+        idx = parseInt(r.value);
+        break;
+      }
+    }
+    if (idx >= count) idx = -1;
+    return idx;
+  }
+
+  function showCalcResult(needed, label, resultDiv) {
+    if (isNaN(needed)) {
+      resultDiv.innerHTML = `
+        <p class="font-medium text-red-600">Erreur de calcul</p>
+        <p class="text-sm text-gray-600 mt-1">Veuillez vérifier les valeurs saisies</p>
+      `;
+      return;
+    }
+    
+    if (needed < 0) {
+      resultDiv.innerHTML = `
+        <p class="font-medium text-green-600">Vous avez déjà la moyenne !</p>
+        <p class="text-sm text-gray-600 mt-1">Avec vos notes actuelles, vous avez déjà ≥10/20</p>
+        <p class="text-xs text-gray-500 mt-2">(Le calcul donne ${needed.toFixed(2)}/20 en "${label}")</p>
+      `;
+    } else if (needed > 20) {
+      resultDiv.innerHTML = `
+        <p class="font-medium text-red-600">Objectif inatteignable</p>
+        <p class="text-sm text-gray-600 mt-1">Il faudrait ${needed.toFixed(2)}/20 en "${label}"</p>
+        <p class="text-xs text-gray-500 mt-2">(Ce qui est impossible car la note est limitée à 20)</p>
+      `;
+    } else {
+      resultDiv.innerHTML = `
+        <p class="font-medium text-blue-600">Note nécessaire pour avoir 10/20</p>
+        <p class="text-lg font-bold text-gray-800 mt-1">${needed.toFixed(2)}/20</p>
+        <p class="text-sm text-gray-600 mt-1">en "${label}"</p>
+      `;
+    }
+  }
+</script>
+</body>
+</html>
