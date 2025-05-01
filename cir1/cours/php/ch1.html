@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé PHP - Chapitre 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff8c6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .summary-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .summary-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-2">PHP - Chapitre 1</h1>
+                    <p class="text-lg text-gray-600">Les fondamentaux du PHP</p>
+                </div>
+                <a href="php.html" class="nav-btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Revenir au cours
+                </a>
+            </div>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <i class="fas fa-brain mr-3"></i> Résumé détaillé avec exemples
+                    </h2>
+                    <p class="text-gray-700 mb-4">Ce chapitre couvre les concepts fondamentaux du PHP, avec des exemples pratiques pour chaque notion clé.</p>
+                </div>
+
+                <!-- 1. Fonctionnement du Web -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        🌍 Fonctionnement du Web
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Deux types de sites
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>
+                                <span class="font-medium">Statique</span> : contenu fixe, uniquement HTML/CSS.
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                                    <div class="code-block">
+                                        <span class="text-gray-400">&lt;!-- index.html --&gt;</span><br>
+                                        &lt;h1&gt;Horaires de cours&lt;/h1&gt;<br>
+                                        &lt;p&gt;Lundi : 9h-12h&lt;/p&gt;
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="font-medium">Dynamique</span> : contenu qui change automatiquement via PHP.
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                                    <div class="code-block">
+                                        <span class="text-gray-400">&lt;?php</span><br>
+                                        <span class="text-blue-400">if</span> (<span class="text-green-400">isset</span>(<span class="text-orange-300">$_SESSION</span>[<span class="text-yellow-300">'user'</span>])) {<br>
+                                        &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Bonjour Admin"</span>;<br>
+                                        } <span class="text-blue-400">else</span> {<br>
+                                        &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Bonjour invité"</span>;<br>
+                                        }<br>
+                                        <span class="text-gray-400">?&gt;</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Modèle client-serveur
+                        </h4>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="bg-blue-50 p-4 rounded-lg w-1/2 mr-4">
+                                <h5 class="font-medium text-blue-800 mb-1">Client</h5>
+                                <p class="text-sm">Navigateur, envoie une requête</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg w-1/2">
+                                <h5 class="font-medium text-purple-800 mb-1">Serveur</h5>
+                                <p class="text-sm">Exécute du code PHP, renvoie du HTML</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                        <div class="code-block">
+                            <span class="text-gray-400">// Client demande profil.php</span><br>
+                            <span class="text-gray-400">// Serveur exécute :</span><br>
+                            <span class="text-gray-400">&lt;?php</span><br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"&lt;h1&gt;Profil utilisateur&lt;/h1&gt;"</span>;<br>
+                            <span class="text-gray-400">?&gt;</span><br>
+                            <span class="text-gray-400">// Renvoie au client :</span><br>
+                            &lt;h1&gt;Profil utilisateur&lt;/h1&gt;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Introduction à PHP -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        💡 Introduction à PHP
+                    </h3>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li><strong>PHP</strong> = Hypertext Preprocessor</li>
+                        <li>Langage <span class="highlight">interprété côté serveur</span></li>
+                        <li>Crée du <span class="highlight">HTML dynamique</span> en fonction des données</li>
+                    </ul>
+                    <p class="text-sm text-gray-600 mb-1">Exemple simple :</p>
+                    <div class="code-block">
+                        <span class="text-gray-400">&lt;?php</span><br>
+                        &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Bonjour le monde !"</span>;<br>
+                        <span class="text-gray-400">?&gt;</span><br>
+                        <span class="text-gray-400">// Résultat dans le navigateur :</span><br>
+                        Bonjour le monde !
+                    </div>
+                </div>
+
+                <!-- 3. Syntaxe de base -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                        🧾 Syntaxe de base
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <h4 class="font-medium mb-1">Balises PHP</h4>
+                            <div class="code-block text-sm">
+                                <span class="text-gray-400">&lt;?php</span> <span class="text-gray-400">?&gt;</span>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <h4 class="font-medium mb-1">Fichiers</h4>
+                            <p class="text-sm">Extension <span class="font-mono bg-gray-200 px-1 rounded">.php</span></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <h4 class="font-medium mb-1">Affichage</h4>
+                            <p class="text-sm"><span class="font-mono bg-gray-200 px-1 rounded">echo</span>, <span class="font-mono bg-gray-200 px-1 rounded">print</span></p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                    <div class="code-block">
+                        <span class="text-gray-400">&lt;?php</span><br>
+                        &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"&lt;h1&gt;Bienvenue !&lt;/h1&gt;"</span>;<br>
+                        <span class="text-gray-400">?&gt;</span><br>
+                        <span class="text-gray-400">// Affiche un titre HTML sur la page</span>
+                    </div>
+                </div>
+
+                <!-- 4. Variables et constantes -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                        💼 Variables et constantes
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Variables
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1 mb-3">
+                            <li>Commencent par <span class="font-mono bg-gray-200 px-1 rounded">$</span></li>
+                            <li>Sensibles à la casse : <span class="font-mono bg-gray-200 px-1 rounded">$Nom ≠ $nom</span></li>
+                            <li>Typage dynamique</li>
+                        </ul>
+                        <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                        <div class="code-block">
+                            <span class="text-gray-400">&lt;?php</span><br>
+                            &nbsp;&nbsp;<span class="text-blue-400">$prenom</span> = <span class="text-yellow-300">"Alice"</span>;<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">$age</span> = <span class="text-orange-300">20</span>;<br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"<span class="text-blue-400">$prenom</span> a <span class="text-blue-400">$age</span> ans."</span>;<br>
+                            <span class="text-gray-400">?&gt;</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Concaténation
+                        </h4>
+                        <p class="mb-2">Utilisation du point <span class="font-mono bg-gray-200 px-1 rounded">.</span> pour concaténer</p>
+                        <p class="text-sm text-gray-600 mb-1">Exemple :</p>
+                        <div class="code-block">
+                            <span class="text-green-400">echo</span> <span class="text-yellow-300">"Bonjour "</span> . <span class="text-blue-400">$prenom</span>;
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Double vs Simple quotes
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-blue-50 p-3 rounded-lg">
+                                <h5 class="font-medium mb-1">Double quotes <span class="font-mono">"..."</span></h5>
+                                <p class="text-sm">Interprète les variables</p>
+                                <div class="code-block text-sm mt-2">
+                                    <span class="text-green-400">echo</span> <span class="text-yellow-300">"Salut <span class="text-blue-400">$prenom</span>"</span>; <span class="text-gray-400">// OK</span>
+                                </div>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-lg">
+                                <h5 class="font-medium mb-1">Simple quotes <span class="font-mono">'...'</span></h5>
+                                <p class="text-sm">Affiche littéralement</p>
+                                <div class="code-block text-sm mt-2">
+                                    <span class="text-green-400">echo</span> <span class="text-yellow-300">'Salut $prenom'</span>; <span class="text-gray-400">// Affiche : Salut $prenom</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Fonctions utiles
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$note</span> = <span class="text-orange-300">15</span>;<br>
+                            <span class="text-green-400">var_dump</span>(<span class="text-blue-400">$note</span>); <span class="text-gray-400">// Affiche le type et la valeur</span><br>
+                            <span class="text-green-400">echo</span> <span class="text-green-400">gettype</span>(<span class="text-blue-400">$note</span>); <span class="text-gray-400">// Affiche 'integer'</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Test de type
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-green-400">is_string</span>(<span class="text-blue-400">$note</span>); <span class="text-gray-400">// false</span><br>
+                            <span class="text-green-400">is_int</span>(<span class="text-blue-400">$note</span>); <span class="text-gray-400">// true</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> isset() vs empty()
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$val</span> = <span class="text-yellow-300">""</span>;<br>
+                            <span class="text-green-400">isset</span>(<span class="text-blue-400">$val</span>); <span class="text-gray-400">// true</span><br>
+                            <span class="text-green-400">empty</span>(<span class="text-blue-400">$val</span>); <span class="text-gray-400">// true (car vide)</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Constantes
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-green-400">define</span>(<span class="text-yellow-300">"PI"</span>, <span class="text-orange-300">3.14</span>);<br>
+                            <span class="text-green-400">echo</span> PI; <span class="text-gray-400">// 3.14</span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600"><i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Remarque : pas de <span class="font-mono bg-gray-200 px-1 rounded">$</span> devant les constantes</p>
+                    </div>
+                </div>
+
+                <!-- 5. Structures conditionnelles -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                        🔀 Structures conditionnelles
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> if / else
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$age</span> = <span class="text-orange-300">18</span>;<br>
+                            <span class="text-blue-400">if</span> (<span class="text-blue-400">$age</span> >= <span class="text-orange-300">18</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Majeur"</span>;<br>
+                            } <span class="text-blue-400">else</span> {<br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Mineur"</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> switch
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$jour</span> = <span class="text-yellow-300">"lundi"</span>;<br>
+                            <span class="text-blue-400">switch</span> (<span class="text-blue-400">$jour</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">case</span> <span class="text-yellow-300">"lundi"</span>: <span class="text-green-400">echo</span> <span class="text-yellow-300">"Début de semaine"</span>; <span class="text-blue-400">break</span>;<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">case</span> <span class="text-yellow-300">"vendredi"</span>: <span class="text-green-400">echo</span> <span class="text-yellow-300">"Bientôt le week-end"</span>; <span class="text-blue-400">break</span>;<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">default</span>: <span class="text-green-400">echo</span> <span class="text-yellow-300">"Jour classique"</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Opérateur ternaire
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-green-400">echo</span> (<span class="text-blue-400">$age</span> >= <span class="text-orange-300">18</span>) ? <span class="text-yellow-300">"Majeur"</span> : <span class="text-yellow-300">"Mineur"</span>;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Boucles -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                        🔄 Boucles
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2 flex items-center">
+                                <i class="fas fa-redo text-indigo-500 mr-2"></i> for
+                            </h4>
+                            <div class="code-block text-sm">
+                                <span class="text-blue-400">for</span> (<span class="text-blue-400">$i</span> = <span class="text-orange-300">1</span>; <span class="text-blue-400">$i</span> <= <span class="text-orange-300">5</span>; <span class="text-blue-400">$i</span>++) {<br>
+                                &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-blue-400">$i</span>;<br>
+                                }
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2 flex items-center">
+                                <i class="fas fa-sync-alt text-indigo-500 mr-2"></i> while
+                            </h4>
+                            <div class="code-block text-sm">
+                                <span class="text-blue-400">$i</span> = <span class="text-orange-300">0</span>;<br>
+                                <span class="text-blue-400">while</span> (<span class="text-blue-400">$i</span> < <span class="text-orange-300">3</span>) {<br>
+                                &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-blue-400">$i</span>;<br>
+                                &nbsp;&nbsp;<span class="text-blue-400">$i</span>++;<br>
+                                }
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2 flex items-center">
+                                <i class="fas fa-infinity text-indigo-500 mr-2"></i> foreach
+                            </h4>
+                            <div class="code-block text-sm">
+                                <span class="text-blue-400">$tab</span> = <span class="text-green-400">array</span>(<span class="text-yellow-300">"Alice"</span>, <span class="text-yellow-300">"Bob"</span>);<br>
+                                <span class="text-blue-400">foreach</span> (<span class="text-blue-400">$tab</span> <span class="text-blue-400">as</span> <span class="text-blue-400">$nom</span>) {<br>
+                                &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-blue-400">$nom</span>;<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Tableaux -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">7</span>
+                        📦 Tableaux
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Indexés numériquement
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$notes</span> = <span class="text-green-400">array</span>(<span class="text-orange-300">10</span>, <span class="text-orange-300">12</span>, <span class="text-orange-300">14</span>);<br>
+                            <span class="text-green-400">echo</span> <span class="text-blue-400">$notes</span>[<span class="text-orange-300">1</span>]; <span class="text-gray-400">// 12</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Associatifs
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">$etud</span> = <span class="text-green-400">array</span>(<span class="text-yellow-300">"nom"</span> => <span class="text-yellow-300">"Toto"</span>, <span class="text-yellow-300">"age"</span> => <span class="text-orange-300">21</span>);<br>
+                            <span class="text-green-400">echo</span> <span class="text-blue-400">$etud</span>[<span class="text-yellow-300">"nom"</span>]; <span class="text-gray-400">// Toto</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Boucles sur tableaux
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">foreach</span>(<span class="text-blue-400">$etud</span> <span class="text-blue-400">as</span> <span class="text-blue-400">$cle</span> => <span class="text-blue-400">$val</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"<span class="text-blue-400">$cle</span> : <span class="text-blue-400">$val</span>"</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Compter
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-green-400">count</span>(<span class="text-blue-400">$notes</span>); <span class="text-gray-400">// retourne 3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Fonctions -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">8</span>
+                        🛠 Fonctions
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-1">Exemple simple :</p>
+                        <div class="code-block">
+                            <span class="text-blue-400">function</span> <span class="text-green-400">addition</span>(<span class="text-blue-400">$a</span>, <span class="text-blue-400">$b</span> = <span class="text-orange-300">0</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">return</span> <span class="text-blue-400">$a</span> + <span class="text-blue-400">$b</span>;<br>
+                            }<br>
+                            <span class="text-green-400">echo</span> <span class="text-green-400">addition</span>(<span class="text-orange-300">5</span>); <span class="text-gray-400">// 5</span><br>
+                            <span class="text-green-400">echo</span> <span class="text-green-400">addition</span>(<span class="text-orange-300">5</span>, <span class="text-orange-300">3</span>); <span class="text-gray-400">// 8</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>Une fonction peut ne rien retourner :</p>
+                        <div class="code-block">
+                            <span class="text-blue-400">function</span> <span class="text-green-400">bonjour</span>() {<br>
+                            &nbsp;&nbsp;<span class="text-green-400">echo</span> <span class="text-yellow-300">"Hello !"</span>;<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Factorisation du code -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">9</span>
+                        🧩 Factorisation du code
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Inclure du code
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-green-400">include</span>(<span class="text-yellow-300">"entete.php"</span>);<br>
+                            <span class="text-green-400">require</span>(<span class="text-yellow-300">"base.php"</span>);
+                        </div>
+                        <p class="mt-2"><span class="font-mono bg-gray-200 px-1 rounded">include_once</span> et <span class="font-mono bg-gray-200 px-1 rounded">require_once</span> : évitent de recharger un fichier deux fois.</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-600 mb-1">Exemple pratique :</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="code-block">
+                                <span class="text-gray-400">// entete.php</span><br>
+                                <span class="text-green-400">echo</span> <span class="text-yellow-300">"&lt;header&gt;Bienvenue&lt;/header&gt;"</span>;
+                            </div>
+                            <div class="code-block">
+                                <span class="text-gray-400">// page.php</span><br>
+                                <span class="text-green-400">include</span>(<span class="text-yellow-300">"entete.php"</span>);<br>
+                                <span class="text-green-400">echo</span> <span class="text-yellow-300">"&lt;main&gt;Contenu&lt;/main&gt;"</span>;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résumé condensé -->
+                <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> L'essentiel à retenir (condensé avec exemples)
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="summary-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">🔹 Sujet</th>
+                                    <th class="p-3 text-left">✅ Points-clés</th>
+                                    <th class="p-3 text-left">🧪 Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">🌐 Web</td>
+                                    <td class="p-3">PHP côté serveur, génère HTML</td>
+                                    <td class="p-3 font-mono text-sm"><?php echo "Hello"; ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">💻 Syntaxe</td>
+                                    <td class="p-3">Fichiers .php, balises <?php ?></td>
+                                    <td class="p-3 font-mono text-sm">echo "Salut";</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">💾 Variable</td>
+                                    <td class="p-3">$x = 10; dynamique, sensible à la casse</td>
+                                    <td class="p-3 font-mono text-sm">echo "$x";</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">🔗 Concaténation</td>
+                                    <td class="p-3">Avec .</td>
+                                    <td class="p-3 font-mono text-sm">"Bonjour " . $nom</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">🧠 Test</td>
+                                    <td class="p-3">isset(), empty(), var_dump()</td>
+                                    <td class="p-3 font-mono text-sm">isset($x)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">🔒 Constante</td>
+                                    <td class="p-3">define("PI", 3.14);</td>
+                                    <td class="p-3 font-mono text-sm">echo PI;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">❓ Conditions</td>
+                                    <td class="p-3">if, switch, ternaire</td>
+                                    <td class="p-3 font-mono text-sm">($x > 5) ? "OK" : "NON"</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">🔁 Boucles</td>
+                                    <td class="p-3">for, while, foreach</td>
+                                    <td class="p-3 font-mono text-sm">foreach($tab as $x)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">📊 Tableaux</td>
+                                    <td class="p-3">Indexés ou associatifs</td>
+                                    <td class="p-3 font-mono text-sm">$tab["nom"] = "Max";</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">🔧 Fonctions</td>
+                                    <td class="p-3">function nom($x) {...}</td>
+                                    <td class="p-3 font-mono text-sm">return $x + 1;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">♻️ Factorisation</td>
+                                    <td class="p-3">include("fichier.php")</td>
+                                    <td class="p-3 font-mono text-sm">inclure header/menu</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2025 Cours PHP - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
