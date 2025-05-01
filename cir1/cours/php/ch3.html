@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé PHP - Chapitre 3: Les formulaires</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff8c6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .function-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .function-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .schema-box {
+            border: 2px dashed #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            margin: 1rem 0;
+        }
+        .security-alert {
+            border-left: 4px solid #e53e3e;
+            background-color: #fff5f5;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-2">PHP - Chapitre 3</h1>
+                    <p class="text-lg text-gray-600">Les formulaires en PHP</p>
+                </div>
+                <a href="php.html" class="nav-btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Revenir au cours
+                </a>
+            </div>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <i class="fas fa-brain mr-3"></i> Résumé détaillé avec exemples et schémas
+                    </h2>
+                    <p class="text-gray-700 mb-4">Ce chapitre couvre la gestion des formulaires en PHP, avec des exemples pratiques et des schémas visuels pour mieux comprendre.</p>
+                </div>
+
+                <!-- 1. Méthodes GET et POST -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        📬 Méthodes GET et POST
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Objectif
+                        </h4>
+                        <p class="mb-4">Récupérer les données saisies par l'utilisateur dans un formulaire HTML côté PHP.</p>
+                        
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Superglobales associées
+                        </h4>
+                        <div class="flex space-x-4 mb-4">
+                            <div class="bg-blue-50 p-3 rounded-lg flex-1">
+                                <p class="font-mono text-blue-800">$_GET</p>
+                                <p class="text-sm">pour la méthode <strong>GET</strong></p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg flex-1">
+                                <p class="font-mono text-green-800">$_POST</p>
+                                <p class="text-sm">pour la méthode <strong>POST</strong></p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Ce sont des <strong>tableaux associatifs</strong> : chaque champ du formulaire devient une entrée <span class="font-mono">["nom_du_champ"]</span>.</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple HTML (méthode GET)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">&lt;form</span> <span class="text-yellow-300">action=</span><span class="text-green-400">"traitement.php"</span> <span class="text-yellow-300">method=</span><span class="text-green-400">"get"</span><span class="text-blue-400">&gt;</span><br>
+                            &nbsp;&nbsp;<span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"text"</span> <span class="text-yellow-300">name=</span><span class="text-green-400">"nom"</span><span class="text-blue-400">&gt;</span><br>
+                            &nbsp;&nbsp;<span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"submit"</span> <span class="text-yellow-300">value=</span><span class="text-green-400">"Envoyer"</span><span class="text-blue-400">&gt;</span><br>
+                            <span class="text-blue-400">&lt;/form&gt;</span>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mb-3 mt-4 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple PHP (traitement.php)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">echo</span> <span class="text-blue-400">$_GET</span>[<span class="text-green-400">'nom'</span>];
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Différences entre GET et POST
+                        </h4>
+                        <div class="overflow-x-auto">
+                            <table class="function-table w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-800">
+                                        <th class="p-3 text-left">Critère</th>
+                                        <th class="p-3 text-left">GET</th>
+                                        <th class="p-3 text-left">POST</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-3">Visibilité</td>
+                                        <td class="p-3">Données visibles dans l'URL</td>
+                                        <td class="p-3">Données cachées</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">Longueur</td>
+                                        <td class="p-3">Limité (~255 caractères)</td>
+                                        <td class="p-3">Illimitée</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">Performance</td>
+                                        <td class="p-3">Plus rapide</td>
+                                        <td class="p-3">Plus sécurisé mais plus lent</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3">Types supportés</td>
+                                        <td class="p-3">Chaînes uniquement</td>
+                                        <td class="p-3">Chaînes, fichiers, etc.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="schema-box mt-4">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma comparatif GET vs POST
+                            </h5>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <div class="mb-4 md:mb-0 md:w-5/12 p-4 bg-blue-50 rounded-lg">
+                                    <div class="text-center font-medium text-blue-800 mb-2">Méthode GET</div>
+                                    <div class="text-sm">
+                                        <div class="mb-1">Formulaire → URL</div>
+                                        <div class="text-xs text-gray-500">ex: traitement.php?nom=Jean</div>
+                                    </div>
+                                </div>
+                                <div class="text-gray-400 text-center md:w-2/12">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                </div>
+                                <div class="md:w-5/12 p-4 bg-green-50 rounded-lg">
+                                    <div class="text-center font-medium text-green-800 mb-2">Méthode POST</div>
+                                    <div class="text-sm">
+                                        <div class="mb-1">Formulaire → En-têtes HTTP</div>
+                                        <div class="text-xs text-gray-500">Données invisibles dans l'URL</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Champs particuliers -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        ✅ Champs particuliers : checkbox et file
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Checkboxes (plusieurs choix possibles)
+                        </h4>
+                        <p class="mb-3">Il faut utiliser <span class="font-mono">name="nom[]"</span> pour que PHP récupère un tableau.</p>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> HTML :
+                        </h5>
+                        <div class="code-block mb-4">
+                            <span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"checkbox"</span> <span class="text-yellow-300">name=</span><span class="text-green-400">"couleurs[]"</span> <span class="text-yellow-300">value=</span><span class="text-green-400">"rouge"</span><span class="text-blue-400">&gt;</span><br>
+                            <span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"checkbox"</span> <span class="text-yellow-300">name=</span><span class="text-green-400">"couleurs[]"</span> <span class="text-yellow-300">value=</span><span class="text-green-400">"bleu"</span><span class="text-blue-400">&gt;</span>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> PHP :
+                        </h5>
+                        <div class="code-block">
+                            <span class="text-purple-400">foreach</span> (<span class="text-blue-400">$_POST</span>[<span class="text-green-400">'couleurs'</span>] <span class="text-purple-400">as</span> <span class="text-blue-400">$coul</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">echo</span> <span class="text-blue-400">$coul</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Upload de fichiers (type="file")
+                        </h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li>Oblige l'utilisation de <span class="font-mono">method="post"</span> et <span class="font-mono">enctype="multipart/form-data"</span></li>
+                            <li>Utilise la superglobale <span class="font-mono">$_FILES</span></li>
+                        </ul>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> HTML :
+                        </h5>
+                        <div class="code-block mb-4">
+                            <span class="text-blue-400">&lt;form</span> <span class="text-yellow-300">action=</span><span class="text-green-400">"upload.php"</span> <span class="text-yellow-300">method=</span><span class="text-green-400">"post"</span> <span class="text-yellow-300">enctype=</span><span class="text-green-400">"multipart/form-data"</span><span class="text-blue-400">&gt;</span><br>
+                            &nbsp;&nbsp;<span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"file"</span> <span class="text-yellow-300">name=</span><span class="text-green-400">"monFichier"</span><span class="text-blue-400">&gt;</span><br>
+                            &nbsp;&nbsp;<span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"submit"</span><span class="text-blue-400">&gt;</span><br>
+                            <span class="text-blue-400">&lt;/form&gt;</span>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> PHP (upload.php) :
+                        </h5>
+                        <div class="code-block mb-4">
+                            <span class="text-blue-400">$fichier</span> = <span class="text-blue-400">$_FILES</span>[<span class="text-green-400">'monFichier'</span>];<br>
+                            <span class="text-purple-400">echo</span> <span class="text-blue-400">$fichier</span>[<span class="text-green-400">'name'</span>];<br>
+                            <span class="text-purple-400">echo</span> <span class="text-blue-400">$fichier</span>[<span class="text-green-400">'tmp_name'</span>];
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2">Attributs importants dans $_FILES :</h5>
+                        <div class="overflow-x-auto">
+                            <table class="function-table w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-green-50 text-green-800">
+                                        <th class="p-3 text-left">Attribut</th>
+                                        <th class="p-3 text-left">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-3 font-mono">name</td>
+                                        <td class="p-3">nom d'origine</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">tmp_name</td>
+                                        <td class="p-3">nom temporaire côté serveur</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">type</td>
+                                        <td class="p-3">MIME type (ex : image/png)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">size</td>
+                                        <td class="p-3">en octets</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">error</td>
+                                        <td class="p-3">code erreur (0 = OK)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="schema-box mt-4">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma du processus d'upload
+                            </h5>
+                            <div class="flex flex-col items-center">
+                                <div class="mb-2 p-3 bg-blue-50 rounded-lg w-full text-center">
+                                    <div class="font-medium text-blue-800">Client</div>
+                                    <div class="text-sm">Fichier sélectionné</div>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fas fa-arrow-down text-gray-400"></i>
+                                </div>
+                                <div class="mb-2 p-3 bg-yellow-50 rounded-lg w-full text-center">
+                                    <div class="font-medium text-yellow-800">Serveur (temporaire)</div>
+                                    <div class="text-sm">$_FILES['monFichier']['tmp_name']</div>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="fas fa-arrow-down text-gray-400"></i>
+                                </div>
+                                <div class="p-3 bg-green-50 rounded-lg w-full text-center">
+                                    <div class="font-medium text-green-800">Dossier définitif</div>
+                                    <div class="text-sm">move_uploaded_file(tmp_name, "uploads/fichier")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Sécurité et validation -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                        🔐 Sécurité et validation des formulaires
+                    </h3>
+                    
+                    <div class="security-alert mb-6">
+                        <h4 class="font-medium text-red-800 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> ⚠ Ne jamais faire confiance aux données utilisateur
+                        </h4>
+                        <div class="pl-6">
+                            <h5 class="font-medium text-gray-800 mb-1">Risques :</h5>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Utilisateurs maladroits → erreurs</li>
+                                <li>Utilisateurs malveillants → failles XSS, injections...</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Validation côté client (HTML5)
+                        </h4>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2">Attributs utiles :</h5>
+                        <div class="overflow-x-auto">
+                            <table class="function-table w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-purple-50 text-purple-800">
+                                        <th class="p-3 text-left">Attribut</th>
+                                        <th class="p-3 text-left">Utilité</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="p-3 font-mono">required</td>
+                                        <td class="p-3">Champ obligatoire</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">maxlength / minlength</td>
+                                        <td class="p-3">Limite de caractères</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">pattern</td>
+                                        <td class="p-3">Expression régulière</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">type</td>
+                                        <td class="p-3">Ex : email, password, number...</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-mono">accept</td>
+                                        <td class="p-3">Fichiers autorisés (pour input type="file")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 mt-4 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple :
+                        </h5>
+                        <div class="code-block">
+                            <span class="text-blue-400">&lt;input</span> <span class="text-yellow-300">type=</span><span class="text-green-400">"email"</span> <span class="text-yellow-300">name=</span><span class="text-green-400">"mail"</span> <span class="text-yellow-300">required</span> <span class="text-yellow-300">maxlength=</span><span class="text-green-400">"50"</span><span class="text-blue-400">&gt;</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Validation côté serveur (PHP)
+                        </h4>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Fonctions courantes :
+                        </h5>
+                        <div class="code-block mb-4">
+                            <span class="text-purple-400">isset</span>(<span class="text-blue-400">$_POST</span>[<span class="text-green-400">'nom'</span>])          <span class="text-gray-400">// Existence ?</span><br>
+                            <span class="text-purple-400">empty</span>(<span class="text-blue-400">$_POST</span>[<span class="text-green-400">'nom'</span>])          <span class="text-gray-400">// Vide ?</span><br>
+                            <span class="text-purple-400">filter_var</span>(<span class="text-blue-400">$email</span>, <span class="text-blue-400">FILTER_VALIDATE_EMAIL</span>) <span class="text-gray-400">// Format email ?</span><br>
+                            <span class="text-purple-400">preg_match</span>(<span class="text-green-400">"/^[a-zA-Z]+$/"</span>, <span class="text-blue-400">$nom</span>)         <span class="text-gray-400">// Regex sur nom</span>
+                        </div>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Nettoyage :
+                        </h5>
+                        <div class="code-block">
+                            <span class="text-blue-400">$nom</span> = <span class="text-purple-400">trim</span>(<span class="text-blue-400">$nom</span>);<br>
+                            <span class="text-blue-400">$nom</span> = <span class="text-purple-400">stripslashes</span>(<span class="text-blue-400">$nom</span>);
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Sécurisation des mots de passe
+                        </h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li><span class="font-mono">password_hash()</span> → hachage du mot de passe</li>
+                            <li><span class="font-mono">password_verify()</span> → vérifie un mot de passe avec son hash</li>
+                        </ul>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple :
+                        </h5>
+                        <div class="code-block">
+                            <span class="text-blue-400">$hash</span> = <span class="text-purple-400">password_hash</span>(<span class="text-green-400">"monMotDePasse"</span>, <span class="text-blue-400">PASSWORD_DEFAULT</span>);<br>
+                            <span class="text-purple-400">if</span> (<span class="text-purple-400">password_verify</span>(<span class="text-green-400">"monMotDePasse"</span>, <span class="text-blue-400">$hash</span>)) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">echo</span> <span class="text-green-400">"Mot de passe valide"</span>;<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Protection contre XSS (cross-site scripting)
+                        </h4>
+                        <ul class="list-disc pl-5 mb-4 space-y-1">
+                            <li>Risque : un utilisateur injecte du code JS via un champ texte</li>
+                            <li>Solution : <span class="font-mono">htmlspecialchars()</span> pour échapper les caractères dangereux (<span class="font-mono">&lt;</span>, <span class="font-mono">&gt;</span>, <span class="font-mono">"</span>…)</li>
+                        </ul>
+                        
+                        <h5 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple :
+                        </h5>
+                        <div class="code-block mb-4">
+                            <span class="text-purple-400">echo</span> <span class="text-purple-400">htmlspecialchars</span>(<span class="text-blue-400">$_POST</span>[<span class="text-green-400">'nom'</span>]);
+                        </div>
+                        
+                        <div class="schema-box">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma de protection XSS
+                            </h5>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <div class="mb-4 md:mb-0 md:w-5/12 p-4 bg-red-50 rounded-lg">
+                                    <div class="text-center font-medium text-red-800 mb-2">Non protégé</div>
+                                    <div class="text-sm">
+                                        <div class="mb-1">Entrée : <span class="font-mono">&lt;script&gt;alert('hack')&lt;/script&gt;</span></div>
+                                        <div class="text-xs text-gray-500">Sortie : Exécute le script</div>
+                                    </div>
+                                </div>
+                                <div class="text-gray-400 text-center md:w-2/12">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                </div>
+                                <div class="md:w-5/12 p-4 bg-green-50 rounded-lg">
+                                    <div class="text-center font-medium text-green-800 mb-2">Protégé</div>
+                                    <div class="text-sm">
+                                        <div class="mb-1">Entrée : <span class="font-mono">&lt;script&gt;alert('hack')&lt;/script&gt;</span></div>
+                                        <div class="text-xs text-gray-500">Sortie : Affiche le texte sans exécution</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résumé condensé -->
+                <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> L'essentiel à retenir (condensé)
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">🔹 Sujet</th>
+                                    <th class="p-3 text-left">✅ Ce qu'il faut retenir</th>
+                                    <th class="p-3 text-left">🧪 Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">Méthodes</td>
+                                    <td class="p-3"><span class="font-mono">$_GET</span> : visible + rapide<br><span class="font-mono">$_POST</span> : sécurisé + données lourdes</td>
+                                    <td class="p-3 font-mono">&lt;form method="post"&gt;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Checkbox</td>
+                                    <td class="p-3"><span class="font-mono">name="nom[]"</span> + boucle</td>
+                                    <td class="p-3 font-mono">foreach ($_POST['choix'] as $c)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Upload</td>
+                                    <td class="p-3"><span class="font-mono">$_FILES['fichier']['name']</span>, <span class="font-mono">move_uploaded_file()</span></td>
+                                    <td class="p-3 font-mono">$_FILES['cv']['tmp_name']</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Client (HTML5)</td>
+                                    <td class="p-3"><span class="font-mono">required</span>, <span class="font-mono">pattern</span>, <span class="font-mono">type=email</span>, <span class="font-mono">accept</span></td>
+                                    <td class="p-3 font-mono">&lt;input required&gt;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Serveur (PHP)</td>
+                                    <td class="p-3"><span class="font-mono">isset()</span>, <span class="font-mono">empty()</span>, <span class="font-mono">filter_var()</span>, <span class="font-mono">preg_match()</span></td>
+                                    <td class="p-3 font-mono">filter_var($mail, FILTER_VALIDATE_EMAIL)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Sécurité</td>
+                                    <td class="p-3"><span class="font-mono">password_hash()</span>, <span class="font-mono">htmlspecialchars()</span></td>
+                                    <td class="p-3 font-mono">htmlspecialchars($nom)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2025 Cours PHP - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
