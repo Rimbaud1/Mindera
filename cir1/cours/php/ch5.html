@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé PHP - Chapitre 5: Connexion BDD avec PDO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff8c6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .function-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .function-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .schema-box {
+            border: 2px dashed #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            margin: 1rem 0;
+        }
+        .step-box {
+            border-left: 4px solid #4f46e5;
+            background-color: #f0f4ff;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .bad-practice {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+        .good-practice {
+            background-color: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-2">PHP - Chapitre 5</h1>
+                    <p class="text-lg text-gray-600">Connexion à une base de données MySQL avec PHP (API PDO)</p>
+                </div>
+                <a href="php.html" class="nav-btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Revenir au cours
+                </a>
+            </div>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <i class="fas fa-brain mr-3"></i> Résumé détaillé avec exemples et schémas
+                    </h2>
+                    <p class="text-gray-700 mb-4">Ce chapitre couvre la connexion à une base de données MySQL avec PHP en utilisant l'API PDO, avec des exemples complets et des bonnes pratiques de sécurité.</p>
+                </div>
+
+                <!-- 1. Se connecter à une base de données avec PHP -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        🔌 Se connecter à une base de données avec PHP
+                    </h3>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">API</th>
+                                    <th class="p-3 text-left">Caractéristiques</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">MySQLi</td>
+                                    <td class="p-3">Pour <strong>MySQL uniquement</strong>, mode procédural ou objet</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">PDO (PHP Data Objects)</td>
+                                    <td class="p-3"><strong>Multibase</strong> (MySQL, Oracle, PostgreSQL...), mode objet, + sécurisé</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg flex items-start">
+                        <div class="bg-green-100 p-2 rounded-full mr-3">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-green-800 mb-1">On privilégie PDO</h4>
+                            <p class="text-sm">Plus moderne et polyvalent</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Étape 1 : Connexion avec PDO -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        🛠 Étape 1 : Connexion avec PDO
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple simple de connexion
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">$servername</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"localhost"</span>;<br>
+                            <span class="text-purple-400">$username</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"root"</span>;<br>
+                            <span class="text-purple-400">$password</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"root"</span>;<br>
+                            <span class="text-purple-400">$database</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"maBDD"</span>;<br><br>
+                            <span class="text-purple-400">try</span> {<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">$conn</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">new</span> <span class="text-blue-400">PDO</span>(<span class="text-green-400">"mysql:host=$servername;dbname=$database"</span>, <span class="text-purple-400">$username</span>, <span class="text-purple-400">$password</span>);<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">$conn</span><span class="text-yellow-300">-></span><span class="text-blue-400">setAttribute</span>(<span class="text-blue-400">PDO</span><span class="text-yellow-300">::</span><span class="text-purple-400">ATTR_ERRMODE</span>, <span class="text-blue-400">PDO</span><span class="text-yellow-300">::</span><span class="text-purple-400">ERRMODE_EXCEPTION</span>);<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"Connexion réussie !"</span>;<br>
+                            <span class="text-purple-400">}</span> <span class="text-purple-400">catch</span>(<span class="text-blue-400">PDOException</span> <span class="text-purple-400">$e</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">die</span>(<span class="text-green-400">"Erreur : "</span> <span class="text-yellow-300">.</span> <span class="text-purple-400">$e</span><span class="text-yellow-300">-></span><span class="text-blue-400">getMessage</span>());<br>
+                            <span class="text-purple-400">}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="schema-box">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma de connexion
+                        </h5>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <div class="mb-4 md:mb-0 md:w-4/12 p-4 bg-blue-50 rounded-lg text-center">
+                                <div class="font-medium text-blue-800 mb-2">Navigateur</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-laptop text-2xl text-blue-500 mb-2"></i>
+                                    <div>Requête HTTP</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-4/12 p-4 bg-purple-50 rounded-lg text-center">
+                                <div class="font-medium text-purple-800 mb-2">Script PHP</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-file-code text-2xl text-purple-500 mb-2"></i>
+                                    <div>PDO avec try/catch</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="md:w-4/12 p-4 bg-green-50 rounded-lg text-center">
+                                <div class="font-medium text-green-800 mb-2">Serveur MySQL</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-database text-2xl text-green-500 mb-2"></i>
+                                    <div>Base de données</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <div class="inline-block bg-red-50 px-4 py-2 rounded-lg">
+                                <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                                <span class="text-sm">En cas d'erreur : retour au script PHP avec message d'erreur</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Étape 2 : Exécution de requêtes -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                        ✍️ Étape 2 : Exécution de requêtes
+                    </h3>
+                    
+                    <div class="bad-practice">
+                        <h4 class="font-medium text-red-800 mb-2 flex items-center">
+                            <i class="fas fa-times-circle text-red-500 mr-2"></i> Mauvaise pratique (requête directe)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">$conn</span><span class="text-yellow-300">-></span><span class="text-blue-400">query</span>(<span class="text-green-400">"INSERT INTO Users VALUES ('$nom', '$mail')"</span>);
+                        </div>
+                        <div class="mt-2 text-sm">
+                            <i class="fas fa-exclamation-triangle text-red-500 mr-1"></i>
+                            <strong>Risque :</strong> injections SQL
+                        </div>
+                    </div>
+                    
+                    <div class="good-practice">
+                        <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i> Bonne pratique : Requêtes préparées (sécurisées)
+                        </h4>
+                        
+                        <div class="step-box">
+                            <h5 class="font-medium text-indigo-800 mb-2">Étape 1 : Préparer la requête</h5>
+                            <div class="code-block">
+                                <span class="text-purple-400">$sql</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"INSERT INTO Users (nom, mail) VALUES (:nom, :mail)"</span>;<br>
+                                <span class="text-purple-400">$stmt</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">$conn</span><span class="text-yellow-300">-></span><span class="text-blue-400">prepare</span>(<span class="text-purple-400">$sql</span>);
+                            </div>
+                        </div>
+                        
+                        <div class="step-box">
+                            <h5 class="font-medium text-indigo-800 mb-2">Étape 2 : Lier les données et exécuter</h5>
+                            <div class="code-block">
+                                <span class="text-purple-400">$stmt</span><span class="text-yellow-300">-></span><span class="text-blue-400">execute</span>([<br>
+                                &nbsp;&nbsp;<span class="text-green-400">'nom'</span> <span class="text-yellow-300">=></span> <span class="text-green-400">'Rimbaud'</span>,<br>
+                                &nbsp;&nbsp;<span class="text-green-400">'mail'</span> <span class="text-yellow-300">=></span> <span class="text-green-400">'rimbaud@mail.com'</span><br>
+                                ]);
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-code-branch text-indigo-500 mr-2"></i> Variante avec <span class="font-mono">?</span>
+                            </h5>
+                            <div class="code-block">
+                                <span class="text-purple-400">$sql</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"INSERT INTO Users (nom, mail) VALUES (?, ?)"</span>;<br>
+                                <span class="text-purple-400">$stmt</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">$conn</span><span class="text-yellow-300">-></span><span class="text-blue-400">prepare</span>(<span class="text-purple-400">$sql</span>);<br>
+                                <span class="text-purple-400">$stmt</span><span class="text-yellow-300">-></span><span class="text-blue-400">execute</span>([<span class="text-green-400">'Rimbaud'</span>, <span class="text-green-400">'rimbaud@mail.com'</span>]);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Étape 3 : Récupérer les données (SELECT) -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                        🔄 Étape 3 : Récupérer les données (SELECT)
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">$sql</span> <span class="text-yellow-300">=</span> <span class="text-green-400">"SELECT * FROM Users"</span>;<br>
+                            <span class="text-purple-400">$stmt</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">$conn</span><span class="text-yellow-300">-></span><span class="text-blue-400">query</span>(<span class="text-purple-400">$sql</span>);<br>
+                            <span class="text-purple-400">$users</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">$stmt</span><span class="text-yellow-300">-></span><span class="text-blue-400">fetchAll</span>(<span class="text-blue-400">PDO</span><span class="text-yellow-300">::</span><span class="text-purple-400">FETCH_ASSOC</span>);<br><br>
+                            <span class="text-purple-400">foreach</span> (<span class="text-purple-400">$users</span> <span class="text-purple-400">as</span> <span class="text-purple-400">$u</span>) {<br>
+                            &nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-purple-400">$u</span>[<span class="text-green-400">'nom'</span>] <span class="text-yellow-300">.</span> <span class="text-green-400">" - "</span> <span class="text-yellow-300">.</span> <span class="text-purple-400">$u</span>[<span class="text-green-400">'mail'</span>] <span class="text-yellow-300">.</span> <span class="text-green-400">"&lt;br&gt;"</span>;<br>
+                            <span class="text-purple-400">}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                                <i class="fas fa-caret-right text-blue-500 mr-2"></i> fetch()
+                            </h4>
+                            <p class="text-sm">Récupère <strong>une seule ligne</strong></p>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-caret-right text-green-500 mr-2"></i> fetchAll()
+                            </h4>
+                            <p class="text-sm">Récupère <strong>toutes les lignes</strong></p>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                                <i class="fas fa-caret-right text-purple-500 mr-2"></i> PDO::FETCH_ASSOC
+                            </h4>
+                            <p class="text-sm">Renvoie un tableau associatif (pas de doublons avec index numériques)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Étape 4 : Fermer la connexion -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                        ❌ Étape 4 : Fermer la connexion
+                    </h3>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="mb-2">En PDO, <strong>pas besoin de fonction spéciale</strong> :</p>
+                        <p class="text-sm">Il suffit d'écrire :</p>
+                        <div class="code-block mt-2">
+                            <span class="text-purple-400">$conn</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">null</span>;
+                        </div>
+                        <p class="text-sm mt-2">Cela détruit l'objet PDO et ferme la connexion proprement.</p>
+                    </div>
+                </div>
+
+                <!-- 6. Exemple complet -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                        🧩 Exemple complet (schéma logique à suivre)
+                    </h3>
+                    
+                    <ol class="list-decimal pl-5 space-y-3">
+                        <li class="font-medium">Connexion</li>
+                        <li class="font-medium">Insertion sécurisée (requête préparée avec variables)</li>
+                        <li class="font-medium">Requête SELECT</li>
+                        <li class="font-medium">Affichage ligne par ligne</li>
+                        <li class="font-medium">Déconnexion</li>
+                    </ol>
+                    
+                    <div class="schema-box mt-4">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Flux complet
+                        </h5>
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <span class="font-bold text-blue-800">1</span>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Connexion PDO</div>
+                                    <div class="text-sm text-gray-600">try/catch avec gestion d'erreurs</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <span class="font-bold text-green-800">2</span>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Insertion sécurisée</div>
+                                    <div class="text-sm text-gray-600">Requête préparée avec paramètres nommés</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <span class="font-bold text-purple-800">3</span>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Requête SELECT</div>
+                                    <div class="text-sm text-gray-600">fetchAll() avec FETCH_ASSOC</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                    <span class="font-bold text-yellow-800">4</span>
+                                </div>
+                                <div class="bg-yellow-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Affichage</div>
+                                    <div class="text-sm text-gray-600">Boucle foreach sur les résultats</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-red-100 p-2 rounded-full mr-3">
+                                    <span class="font-bold text-red-800">5</span>
+                                </div>
+                                <div class="bg-red-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Déconnexion</div>
+                                    <div class="text-sm text-gray-600">$conn = null</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résumé condensé -->
+                <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> L'essentiel à retenir (condensé)
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">🔹 Étape</th>
+                                    <th class="p-3 text-left">✅ À retenir</th>
+                                    <th class="p-3 text-left">🧪 Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">API</td>
+                                    <td class="p-3">Utiliser PDO plutôt que MySQLi</td>
+                                    <td class="p-3 font-mono">new PDO(...)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Connexion</td>
+                                    <td class="p-3">Utiliser <span class="font-mono">try/catch</span> + <span class="font-mono">ATTR_ERRMODE</span></td>
+                                    <td class="p-3 font-mono">$conn = new PDO(...)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Requêtes préparées</td>
+                                    <td class="p-3">Plus sûres, pas de concaténation</td>
+                                    <td class="p-3 font-mono">:nom ou ?</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Exécution</td>
+                                    <td class="p-3"><span class="font-mono">$stmt->execute([...])</span></td>
+                                    <td class="p-3 font-mono">['nom'=>'X']</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Lecture SELECT</td>
+                                    <td class="p-3"><span class="font-mono">fetch()</span>, <span class="font-mono">fetchAll()</span> + <span class="font-mono">PDO::FETCH_ASSOC</span></td>
+                                    <td class="p-3 font-mono">$stmt->fetchAll(...)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Déconnexion</td>
+                                    <td class="p-3">Affecter <span class="font-mono">null</span> à l'objet PDO</td>
+                                    <td class="p-3 font-mono">$conn = null;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2025 Cours PHP - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

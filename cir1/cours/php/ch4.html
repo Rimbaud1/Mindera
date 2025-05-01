@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé PHP - Chapitre 4: Architecture 3-tiers et BDD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff8c6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .function-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .function-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .schema-box {
+            border: 2px dashed #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            margin: 1rem 0;
+        }
+        .entity-box {
+            border: 2px solid #4f46e5;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #eef2ff;
+            margin: 1rem 0;
+        }
+        .entity-title {
+            border-bottom: 2px solid #4f46e5;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-2">PHP - Chapitre 4</h1>
+                    <p class="text-lg text-gray-600">Architecture 3-tiers et Base de données</p>
+                </div>
+                <a href="php.html" class="nav-btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Revenir au cours
+                </a>
+            </div>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <i class="fas fa-brain mr-3"></i> Résumé détaillé avec exemples et schémas
+                    </h2>
+                    <p class="text-gray-700 mb-4">Ce chapitre couvre l'architecture 3-tiers, la conception de bases de données et le langage SQL, avec des exemples pratiques et des schémas visuels pour mieux comprendre.</p>
+                </div>
+
+                <!-- 1. Architecture 3-tiers -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        🏗️ Architecture 3-tiers
+                    </h3>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">Couche</th>
+                                    <th class="p-3 text-left">Rôle</th>
+                                    <th class="p-3 text-left">Technologies</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">Présentation (client)</td>
+                                    <td class="p-3">Interface utilisateur (navigateur)</td>
+                                    <td class="p-3">HTML, CSS, JavaScript</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Traitement (serveur web)</td>
+                                    <td class="p-3">Logique métier</td>
+                                    <td class="p-3">PHP, Apache</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Données (serveur SGBD)</td>
+                                    <td class="p-3">Stockage, requêtes</td>
+                                    <td class="p-3">MySQL, Oracle, etc.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="schema-box">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma de l'architecture 3-tiers
+                        </h5>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-blue-50 rounded-lg text-center">
+                                <div class="font-medium text-blue-800 mb-2">Client</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-laptop text-2xl text-blue-500 mb-2"></i>
+                                    <div>Navigateur</div>
+                                    <div class="text-xs text-gray-500">HTML, CSS, JS</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-purple-50 rounded-lg text-center">
+                                <div class="font-medium text-purple-800 mb-2">Serveur Web</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-server text-2xl text-purple-500 mb-2"></i>
+                                    <div>PHP, Apache</div>
+                                    <div class="text-xs text-gray-500">Logique métier</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="md:w-3/12 p-4 bg-green-50 rounded-lg text-center">
+                                <div class="font-medium text-green-800 mb-2">SGBD</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-database text-2xl text-green-500 mb-2"></i>
+                                    <div>MySQL</div>
+                                    <div class="text-xs text-gray-500">Stockage</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Base de données et SGBD -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        🗃️ Base de données et SGBD
+                    </h3>
+                    
+                    <div class="mb-4">
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>BDD</strong> : ensemble structuré d'informations, organisé en tables.</li>
+                            <li><strong>SGBD</strong> : logiciel qui gère la BDD (accès, sécurité, requêtes, etc.)</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemples de SGBD
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div class="bg-blue-50 p-3 rounded-lg flex items-center">
+                                <i class="fab fa-mysql text-blue-600 text-2xl mr-3"></i>
+                                <div>
+                                    <div class="font-medium">MySQL</div>
+                                    <div class="text-xs text-gray-600">Open source</div>
+                                </div>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg flex items-center">
+                                <i class="fas fa-database text-orange-600 text-2xl mr-3"></i>
+                                <div>
+                                    <div class="font-medium">Oracle</div>
+                                    <div class="text-xs text-gray-600">Entreprise</div>
+                                </div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg flex items-center">
+                                <i class="fas fa-mobile-alt text-green-600 text-2xl mr-3"></i>
+                                <div>
+                                    <div class="font-medium">SQLite</div>
+                                    <div class="text-xs text-gray-600">Léger</div>
+                                </div>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-lg flex items-center">
+                                <i class="fas fa-elephant text-purple-600 text-2xl mr-3"></i>
+                                <div>
+                                    <div class="font-medium">PostgreSQL</div>
+                                    <div class="text-xs text-gray-600">Avancé</div>
+                                </div>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded-lg flex items-center">
+                                <i class="fas fa-file-excel text-red-600 text-2xl mr-3"></i>
+                                <div>
+                                    <div class="font-medium">Access</div>
+                                    <div class="text-xs text-gray-600">Microsoft</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Caractéristiques d'une bonne BDD -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                        🧩 Caractéristiques d'une bonne BDD
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle text-blue-500 mr-2"></i> Unicité
+                            </h4>
+                            <p class="text-sm">Pas de doublons</p>
+                            <div class="mt-2 text-xs bg-blue-100 p-2 rounded">
+                                <i class="fas fa-info-circle text-blue-600 mr-1"></i>
+                                Ex: une œuvre ne doit pas apparaître deux fois.
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-link text-green-500 mr-2"></i> Intégrité référentielle
+                            </h4>
+                            <p class="text-sm">Une donnée référencée doit exister</p>
+                            <div class="mt-2 text-xs bg-green-100 p-2 rounded">
+                                <i class="fas fa-info-circle text-green-600 mr-1"></i>
+                                Ex: une œuvre rattachée à un musée qui n'existe pas = erreur.
+                            </div>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                                <i class="fas fa-balance-scale text-purple-500 mr-2"></i> Cohérence
+                            </h4>
+                            <p class="text-sm">Pas d'ambiguïté ou contradiction</p>
+                            <div class="mt-2 text-xs bg-purple-100 p-2 rounded">
+                                <i class="fas fa-info-circle text-purple-600 mr-1"></i>
+                                Ex: un client ne peut pas avoir deux âges différents.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Construction d'une BDD - Les 3 niveaux -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                        🏗️ Construction d'une BDD – Les 3 niveaux
+                    </h3>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">Niveau</th>
+                                    <th class="p-3 text-left">Objectif</th>
+                                    <th class="p-3 text-left">Contenu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">Conceptuel</td>
+                                    <td class="p-3">Représentation du monde réel</td>
+                                    <td class="p-3">Entités, relations (UML, E-A)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Logique</td>
+                                    <td class="p-3">Adaptation au modèle relationnel</td>
+                                    <td class="p-3">Tables, attributs, types</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Physique</td>
+                                    <td class="p-3">Stockage réel</td>
+                                    <td class="p-3">Fichiers sur disque, SQL, index...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="schema-box">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Processus de conception
+                        </h5>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-blue-50 rounded-lg text-center">
+                                <div class="font-medium text-blue-800 mb-2">Monde réel</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-globe text-2xl text-blue-500 mb-2"></i>
+                                    <div>Analyse des besoins</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-purple-50 rounded-lg text-center">
+                                <div class="font-medium text-purple-800 mb-2">Conceptuel</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-project-diagram text-2xl text-purple-500 mb-2"></i>
+                                    <div>UML, E-A</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-green-50 rounded-lg text-center">
+                                <div class="font-medium text-green-800 mb-2">Logique</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-table text-2xl text-green-500 mb-2"></i>
+                                    <div>Tables, relations</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="md:w-3/12 p-4 bg-red-50 rounded-lg text-center">
+                                <div class="font-medium text-red-800 mb-2">Physique</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-database text-2xl text-red-500 mb-2"></i>
+                                    <div>MySQL, SQL</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Niveau conceptuel - UML -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                        🧱 Niveau conceptuel – UML (modèle entité-association)
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Classe (entité)
+                            </h4>
+                            <div class="entity-box">
+                                <div class="entity-title">Enseignant</div>
+                                <div class="font-mono">id : Integer (clé primaire)</div>
+                                <div class="font-mono">nom : String</div>
+                                <div class="font-mono">prénom : String</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Association
+                            </h4>
+                            <div class="entity-box text-center">
+                                <div class="font-mono mb-2">Enseignant ⬄ Module</div>
+                                <div class="text-sm italic">intervient_dans</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Cardinalité
+                        </h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-blue-50 p-3 rounded-lg text-center">
+                                <div class="font-mono">0..*</div>
+                                <div class="text-sm">zéro ou plusieurs</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg text-center">
+                                <div class="font-mono">1..*</div>
+                                <div class="text-sm">au moins une</div>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded-lg text-center">
+                                <div class="font-mono">1</div>
+                                <div class="text-sm">exactement une</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-flask text-indigo-500 mr-2"></i> Exemple
+                        </h4>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>Un <strong>enseignant</strong> peut intervenir dans <strong>plusieurs modules</strong></li>
+                                <li>Un <strong>module</strong> peut être enseigné par <strong>plusieurs enseignants</strong></li>
+                                <li class="font-medium">→ relation <strong>many-to-many</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Passage UML → Modèle relationnel -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                        🔄 Passage UML → Modèle relationnel
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Classe → Table
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-gray-400">// Classe UML : Client(id, nom, prénom)</span><br>
+                            <span class="text-purple-400">→</span> <span class="text-gray-400">Table SQL :</span> <span class="text-blue-400">Client</span>(<span class="text-green-400">id</span> <span class="text-purple-400">INT</span> <span class="text-yellow-300">PRIMARY KEY</span>, <span class="text-green-400">nom</span> <span class="text-purple-400">VARCHAR</span>(<span class="text-blue-400">50</span>), ...)
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Association 1:*
+                            </h4>
+                            <p class="mb-2">Clé étrangère dans la table <span class="font-mono">*</span></p>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <h5 class="font-medium text-blue-800 mb-2 flex items-center">
+                                    <i class="fas fa-flask text-blue-500 mr-2"></i> Exemple
+                                </h5>
+                                <div class="code-block">
+                                    <span class="text-gray-400">// Un client a plusieurs produits :</span><br>
+                                    <span class="text-blue-400">Produit</span>(<span class="text-green-400">client_id</span> <span class="text-purple-400">INT</span> <span class="text-yellow-300">FOREIGN KEY</span> <span class="text-purple-400">REFERENCES</span> <span class="text-blue-400">Client</span>(<span class="text-green-400">id</span>))
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Association *:*
+                            </h4>
+                            <p class="mb-2">Nouvelle table avec deux clés étrangères</p>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h5 class="font-medium text-green-800 mb-2 flex items-center">
+                                    <i class="fas fa-flask text-green-500 mr-2"></i> Exemple
+                                </h5>
+                                <div class="code-block">
+                                    <span class="text-blue-400">Affectation</span>(<span class="text-green-400">ens_id</span>, <span class="text-green-400">mod_id</span>) <span class="text-gray-400">-- composite PK</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Association 1:1
+                            </h4>
+                            <p class="mb-2">Deux options :</p>
+                            <ul class="list-disc pl-5 mb-2">
+                                <li>Fusionner les deux tables</li>
+                                <li>Ou lier avec une clé étrangère dans l'une des deux</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Langage SQL -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">7</span>
+                        🔤 Langage SQL
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> SELECT
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">SELECT</span> <span class="text-yellow-300">*</span> <span class="text-purple-400">FROM</span> <span class="text-blue-400">MaTable</span>;<br>
+                                <span class="text-purple-400">SELECT</span> <span class="text-green-400">nom</span>, <span class="text-green-400">age</span> <span class="text-purple-400">FROM</span> <span class="text-blue-400">Etudiant</span>;<br>
+                                <span class="text-purple-400">SELECT</span> <span class="text-yellow-300">DISTINCT</span> <span class="text-green-400">nom</span> <span class="text-purple-400">FROM</span> <span class="text-blue-400">Ville</span>;
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> WHERE + opérateurs
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">WHERE</span> <span class="text-green-400">age</span> <span class="text-yellow-300">&gt;</span> <span class="text-blue-400">20</span> <span class="text-purple-400">AND</span> <span class="text-green-400">nom</span> <span class="text-yellow-300">=</span> <span class="text-green-400">'Alice'</span><br>
+                                <span class="text-purple-400">WHERE</span> <span class="text-green-400">nom</span> <span class="text-purple-400">LIKE</span> <span class="text-green-400">'Jean%'</span>    <span class="text-gray-400">-- commence par Jean</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> ORDER BY
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">ORDER BY</span> <span class="text-green-400">age</span> <span class="text-purple-400">DESC</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> Fonctions d'agrégation
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">COUNT</span>(<span class="text-yellow-300">*</span>), <span class="text-purple-400">AVG</span>(), <span class="text-purple-400">SUM</span>(), <span class="text-purple-400">MIN</span>(), <span class="text-purple-400">MAX</span>()
+                            </div>
+                            <div class="bg-blue-50 p-3 rounded-lg mt-2">
+                                <h5 class="font-medium text-blue-800 mb-1 flex items-center">
+                                    <i class="fas fa-flask text-blue-500 mr-2"></i> Exemple
+                                </h5>
+                                <div class="code-block">
+                                    <span class="text-purple-400">SELECT</span> <span class="text-purple-400">COUNT</span>(<span class="text-yellow-300">*</span>) <span class="text-purple-400">FROM</span> <span class="text-blue-400">Etudiants</span> <span class="text-purple-400">WHERE</span> <span class="text-green-400">note</span> <span class="text-yellow-300">&gt;</span> <span class="text-blue-400">10</span>;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> JOINTURES (INNER JOIN)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">SELECT</span> <span class="text-yellow-300">*</span> <span class="text-purple-400">FROM</span> <span class="text-blue-400">MaTable</span><br>
+                            &nbsp;&nbsp;<span class="text-purple-400">JOIN</span> <span class="text-blue-400">Avis</span> <span class="text-purple-400">ON</span> <span class="text-blue-400">MaTable</span>.<span class="text-green-400">ID</span> <span class="text-yellow-300">=</span> <span class="text-blue-400">Avis</span>.<span class="text-green-400">MaTable_ID</span>;
+                        </div>
+                        
+                        <div class="schema-box mt-4">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Schéma de jointure
+                            </h5>
+                            <div class="flex justify-between items-center">
+                                <div class="text-center w-5/12">
+                                    <div class="bg-blue-50 p-3 rounded-lg">
+                                        <div class="font-medium">MaTable</div>
+                                        <div class="text-sm font-mono">ID (PK)</div>
+                                        <div class="text-sm font-mono">nom</div>
+                                        <div class="text-sm font-mono">...</div>
+                                    </div>
+                                </div>
+                                <div class="w-2/12 text-center">
+                                    <i class="fas fa-exchange-alt text-gray-400 text-xl"></i>
+                                </div>
+                                <div class="text-center w-5/12">
+                                    <div class="bg-green-50 p-3 rounded-lg">
+                                        <div class="font-medium">Avis</div>
+                                        <div class="text-sm font-mono">MaTable_ID (FK)</div>
+                                        <div class="text-sm font-mono">commentaire</div>
+                                        <div class="text-sm font-mono">...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mt-6">
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> INSERT
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">INSERT INTO</span> <span class="text-blue-400">Etudiant</span> <span class="text-purple-400">VALUES</span> (<span class="text-blue-400">1</span>, <span class="text-green-400">'Toto'</span>, <span class="text-blue-400">18</span>);
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> DELETE
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">DELETE FROM</span> <span class="text-blue-400">Etudiant</span> <span class="text-purple-400">WHERE</span> <span class="text-green-400">age</span> <span class="text-yellow-300">&lt;</span> <span class="text-blue-400">10</span>;
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-caret-right text-indigo-500 mr-2"></i> UPDATE
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">UPDATE</span> <span class="text-blue-400">Etudiant</span> <span class="text-purple-400">SET</span> <span class="text-green-400">age</span> <span class="text-yellow-300">=</span> <span class="text-green-400">age</span> <span class="text-yellow-300">+</span> <span class="text-blue-400">1</span> <span class="text-purple-400">WHERE</span> <span class="text-green-400">id</span> <span class="text-yellow-300">=</span> <span class="text-blue-400">5</span>;
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-caret-right text-indigo-500 mr-2"></i> UPDATE conditionnelle (CASE)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-purple-400">UPDATE</span> <span class="text-blue-400">Avis</span> <span class="text-purple-400">SET</span> <span class="text-green-400">note</span> <span class="text-yellow-300">=</span> <span class="text-purple-400">CASE</span><br>
+                            &nbsp;&nbsp;<span class="text-purple-400">WHEN</span> <span class="text-green-400">note</span> <span class="text-yellow-300">&lt;</span> <span class="text-blue-400">3</span> <span class="text-purple-400">THEN</span> <span class="text-blue-400">0</span><br>
+                            &nbsp;&nbsp;<span class="text-purple-400">WHEN</span> <span class="text-green-400">note</span> <span class="text-yellow-300">&lt;</span> <span class="text-blue-400">7</span> <span class="text-purple-400">THEN</span> <span class="text-blue-400">5</span><br>
+                            &nbsp;&nbsp;<span class="text-purple-400">ELSE</span> <span class="text-blue-400">10</span><br>
+                            <span class="text-purple-400">END</span>;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Résumé condensé -->
+                <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> L'essentiel à retenir (condensé)
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">🔹 Sujet</th>
+                                    <th class="p-3 text-left">✅ À retenir</th>
+                                    <th class="p-3 text-left">🧪 Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">Archi 3-tiers</td>
+                                    <td class="p-3">Séparation interface / traitement / données</td>
+                                    <td class="p-3 font-mono">Client → PHP → MySQL</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">BDD</td>
+                                    <td class="p-3">Organisée en tables, gérée par SGBD</td>
+                                    <td class="p-3 font-mono">MySQL, Oracle</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">UML → SQL</td>
+                                    <td class="p-3">Classe = table ; association *:* = table d'association</td>
+                                    <td class="p-3 font-mono">Enseignant(id), Module(id), Affectation(ens_id, mod_id)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">SELECT</td>
+                                    <td class="p-3">Récupère des données</td>
+                                    <td class="p-3 font-mono">SELECT * FROM Etudiant;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">WHERE</td>
+                                    <td class="p-3">Filtre les résultats</td>
+                                    <td class="p-3 font-mono">WHERE note > 15</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">JOIN</td>
+                                    <td class="p-3">Jointure entre deux tables</td>
+                                    <td class="p-3 font-mono">JOIN ... ON ...</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">INSERT</td>
+                                    <td class="p-3">Ajouter une ligne</td>
+                                    <td class="p-3 font-mono">INSERT INTO ... VALUES (...)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">UPDATE</td>
+                                    <td class="p-3">Modifier</td>
+                                    <td class="p-3 font-mono">UPDATE ... SET ... WHERE ...</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">DELETE</td>
+                                    <td class="p-3">Supprimer</td>
+                                    <td class="p-3 font-mono">DELETE FROM ...</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Agrégation</td>
+                                    <td class="p-3">Moyenne, somme, min, max, etc.</td>
+                                    <td class="p-3 font-mono">AVG(note)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">LIKE</td>
+                                    <td class="p-3">Recherche partielle</td>
+                                    <td class="p-3 font-mono">LIKE '%Paris%'</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2025 Cours PHP - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

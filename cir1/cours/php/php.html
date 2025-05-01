@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours PHP pour le DS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .course-card {
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateX(4px);
+            border-left-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon-bg {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .file-icon { background-color: #e0f2fe; color: #0369a1; }
+        .chapter-icon { background-color: #dcfce7; color: #166534; }
+        .exam-icon { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Cours PHP pour le DS</h1>
+            <p class="text-slate-500">Ressources complètes pour préparer votre examen</p>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- Accueil -->
+            <a href=" #" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg file-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Page d'accueil du cours PHP</h3>
+                        <p class="text-sm text-slate-500">Introduction générale, navigation vers les chapitres</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 1 -->
+            <a href="ch1.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 1 - Introduction à PHP</h3>
+                        <p class="text-sm text-slate-500">Syntaxe de base, variables, types, structures de contrôle</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 2 -->
+            <a href="ch2.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 2 - Fonctions intégrées</h3>
+                        <p class="text-sm text-slate-500">Manipulation des chaînes, tableaux, fichiers, dates...</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 3 -->
+            <a href="ch3.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 3 - Formulaires HTML et PHP</h3>
+                        <p class="text-sm text-slate-500">Méthode GET/POST, validation, upload de fichiers</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 4 -->
+            <a href="ch4.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 4 - Bases de données & SQL</h3>
+                        <p class="text-sm text-slate-500">Structure relationnelle, modèle UML, requêtes SQL</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 5 -->
+            <a href="ch5.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 5 - Connexion à une BDD avec PDO</h3>
+                        <p class="text-sm text-slate-500">Requêtes préparées, exécution sécurisée</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 6 -->
+            <a href="ch6.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Chapitre 6 - Cookies & Sessions</h3>
+                        <p class="text-sm text-slate-500">Stockage client/serveur, sécurité, authentification</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Annales -->
+            <a href="annales2024.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg exam-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Annales du DS 2024</h3>
+                        <p class="text-sm text-slate-500">Sujet + QCM + exercices corrigés pour s'entraîner</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

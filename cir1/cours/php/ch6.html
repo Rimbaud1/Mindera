@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résumé PHP - Chapitre 6: Cookies & Sessions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #fff8c6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .function-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .function-table tr:hover {
+            background-color: #f1f5f9;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .schema-box {
+            border: 2px dashed #cbd5e0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            margin: 1rem 0;
+        }
+        .step-box {
+            border-left: 4px solid #4f46e5;
+            background-color: #f0f4ff;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .cookie-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #38bdf8;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+        .session-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-indigo-700 mb-2">PHP - Chapitre 6</h1>
+                    <p class="text-lg text-gray-600">Cookies & Sessions en PHP</p>
+                </div>
+                <a href="php.html" class="nav-btn bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Revenir au cours
+                </a>
+            </div>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <i class="fas fa-brain mr-3"></i> Résumé détaillé avec exemples et schémas
+                    </h2>
+                    <p class="text-gray-700 mb-4">Ce chapitre couvre l'utilisation des cookies et sessions en PHP, avec des exemples concrets pour chaque notion et des schémas explicatifs.</p>
+                </div>
+
+                <!-- 1. COOKIES -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        🍪 Cookies
+                    </h3>
+                    
+                    <div class="cookie-box">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i> Définition
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Petit <strong>fichier texte (max 65 Ko)</strong> enregistré sur le <strong>navigateur du client</strong>.</li>
+                            <li>Permet de <strong>mémoriser des infos</strong> comme un identifiant, une langue, une préférence.</li>
+                            <li>Accessible <strong>par JavaScript et PHP</strong>.</li>
+                            <li><strong>Stocké côté client</strong>, donc peu sécurisé.</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <h5 class="font-medium text-blue-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle text-blue-500 mr-2"></i> Limitations
+                            </h5>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>L'utilisateur peut <strong>refuser</strong> ou <strong>effacer</strong> les cookies.</li>
+                                <li>Peu fiable seul pour des données sensibles.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Créer un cookie -->
+                    <div class="step-box">
+                        <h4 class="font-medium text-indigo-800 mb-2 flex items-center">
+                            <i class="fas fa-plus-circle text-indigo-500 mr-2"></i> Créer un cookie en PHP
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">setcookie</span>(<span class="text-green-400">"nom"</span>, <span class="text-green-400">"Jean"</span>, <span class="text-blue-400">time</span>() <span class="text-yellow-300">+</span> <span class="text-purple-400">3600</span>); <span class="text-gray-500">// expire dans 1h</span>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-flask text-indigo-500 mr-2"></i> Avec options
+                            </h5>
+                            <div class="code-block">
+                                <span class="text-blue-400">setcookie</span>(<br>
+                                &nbsp;&nbsp;<span class="text-green-400">"langue"</span>,<br>
+                                &nbsp;&nbsp;<span class="text-green-400">"fr"</span>,<br>
+                                &nbsp;&nbsp;<span class="text-blue-400">time</span>() <span class="text-yellow-300">+</span> (<span class="text-purple-400">365</span><span class="text-yellow-300">*</span><span class="text-purple-400">24</span><span class="text-yellow-300">*</span><span class="text-purple-400">3600</span>), <span class="text-gray-500">// 1 an</span><br>
+                                &nbsp;&nbsp;<span class="text-green-400">"/"</span>,<br>
+                                &nbsp;&nbsp;<span class="text-green-400">""</span>,<br>
+                                &nbsp;&nbsp;<span class="text-purple-400">true</span>, <span class="text-gray-500">// HTTPS only</span><br>
+                                &nbsp;&nbsp;<span class="text-purple-400">true</span> <span class="text-gray-500">// HTTP only (protège du JS)</span><br>
+                                );
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schéma cookie -->
+                    <div class="schema-box">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Flux d'un cookie
+                        </h5>
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <div class="mb-4 md:mb-0 md:w-3/12 p-4 bg-blue-50 rounded-lg text-center">
+                                <div class="font-medium text-blue-800 mb-2">Serveur</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-server text-2xl text-blue-500 mb-2"></i>
+                                    <div>Crée le cookie</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-4/12 p-4 bg-green-50 rounded-lg text-center">
+                                <div class="font-medium text-green-800 mb-2">Navigateur</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-cookie text-2xl text-green-500 mb-2"></i>
+                                    <div>Stocke le cookie localement</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 md:mb-0 md:w-1/12 text-center">
+                                <i class="fas fa-arrow-right text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="md:w-3/12 p-4 bg-purple-50 rounded-lg text-center">
+                                <div class="font-medium text-purple-800 mb-2">Prochaine requête</div>
+                                <div class="text-sm">
+                                    <i class="fas fa-exchange-alt text-2xl text-purple-500 mb-2"></i>
+                                    <div>Renvoie automatiquement le cookie</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lire/modifier cookie -->
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                                <i class="fas fa-book-open text-blue-500 mr-2"></i> Lire un cookie
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-blue-400">echo</span> <span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">"nom"</span>]; <span class="text-gray-500">// Lire</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
+                                <i class="fas fa-edit text-yellow-500 mr-2"></i> Modifier un cookie
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-blue-400">setcookie</span>(<span class="text-green-400">"nom"</span>, <span class="text-green-400">"Arthur"</span>); <span class="text-gray-500">// Modifier</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Supprimer cookie -->
+                    <div class="bg-red-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-medium text-red-800 mb-2 flex items-center">
+                            <i class="fas fa-trash-alt text-red-500 mr-2"></i> Supprimer un cookie
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">setcookie</span>(<span class="text-green-400">"nom"</span>, <span class="text-green-400">""</span>, <span class="text-blue-400">time</span>() <span class="text-yellow-300">-</span> <span class="text-purple-400">3600</span>); <span class="text-gray-500">// Date passée</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Cookie tableau -->
+                    <div class="bg-purple-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-medium text-purple-800 mb-2 flex items-center">
+                            <i class="fas fa-layer-group text-purple-500 mr-2"></i> Cookie avec plusieurs valeurs (tableau associatif)
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-blue-400">setcookie</span>(<span class="text-green-400">"utilisateur[nom]"</span>, <span class="text-green-400">"Jean"</span>);<br>
+                            <span class="text-blue-400">setcookie</span>(<span class="text-green-400">"utilisateur[age]"</span>, <span class="text-green-400">"19"</span>);
+                        </div>
+                        <div class="mt-2">
+                            <h5 class="font-medium text-gray-700 mb-1">Lecture :</h5>
+                            <div class="code-block">
+                                <span class="text-blue-400">echo</span> <span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">"utilisateur"</span>][<span class="text-green-400">"nom"</span>]; <span class="text-gray-500">// Jean</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SESSIONS -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-3 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        🧠 Sessions
+                    </h3>
+                    
+                    <div class="session-box">
+                        <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                            <i class="fas fa-info-circle text-green-500 mr-2"></i> Définition
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Comme les cookies, mais <strong>stockées côté serveur</strong> ➜ donc <strong>plus sécurisé</strong>.</li>
+                            <li>Chaque utilisateur a un <strong>identifiant de session unique</strong>.</li>
+                            <li>Durée : <strong>tant que le navigateur est ouvert</strong> (ou jusqu'à expiration/session détruite).</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Démarrer session -->
+                    <div class="step-box">
+                        <h4 class="font-medium text-indigo-800 mb-2 flex items-center">
+                            <i class="fas fa-play-circle text-indigo-500 mr-2"></i> Démarrer une session
+                        </h4>
+                        <p class="mb-2">À mettre <strong>tout en haut du fichier PHP</strong> :</p>
+                        <div class="code-block">
+                            <span class="text-blue-400">session_start</span>();
+                        </div>
+                    </div>
+                    
+                    <!-- Variables session -->
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-plus-square text-green-500 mr-2"></i> Créer et utiliser des variables de session
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-purple-400">$_SESSION</span>[<span class="text-green-400">"prenom"</span>] <span class="text-yellow-300">=</span> <span class="text-green-400">"Jean"</span>;<br>
+                                <span class="text-blue-400">echo</span> <span class="text-purple-400">$_SESSION</span>[<span class="text-green-400">"prenom"</span>];
+                            </div>
+                        </div>
+                        
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-trash-alt text-red-500 mr-2"></i> Supprimer une variable / toute la session
+                            </h4>
+                            <div class="code-block">
+                                <span class="text-blue-400">unset</span>(<span class="text-purple-400">$_SESSION</span>[<span class="text-green-400">"prenom"</span>]); <span class="text-gray-500">// Supprimer une variable</span><br>
+                                <span class="text-blue-400">session_unset</span>(); <span class="text-gray-500">// Supprimer toutes les variables</span><br>
+                                <span class="text-blue-400">session_destroy</span>(); <span class="text-gray-500">// Terminer la session</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schéma session -->
+                    <div class="schema-box mt-4">
+                        <h5 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-project-diagram text-indigo-500 mr-2"></i> Fonctionnement des sessions
+                        </h5>
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-user text-blue-800"></i>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Utilisateur A</div>
+                                    <div class="text-sm text-gray-600">ID session: ABC123</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-server text-green-800"></i>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Serveur</div>
+                                    <div class="text-sm text-gray-600">Stocke les données associées à ABC123</div>
+                                    <div class="code-block mt-1 text-xs">
+                                        ABC123 => [nom: "Jean", panier: [...]]
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrows-alt-v text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-user text-purple-800"></i>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Utilisateur B</div>
+                                    <div class="text-sm text-gray-600">ID session: XYZ789</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-center">
+                                <i class="fas fa-arrow-down text-gray-400"></i>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-server text-green-800"></i>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg flex-1">
+                                    <div class="font-medium">Serveur</div>
+                                    <div class="text-sm text-gray-600">Stocke les données associées à XYZ789</div>
+                                    <div class="code-block mt-1 text-xs">
+                                        XYZ789 => [nom: "Verlaine", panier: [...]]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Utilisation typique -->
+                    <div class="bg-yellow-50 p-4 rounded-lg mt-4">
+                        <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
+                            <i class="fas fa-lightbulb text-yellow-500 mr-2"></i> Utilisation typique
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Stocker les <strong>infos de connexion</strong> (login, rôle)</li>
+                            <li><strong>Panier d'achat</strong> (ex : e-commerce)</li>
+                            <li>Historique de navigation temporaire</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Résumé condensé -->
+                <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-3"></i> L'essentiel à retenir (condensé)
+                    </h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="function-table w-full border-collapse">
+                            <thead>
+                                <tr class="bg-indigo-100 text-indigo-800">
+                                    <th class="p-3 text-left">🔹 Notion</th>
+                                    <th class="p-3 text-left">✅ À retenir</th>
+                                    <th class="p-3 text-left">🧪 Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="p-3 font-medium">Cookie</td>
+                                    <td class="p-3">Stocké côté client, peu sécurisé</td>
+                                    <td class="p-3 font-mono">setcookie("nom", "A", time()+3600)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Lire cookie</td>
+                                    <td class="p-3"><span class="font-mono">$_COOKIE["nom"]</span></td>
+                                    <td class="p-3"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Supprimer cookie</td>
+                                    <td class="p-3">Date passée ou vide</td>
+                                    <td class="p-3 font-mono">setcookie("nom", "", time()-3600)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Session</td>
+                                    <td class="p-3">Stockée côté serveur, plus sécurisé</td>
+                                    <td class="p-3 font-mono">session_start(); $_SESSION["x"] = ...;</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Supprimer session</td>
+                                    <td class="p-3"><span class="font-mono">unset()</span>, <span class="font-mono">session_destroy()</span></td>
+                                    <td class="p-3"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-medium">Session ≠ Cookie</td>
+                                    <td class="p-3">Session = serveur / Cookie = navigateur</td>
+                                    <td class="p-3"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2025 Cours PHP - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

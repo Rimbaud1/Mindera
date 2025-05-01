@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annales DS Web 2024</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .exam-card {
+            transition: all 0.3s ease;
+        }
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .correct-answer {
+            background-color: #d1fae5;
+            border-left: 4px solid #10b981;
+        }
+        .wrong-answer {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+        }
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .question-number {
+            background-color: #6366f1;
+            color: white;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-indigo-700 mb-2">Annales DS Web - 2024</h1>
+            <p class="text-lg text-gray-600">Examen partiel sur les concepts PHP</p>
+            <div class="mt-4 border-b border-gray-200"></div>
+        </header>
+
+        <!-- Exam Content -->
+        <main>
+            <!-- Exercise 1 -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6 exam-card">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                        Exercice 1 - Questions à choix multiples
+                    </h2>
+                    <p class="text-gray-700 mb-4">10 questions sur les concepts fondamentaux de PHP. Cochez la bonne réponse.</p>
+                    
+                    <!-- Question 1 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">1</div>
+                            <h3 class="font-medium text-gray-800">Lequel des fichiers suivants peut être utilisé pour modifier les configurations PHP ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> php.ini
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> config.ini
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> isset.ini
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> httpd_php.conf
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">2</div>
+                            <h3 class="font-medium text-gray-800">Dans quel tableau de données retrouve-t-on les cookies du visiteur ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $SETCOOKIE
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $COOKIES
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $HTTP_COOKIES
+                            </div>
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> $_COOKIE
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">3</div>
+                            <h3 class="font-medium text-gray-800">Laquelle des fonctions suivantes connecte une base de données MySql en utilisant PHP ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> mysqli_connect()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> mysqli_query()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> mysqli_close()
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">4</div>
+                            <h3 class="font-medium text-gray-800">Comment préciser quel script sera lancé par le bouton « submit » d'un formulaire ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> &lt;form type="page.php"
+                            </div>
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> &lt;form action="page.php"
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> &lt;form script="page.php"
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> &lt;form submit="page.php"
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">5</div>
+                            <h3 class="font-medium text-gray-800">Lequel des éléments suivants est utilisé pour créer un cookie ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> setcookie()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $_COOKIE
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> isset()
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">6</div>
+                            <h3 class="font-medium text-gray-800">Laquelle des fonctions suivantes trie un tableau dans l'ordre décroissant ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> rsort()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> shuffle()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> reset()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> sort()
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">7</div>
+                            <h3 class="font-medium text-gray-800">PHP est-il sensible à la casse ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> Vrai
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> Faux
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">8</div>
+                            <h3 class="font-medium text-gray-800">Comment retrouver le nom original d'une donnée de type « FILE » d'un formulaire ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $FILE['…']['tmp_name']
+                            </div>
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> $FILE['...']['name']
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $FILE['…']['original']
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> $FILE['…']['type']
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">9</div>
+                            <h3 class="font-medium text-gray-800">Laquelle des fonctions suivantes crée une session permettant d'utiliser les variables de session ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> session_set()
+                            </div>
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> session_start()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> setcookie()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> session_destroy()
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10 -->
+                    <div class="mb-6 p-4 bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start mb-3">
+                            <div class="question-number mr-3">10</div>
+                            <h3 class="font-medium text-gray-800">Laquelle des fonctions suivantes vérifie si une valeur spécifique existe dans un tableau ?</h3>
+                        </div>
+                        <div class="space-y-2 ml-12">
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> krsort()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> key()
+                            </div>
+                            <div class="p-2 rounded correct-answer">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i> in_array()
+                            </div>
+                            <div class="p-2 rounded wrong-answer">
+                                <i class="fas fa-times-circle text-red-500 mr-2"></i> extract()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercise 2 -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6 exam-card">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                        Exercice 2 - Fonction PHP
+                    </h2>
+                    <p class="text-gray-700 mb-4">Analysez le code suivant et expliquez ce qu'il fait.</p>
+                    
+                    <div class="code-block mb-4">
+                        <span class="text-blue-400">$tab</span> = [<span class="text-green-400">'a'</span> => <span class="text-purple-400">5</span>, <span class="text-green-400">'b'</span> => <span class="text-purple-400">10</span>, <span class="text-green-400">'c'</span> => <span class="text-purple-400">2</span>, <span class="text-green-400">'d'</span> => <span class="text-purple-400">4</span>];<br><br>
+                        <span class="text-blue-400">function</span> <span class="text-yellow-300">listeDeroulante</span>(<span class="text-blue-400">array</span> <span class="text-purple-400">$tableau</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;select name='MaListe'&gt;"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">foreach</span>(<span class="text-purple-400">$tableau</span> <span class="text-blue-400">as</span> <span class="text-purple-400">$cle</span> => <span class="text-purple-400">$val</span>) <span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;option value='$cle'&gt;$val&lt;/option&gt;"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;/select&gt;"</span>;<br>
+                        }<br><br>
+                        <span class="text-yellow-300">listeDeroulante</span>(<span class="text-purple-400">$tab</span>);
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-lightbulb text-blue-500 mr-2"></i> Explication
+                        </h4>
+                        <p class="text-gray-700">
+                            Ce code définit un tableau associatif <code>$tab</code> avec des clés (a, b, c, d) et des valeurs numériques. 
+                            La fonction <code>listeDeroulante</code> prend un tableau en paramètre et génère une liste déroulante HTML (<code>&lt;select&gt;</code>) 
+                            où chaque option correspond à une entrée du tableau. La valeur de chaque option est la clé du tableau, 
+                            et le texte affiché est la valeur associée. Enfin, la fonction est appelée avec le tableau <code>$tab</code>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercise 3 -->
+            <section class="mb-12">
+                <div class="bg-white rounded-xl shadow-md p-6 exam-card">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4 flex items-center">
+                        <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                        Exercice 3 - Système d'authentification
+                    </h2>
+                    <p class="text-gray-700 mb-4">Complétez les pages <code>accueil.php</code>, <code>connexion.php</code> et <code>deconnexion.php</code> selon les consignes suivantes :</p>
+                    
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-medium text-yellow-800 mb-2 flex items-center">
+                            <i class="fas fa-exclamation-circle text-yellow-500 mr-2"></i> Consignes
+                        </h4>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                            <li>Les champs login et password du formulaire doivent être remplis par les valeurs des cookies nommés « login » et « password » s'ils existent, sinon les champs doivent être vides.</li>
+                            <li>Les cookies sont créés lors de la première connexion d'un utilisateur.</li>
+                            <li>Le formulaire de connexion ne doit être affiché que si aucun utilisateur n'est authentifié sinon un bouton de déconnexion doit être affichée.</li>
+                            <li>Le script de traitement du formulaire de déconnexion doit être dans la page « <code>deconnexion.php</code> »</li>
+                            <li>Lors de l'authentification réussite d'un utilisateur, une variable de session nommée « auth » est créée, cette variable contient le login de l'utilisateur.</li>
+                            <li>Un utilisateur n'est authentifié que s'il a saisi le bon login et password.</li>
+                            <li>La liste des utilisateurs est dans une table de la base de données. Cette table est nommée « utilisateur » et contient 6 colonnes : « id », « nom », « prenom », « email », « login » et « password »</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Accueil.php -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-file-code text-indigo-500 mr-2"></i> accueil.php
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-gray-500">&lt;?php</span><br>
+                            <span class="text-blue-400">session_start</span>();<br><br>
+                            <span class="text-blue-400">if</span> (<span class="text-blue-400">empty</span>(<span class="text-purple-400">$_SESSION</span>[<span class="text-green-400">'auth'</span>])) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">'&lt;form method="post" action="connexion.php"&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;label&gt;Login: &lt;/label&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;input type="text" name="login" value="'</span> . (<span class="text-blue-400">isset</span>(<span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'login'</span>]) ? <span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'login'</span>] : <span class="text-green-400">''</span>) . <span class="text-green-400">'"&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;label&gt;Password: &lt;/label&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;input type="password" name="password" value="'</span> . (<span class="text-blue-400">isset</span>(<span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'password'</span>]) ? <span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'password'</span>] : <span class="text-green-400">''</span>) . <span class="text-green-400">'"&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;input type="submit" name="Envoyer" Value="Envoyer" /&gt;</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">&lt;/form&gt;'</span>;<br>
+                            } <span class="text-blue-400">else</span> <span class="text-blue-400">echo</span> <span class="text-green-400">'&lt;a href="deconnexion.php"&gt;Déconnexion&lt;/a&gt;'</span>;<br>
+                            <span class="text-gray-500">?&gt;</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Connexion.php -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-file-code text-indigo-500 mr-2"></i> connexion.php
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-gray-500">&lt;?php</span><br>
+                            <span class="text-blue-400">session_start</span>();<br>
+                            <span class="text-blue-400">if</span> (<span class="text-blue-400">isset</span>(<span class="text-purple-400">$_POST</span>[<span class="text-green-400">'Envoyer'</span>])) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">setcookie</span>(<span class="text-green-400">'login'</span>, <span class="text-purple-400">$_POST</span>[<span class="text-green-400">'login'</span>] ?? <span class="text-green-400">''</span>);<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">setcookie</span>(<span class="text-green-400">'password'</span>, <span class="text-purple-400">$_POST</span>[<span class="text-green-400">'password'</span>] ?? <span class="text-green-400">''</span>);<br>
+                            }<br><br>
+                            <span class="text-blue-400">require_once</span> (<span class="text-green-400">"connexionBD.php"</span>);<br>
+                            <span class="text-purple-400">$requete</span> = <span class="text-purple-400">$connexion</span>-&gt;<span class="text-blue-400">prepare</span>(<span class="text-green-400">"SELECT login, password FROM utilisateur WHERE login = ?"</span>);<br>
+                            <span class="text-purple-400">$resultat</span> = <span class="text-purple-400">$requete</span>-&gt;<span class="text-blue-400">execute</span>([<span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'login'</span>]]);<br>
+                            <span class="text-blue-400">if</span> (<span class="text-purple-400">$resultat</span> == <span class="text-purple-400">FALSE</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;p&gt;Erreur:"</span> . <span class="text-blue-400">mysqli_error</span>(<span class="text-purple-400">$connexion</span>) . <span class="text-green-400">"&lt;/p&gt;"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">die</span>();<br>
+                            } <span class="text-blue-400">else</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">$nbreLignes</span> = <span class="text-purple-400">$requete</span>-&gt;<span class="text-blue-400">num_rows</span>;<br><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">if</span> (<span class="text-purple-400">$nbreLignes</span> != <span class="text-purple-400">1</span>) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">if</span> (<span class="text-purple-400">$nbreLignes</span> &gt; <span class="text-purple-400">1</span>)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;p&gt;Erreur : Trop d'utilisateurs avec le même login&lt;/p&gt;"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">else</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">"&lt;p&gt;Erreur : Aucun utilisateur avec ce login&lt;/p&gt;"</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;} <span class="text-blue-400">else</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">$ligne</span> = <span class="text-purple-400">$requete</span>-&gt;<span class="text-blue-400">get_result</span>()-&gt;<span class="text-blue-400">fetch_assoc</span>();<br><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">if</span> (<span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'password'</span>] != <span class="text-purple-400">$ligne</span>[<span class="text-green-400">'password'</span>])<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">echo</span> <span class="text-green-400">'&lt;p&gt;Erreur : Le mot de passe ne correspond pas&lt;/p&gt;'</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">else</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">$_SESSION</span>[<span class="text-green-400">'auth'</span>] = <span class="text-purple-400">$_COOKIE</span>[<span class="text-green-400">'login'</span>];<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">$connexion</span>-&gt;<span class="text-blue-400">close</span>();<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">$connexion</span> = <span class="text-purple-400">null</span>;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">header</span>(<span class="text-green-400">'location: accueil.php'</span>);<br>
+                            }<br>
+                            <span class="text-gray-500">?&gt;</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Deconnexion.php -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-file-code text-indigo-500 mr-2"></i> deconnexion.php
+                        </h4>
+                        <div class="code-block">
+                            <span class="text-gray-500">&lt;?php</span><br>
+                            <span class="text-blue-400">session_start</span>();<br>
+                            <span class="text-blue-400">session_unset</span>();<br>
+                            <span class="text-blue-400">session_destroy</span>();<br>
+                            <span class="text-blue-400">header</span>(<span class="text-green-400">'location: accueil.php'</span>);<br>
+                            <span class="text-gray-500">?&gt;</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Rappels -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-blue-800 mb-2 flex items-center">
+                            <i class="fas fa-info-circle text-blue-500 mr-2"></i> Rappels
+                        </h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-700 mb-1">Opérateur ternaire</h5>
+                                <div class="code-block text-sm">
+                                    a ? b : c
+                                </div>
+                                <p class="text-gray-700 mt-1 text-sm">Basiquement un <code>if</code> compacté : Si a est vrai renvoie b, sinon renvoie c</p>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-700 mb-1">Opérateur null-coalescing</h5>
+                                <div class="code-block text-sm">
+                                    a ?? b
+                                </div>
+                                <p class="text-gray-700 mt-1 text-sm">Si a est <code>null</code>, renvoie b. Sinon, renvoie a. IMPORTANT : <code>false</code> n'est pas <code>null</code>, de même que les tableaux et chaînes de caractères vides, ou <code>0</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600 text-sm">
+            <div class="border-t border-gray-200 pt-6">
+                <p>© 2024 Annales DS Web - Source: <a href="https://github.com/LeoLewandowski/CIR1Annales/blob/main/Web/Partiel_22_05.md" class="text-indigo-600 hover:underline" target="_blank">GitHub/LeoLewandowski</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
