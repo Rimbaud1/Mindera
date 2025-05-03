@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices de Syllogisme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .exercise-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .conditional {
+            border-left-color: #6366f1;
+        }
+        .disjunctive {
+            border-left-color: #10b981;
+        }
+        .incompatibility {
+            border-left-color: #f59e0b;
+        }
+        .solution {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .solution.show {
+            max-height: 500px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-2">Exercices de Syllogisme</h1>
+            <p class="text-lg text-gray-600">Entraînement aux raisonnements conditionnels, disjonctifs et d'incompatibilité</p>
+            <div class="w-24 h-1 bg-indigo-500 mx-auto mt-4 rounded-full"></div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+            <button class="tab-btn px-6 py-3 font-medium text-indigo-600 border-b-2 border-indigo-600" data-tab="conditional">Conditionnel</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="disjunctive">Disjonctif</button>
+            <button class="tab-btn px-6 py-3 font-medium text-gray-500 hover:text-indigo-600" data-tab="incompatibility">Incompatibilité</button>
+        </div>
+
+        <!-- How to Use -->
+        <div class="bg-blue-50 p-6 rounded-lg mb-8">
+            <h3 class="text-xl font-semibold text-blue-800 mb-3 flex items-center">
+                <i class="fas fa-lightbulb mr-2"></i> Comment travailler avec ces exercices
+            </h3>
+            <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                <li><strong>Identifiez le type de majeure</strong> : implication (Si p alors q), disjonction (p ou q) ou incompatibilité (non(p et q)).</li>
+                <li><strong>Repérez la mineure</strong> : affirmation ou négation de quel terme ?</li>
+                <li><strong>Appliquez la forme canonique</strong> (Modus Ponens/Tollens, Ponendo Tollens, Tollendo Ponens).</li>
+                <li><strong>Vérifiez la validité</strong> : certaines formes ne fonctionnent que pour des majores strictes ou avec des mineures affirmatives.</li>
+                <li><strong>Rédigez clairement</strong> la conclusion ; si aucune ne s'impose, indiquez "Aucune conclusion certaine".</li>
+            </ol>
+        </div>
+
+        <!-- Conditional Exercises -->
+        <div class="tab-content active" id="conditional">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center">
+                <i class="fas fa-arrow-right mr-2"></i> Syllogismes Conditionnels
+            </h2>
+            <p class="text-gray-600 mb-6">Forme de base : <span class="font-mono bg-gray-100 px-2 py-1 rounded">Si p alors q</span></p>
+
+            <div class="space-y-6">
+                <!-- Exercise 1 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 conditional">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice C-1</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Si je révise régulièrement (p), je réussis mon partiel (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or je révise régulièrement (p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Que puis-je conclure ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Je réussis mon partiel (q).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Modus Ponens - on affirme l'antécédent (p), donc on peut affirmer le conséquent (q). Raisonnement valide.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 conditional">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice C-2</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Si un composant surchauffe (p), alors le système s'éteint (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or le système ne s'est pas éteint (¬q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Que dire sur p ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Le composant n'a pas surchauffé (¬p).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Modus Tollens - on nie le conséquent (q), donc on peut nier l'antécédent (p). Raisonnement valide.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 conditional">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice C-3</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Si le programme compile (p) alors il est exempt d'erreurs de syntaxe (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or le programme compile (p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Peut-on en déduire qu'il est optimisé (r) ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Aucune conclusion.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> L'optimisation (r) n'apparaît nulle part dans les prémisses. On ne peut rien en déduire sur ce point.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 conditional">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice C-4</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Si un nombre est multiple de 4 (p) alors il est pair (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or le nombre est pair (q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Peut-on conclure qu'il est multiple de 4 (p) ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Impossible.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Affirmation du conséquent - sophisme classique. Un nombre pair (q) peut être multiple de 4 (p) ou non (ex: 6 est pair mais pas multiple de 4).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 conditional">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice C-5</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Si tu es admissible (p) alors tu passes l'orale (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Tu n'es pas admissible (¬p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Peut-on conclure que tu ne passes pas l'orale (¬q) ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Aucune conclusion.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Négation de l'antécédent - sophisme. Ne pas être admissible (¬p) ne renseigne pas sur q (on pourrait passer l'orale par d'autres moyens).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disjunctive Exercises -->
+        <div class="tab-content" id="disjunctive">
+            <h2 class="text-2xl font-bold text-green-700 mb-6 flex items-center">
+                <i class="fas fa-arrows-alt-h mr-2"></i> Syllogismes Disjonctifs
+            </h2>
+            <p class="text-gray-600 mb-6">Forme de base : <span class="font-mono bg-gray-100 px-2 py-1 rounded">p ou q</span> (préciser si disjonction stricte ou large)</p>
+
+            <div class="space-y-6">
+                <!-- Exercise 1 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 disjunctive">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice D-1 <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Stricte</span></h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Le serveur est soit en maintenance (p) soit hors-ligne pour bug (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or il est en maintenance (p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Il n'est pas hors-ligne (¬q).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Ponendo Tollens valide car disjonction stricte (XOR). Si p est vrai alors q doit être faux (et vice versa).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 disjunctive">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice D-2 <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Large</span></h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Le code est documenté (p) ou testé (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or il n'est pas documenté (¬p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Il est testé (q).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Tollendo Ponens valide pour les deux types de disjonctions. Si p est faux alors q doit être vrai (dans ce cas où la disjonction est large).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 disjunctive">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice D-3 <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Stricte</span></h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> La LED est rouge (p) ou verte (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or elle n'est pas rouge (¬p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Verte (q).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Tollendo Ponens, valide. Pour une disjonction stricte, si p est faux alors q doit être vrai (et vice versa).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 disjunctive">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice D-4 <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Large</span></h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Il pleut (p) ou il vente (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or il pleut (p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Que conclure sur q ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Aucune certitude.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Ponendo Tollens invalide en disjonction large. Si p est vrai, q peut être vrai ou faux (il peut pleuvoir et venter en même temps).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 disjunctive">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice D-5 <span class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Stricte</span></h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Le fichier est soit texte (p) soit binaire (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or il est binaire (q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion sur p ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Il n'est pas texte (¬p).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Symétrique de D-1. Pour une disjonction stricte, si q est vrai alors p doit être faux.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incompatibility Exercises -->
+        <div class="tab-content" id="incompatibility">
+            <h2 class="text-2xl font-bold text-orange-700 mb-6 flex items-center">
+                <i class="fas fa-ban mr-2"></i> Syllogismes d'Incompatibilité
+            </h2>
+            <p class="text-gray-600 mb-6">Forme de base : <span class="font-mono bg-gray-100 px-2 py-1 rounded">non(p et q)</span></p>
+
+            <div class="space-y-6">
+                <!-- Exercise 1 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 incompatibility">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice I-1</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> On ne peut être à la fois connecté au VPN (p) et au Wi-Fi invité (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or je suis connecté au VPN (p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Je ne suis pas sur le Wi-Fi invité (¬q).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Ponendo Tollens pour incompatibilité - valide. Si p est vrai alors q doit être faux (et vice versa).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 incompatibility">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice I-2</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Impossible d'avoir la clé privée (p) et la partager en clair (q).</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or je ne partage pas la clé (¬q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Puis-je affirmer ¬p ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Non.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Mineure négative → forme invalide. Ne pas partager la clé (¬q) ne permet pas de conclure sur p (on pourrait avoir la clé privée sans la partager).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 incompatibility">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice I-3</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> On ne peut compiler et exécuter simultanément le même binaire.</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Or on exécute le binaire (q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : On ne le compile pas (¬p).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Valide (p = compiler, q = exécuter). Ponendo Tollens avec mineure affirmative : si q est vrai alors p doit être faux.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 incompatibility">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice I-4</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> Une application ne doit pas être en "lecture seule" (p) et en "écriture" (q) en même temps.</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Elle n'est pas en lecture seule (¬p).</p>
+                            <p class="text-gray-700 font-medium mt-3">Peut-on conclure ¬q ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-red-600 font-semibold">Solution : Non.</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Même piège que I-2. Mineure négative → forme invalide. Ne pas être en lecture seule (¬p) ne permet pas de conclure sur q.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-card bg-white p-6 rounded-lg shadow border border-gray-100 incompatibility">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Exercice I-5</h3>
+                            <p class="text-gray-700 mb-2"><strong>Énoncé :</strong> On ne peut être loggé comme root (p) et utilisateur standard (q) simultanément.</p>
+                            <p class="text-gray-700"><strong>Prémisse mineure :</strong> Je suis utilisateur standard (q).</p>
+                            <p class="text-gray-700 font-medium mt-3">Conclusion ?</p>
+                        </div>
+                        <button class="solution-toggle px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm hover:bg-orange-200">
+                            Voir solution
+                        </button>
+                    </div>
+                    <div class="solution mt-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-green-600 font-semibold">Solution : Je ne suis pas root (¬p).</p>
+                            <p class="text-gray-600 mt-2"><strong>Explication :</strong> Ponendo Tollens valide. Mineure affirmative (q) permet de conclure ¬p.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('text-indigo-600', 'border-indigo-600'));
+                tabBtns.forEach(b => b.classList.add('text-gray-500', 'hover:text-indigo-600'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('text-indigo-600', 'border-indigo-600');
+                btn.classList.remove('text-gray-500', 'hover:text-indigo-600');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Solution toggle buttons
+        const solutionToggles = document.querySelectorAll('.solution-toggle');
+        solutionToggles.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const solution = btn.closest('.exercise-card').querySelector('.solution');
+                solution.classList.toggle('show');
+                
+                if (solution.classList.contains('show')) {
+                    btn.textContent = 'Cacher solution';
+                } else {
+                    btn.textContent = 'Voir solution';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
