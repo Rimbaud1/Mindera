@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobLink - La nouvelle manière de trouver un job étudiant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'float-reverse 5s ease-in-out infinite',
+                        'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'float-reverse': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .phone-mockup {
+            position: relative;
+            width: 280px;
+            height: 550px;
+            border-radius: 40px;
+            background: #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        .phone-screen {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 30px;
+            background: white;
+            overflow: hidden;
+        }
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 50px;
+            height: calc(100% - 50px);
+            width: 2px;
+            background: #e2e8f0;
+        }
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-light text-dark font-sans">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fas fa-link text-white text-xl"></i>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-dark">Job<span class="text-primary">Link</span></span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-center space-x-8">
+                        <a href="#features" class="text-dark hover:text-primary font-medium transition">Fonctionnalités</a>
+                        <a href="#how-it-works" class="text-dark hover:text-primary font-medium transition">Comment ça marche</a>
+                        <a href="#testimonials" class="text-dark hover:text-primary font-medium transition">Témoignages</a>
+                        <a href="#download" class="text-dark hover:text-primary font-medium transition">Télécharger</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-dark focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                        La nouvelle manière de trouver <span class="text-yellow-300">un job étudiant</span>
+                    </h1>
+                    <p class="text-xl opacity-90 max-w-lg">
+                        Plus rapide. Plus intelligente. Plus humaine. JobLink transforme votre recherche d'emploi en une expérience fluide et efficace.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#download" class="bg-white text-primary font-bold px-6 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                            <i class="fab fa-apple mr-2 text-xl"></i> App Store
+                        </a>
+                        <a href="#download" class="bg-dark text-white font-bold px-6 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                            <i class="fab fa-google-play mr-2 text-xl"></i> Google Play
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-4 pt-4">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-yellow-300 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-pink-400 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-green-400 border-2 border-white"></div>
+                        </div>
+                        <div class="text-sm">
+                            <p class="font-medium">+10,000 étudiants satisfaits</p>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <span>4.9/5 sur les stores</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="phone-mockup mx-auto">
+                        <div class="phone-screen">
+                            <div class="app-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                                        <i class="fas fa-user text-white text-sm"></i>
+                                    </div>
+                                    <div class="text-sm font-bold text-primary">JobLink</div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-bell text-gray-600 text-sm"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl shadow-sm p-4 mb-3">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-briefcase text-blue-500"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold">Nouvelle offre pour vous</p>
+                                            <p class="text-xs text-gray-500">Stage Développeur Web</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">92% match</span>
+                                        <button class="text-xs bg-primary text-white px-3 py-1 rounded-full">Postuler</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white rounded-xl shadow-sm p-4 mb-3">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-comment-dots text-purple-500"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold">Nouveau message</p>
+                                            <p class="text-xs text-gray-500">TechStart Inc.</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-700 truncate">Bonjour, votre profil nous intéresse...</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-4 gap-2 mt-6">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-xl bg-primary bg-opacity-10 flex items-center justify-center text-primary">
+                                            <i class="fas fa-home"></i>
+                                        </div>
+                                        <span class="text-xs mt-1">Accueil</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-xl bg-gray-200 flex items-center justify-center text-gray-600">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <span class="text-xs mt-1">Recherche</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-xl bg-gray-200 flex items-center justify-center text-gray-600">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <span class="text-xs mt-1">Messages</span>
+                                    </div>
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-12 h-12 rounded-xl bg-gray-200 flex items-center justify-center text-gray-600">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <span class="text-xs mt-1">Profil</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -left-10 -top-10 w-24 h-24 rounded-full bg-white bg-opacity-10 animate-float"></div>
+                    <div class="absolute -right-10 bottom-10 w-20 h-20 rounded-full bg-white bg-opacity-10 animate-float-reverse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-primary">80%</div>
+                    <div class="text-gray-600 mt-2">de candidatures pertinentes</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-secondary">2x</div>
+                    <div class="text-gray-600 mt-2">plus de réponses positives</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-primary">5min</div>
+                    <div class="text-gray-600 mt-2">pour créer son profil</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-secondary">10k+</div>
+                    <div class="text-gray-600 mt-2">utilisateurs satisfaits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Pourquoi choisir JobLink ?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Une plateforme intelligente qui simplifie la recherche d'emploi pour les étudiants et le recrutement pour les entreprises.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-primary bg-opacity-10 text-primary mb-6">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Matching intelligent</h3>
+                    <p class="text-gray-600">Notre algorithme analyse votre profil et vous propose uniquement les offres qui correspondent vraiment à vos compétences et aspirations.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-purple-500 bg-opacity-10 text-purple-500 mb-6">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Postulation en un clic</h3>
+                    <p class="text-gray-600">Envoyez votre candidature en un seul clic. Votre profil complet est déjà disponible pour les recruteurs.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-green-500 bg-opacity-10 text-green-500 mb-6">
+                        <i class="fas fa-comments text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Messagerie intégrée</h3>
+                    <p class="text-gray-600">Communiquez directement avec les recruteurs, recevez des notifications en temps réel et suivez l'état de vos candidatures.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-yellow-500 bg-opacity-10 text-yellow-500 mb-6">
+                        <i class="fas fa-portrait text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Portfolio complet</h3>
+                    <p class="text-gray-600">Ajoutez vos projets, certifications, vidéos de présentation et bien plus pour montrer tout votre potentiel.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-red-500 bg-opacity-10 text-red-500 mb-6">
+                        <i class="fas fa-bell text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Alertes personnalisées</h3>
+                    <p class="text-gray-600">Recevez des notifications pour les offres urgentes, les jobs d'été ou les opportunités près de chez vous.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-white rounded-xl p-8 shadow-sm card-hover">
+                    <div class="feature-icon bg-blue-500 bg-opacity-10 text-blue-500 mb-6">
+                        <i class="fas fa-chart-line text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Score de visibilité</h3>
+                    <p class="text-gray-600">Optimisez votre profil pour apparaître plus souvent dans les recherches des recruteurs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Comment ça marche ?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">En quelques étapes simples, trouvez le job étudiant, le stage ou l'alternance qui vous correspond.</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline -->
+                <div class="space-y-10">
+                    <!-- Step 1 -->
+                    <div class="timeline-item relative pl-20">
+                        <div class="absolute left-0 top-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">1</div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold mb-3">Créez votre profil</h3>
+                            <p class="text-gray-600 mb-4">Remplissez vos informations (compétences, disponibilités, expériences) et ajoutez votre CV. Notre système analyse automatiquement votre profil.</p>
+                            <div class="flex space-x-3">
+                                <div class="w-16 h-16 rounded-lg bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-user-graduate text-blue-500 text-xl"></i>
+                                </div>
+                                <div class="w-16 h-16 rounded-lg bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-file-alt text-purple-500 text-xl"></i>
+                                </div>
+                                <div class="w-16 h-16 rounded-lg bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-tools text-green-500 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="timeline-item relative pl-20">
+                        <div class="absolute left-0 top-0 w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-xl">2</div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold mb-3">Recevez des offres pertinentes</h3>
+                            <p class="text-gray-600 mb-4">Notre algorithme vous envoie uniquement les offres qui correspondent à votre profil. Vous pouvez aussi explorer manuellement.</p>
+                            <div class="bg-white p-4 rounded-lg shadow-sm inline-block">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-star text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-bold">92% de match</div>
+                                        <div class="text-xs text-gray-500">Stage Marketing Digital</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="timeline-item relative pl-20">
+                        <div class="absolute left-0 top-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl">3</div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold mb-3">Postulez en un clic</h3>
+                            <p class="text-gray-600 mb-4">Envoyez votre candidature en un seul clic. Votre profil complet est transmis au recruteur.</p>
+                            <button class="bg-primary text-white px-6 py-2 rounded-full font-medium flex items-center">
+                                <i class="fas fa-paper-plane mr-2"></i> Postuler maintenant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="timeline-item relative pl-20">
+                        <div class="absolute left-0 top-0 w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-xl">4</div>
+                        <div class="bg-gray-50 rounded-xl p-8">
+                            <h3 class="text-xl font-bold mb-3">Suivez et communiquez</h3>
+                            <p class="text-gray-600">Discutez directement avec les recruteurs, recevez des notifications et suivez l'état de vos candidatures en temps réel.</p>
+                            <div class="mt-4 bg-white p-4 rounded-lg shadow-sm max-w-md">
+                                <div class="flex items-start mb-3">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 mr-3"></div>
+                                    <div class="bg-gray-100 p-3 rounded-lg">
+                                        <p class="text-sm">Bonjour, votre profil nous intéresse. Seriez-vous disponible pour un entretien la semaine prochaine ?</p>
+                                        <p class="text-xs text-gray-500 mt-1">Aujourd'hui, 10:24</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start justify-end">
+                                    <div class="bg-primary text-white p-3 rounded-lg">
+                                        <p class="text-sm">Bonjour, avec plaisir ! Je suis disponible mercredi après-midi.</p>
+                                        <p class="text-xs text-primary-100 mt-1">Aujourd'hui, 10:30</p>
+                                    </div>
+                                    <div class="w-8 h-8 rounded-full bg-primary ml-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Ils parlent de nous</h2>
+                <p class="text-lg opacity-90 max-w-2xl mx-auto">Découvrez ce que nos utilisateurs pensent de JobLink.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card rounded-xl p-8 border border-white border-opacity-20">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-yellow-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Marie D.</h4>
+                            <p class="text-sm opacity-75">Étudiante en Marketing</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">"J'ai trouvé mon stage de fin d'études en 3 jours avec JobLink ! Le matching est vraiment précis et la messagerie intégrée m'a permis d'échanger facilement avec les recruteurs."</p>
+                    <div class="flex">
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card rounded-xl p-8 border border-white border-opacity-20">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-blue-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Thomas L.</h4>
+                            <p class="text-sm opacity-75">Étudiant en Informatique</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">"En tant qu'étudiant en alternance, trouver une entreprise était un vrai parcours du combattant. Grâce à JobLink, j'ai eu 5 propositions en une semaine et j'ai pu choisir celle qui me correspondait le mieux."</p>
+                    <div class="flex">
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card rounded-xl p-8 border border-white border-opacity-20">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-green-300 mr-4"></div>
+                        <div>
+                            <h4 class="font-bold">Sarah K.</h4>
+                            <p class="text-sm opacity-75">RH chez TechStart</p>
+                        </div>
+                    </div>
+                    <p class="mb-4">"JobLink a révolutionné notre recrutement. Nous recevons des profils ultra-pertinents et le gain de temps est considérable. La fonction de matching automatique est tout simplement géniale."</p>
+                    <div class="flex">
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star text-yellow-300 mr-1"></i>
+                        <i class="fas fa-star-half-alt text-yellow-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-3xl font-bold mb-6">Téléchargez l'application dès maintenant</h2>
+                    <p class="text-lg text-gray-600 mb-8">Disponible sur iOS et Android. Créez votre profil en 5 minutes et commencez à recevoir des offres adaptées à votre profil.</p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="bg-dark text-white font-bold px-6 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                            <i class="fab fa-apple mr-2 text-xl"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Télécharger sur</div>
+                                <div>App Store</div>
+                            </div>
+                        </a>
+                        <a href="#" class="bg-dark text-white font-bold px-6 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                            <i class="fab fa-google-play mr-2 text-xl"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Disponible sur</div>
+                                <div>Google Play</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center">
+                        <div class="flex -space-x-2 mr-4">
+                            <div class="w-10 h-10 rounded-full bg-yellow-300 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-pink-400 border-2 border-white"></div>
+                            <div class="w-10 h-10 rounded-full bg-green-400 border-2 border-white"></div>
+                        </div>
+                        <div>
+                            <p class="font-medium">Rejoignez +10,000 étudiants</p>
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <i class="fas fa-star text-yellow-300 mr-1"></i>
+                                <span class="ml-1">4.9/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 flex justify-center">
+                    <div class="relative">
+                        <div class="phone-mockup">
+                            <div class="phone-screen">
+                                <div class="app-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
+                                    <div class="text-center py-8">
+                                        <div class="w-16 h-16 rounded-full bg-primary mx-auto mb-4 flex items-center justify-center">
+                                            <i class="fas fa-check text-white text-2xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2">Profil complet à 100%</h3>
+                                        <p class="text-sm text-gray-600 mb-6">Votre profil est maintenant visible par les recruteurs</p>
+                                        
+                                        <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
+                                            <div class="bg-primary h-2 rounded-full" style="width: 100%"></div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-xl shadow-sm p-4 mb-3 text-left">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                                    <i class="fas fa-briefcase text-green-500"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-bold">3 nouvelles offres</p>
+                                                    <p class="text-xs text-gray-500">Correspondent à votre profil</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="w-full bg-primary text-white py-2 rounded-full font-medium mt-4">
+                                            Voir les offres
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -left-10 -top-10 w-24 h-24 rounded-full bg-primary bg-opacity-10 animate-float"></div>
+                        <div class="absolute -right-10 bottom-10 w-20 h-20 rounded-full bg-secondary bg-opacity-10 animate-float-reverse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Questions fréquentes</h2>
+                <p class="text-lg text-gray-600">Trouvez les réponses aux questions les plus posées sur JobLink.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full flex justify-between items-center p-6 text-left">
+                        <span class="font-medium text-lg">JobLink est-il vraiment gratuit ?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 hidden">
+                        <p class="text-gray-600">Oui, JobLink est entièrement gratuit pour les étudiants. Les entreprises paient un abonnement pour accéder à la plateforme et publier des offres, ce qui nous permet de vous offrir ce service sans frais.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full flex justify-between items-center p-6 text-left">
+                        <span class="font-medium text-lg">Comment fonctionne le matching automatique ?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 hidden">
+                        <p class="text-gray-600">Notre algorithme analyse plusieurs dizaines de critères : vos compétences, votre formation, vos expériences passées, vos centres d'intérêt, vos disponibilités, votre localisation et bien plus. Il compare ces éléments avec les besoins des entreprises pour vous proposer uniquement les offres les plus pertinentes.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full flex justify-between items-center p-6 text-left">
+                        <span class="font-medium text-lg">Puis-je utiliser JobLink pour trouver un job d'été ?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 hidden">
+                        <p class="text-gray-600">Absolument ! JobLink dispose d'une section spéciale "Jobs d'été" où vous trouverez des offres temporaires, des missions saisonnières et des emplois de dernière minute. Vous pouvez aussi activer des alertes pour être informé dès qu'une nouvelle offre correspondant à vos critères est publiée.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full flex justify-between items-center p-6 text-left">
+                        <span class="font-medium text-lg">Comment optimiser mon profil pour être plus visible ?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-6 pb-6 hidden">
+                        <p class="text-gray-600">JobLink vous donne un "score de visibilité" et des conseils pour l'améliorer : complétez toutes les sections de votre profil, ajoutez des compétences précises, incluez des projets ou réalisations, mettez à jour vos disponibilités régulièrement. Plus votre profil est complet et précis, plus vous apparaîtrez dans les résultats des recruteurs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-6">Prêt à révolutionner votre recherche d'emploi ?</h2>
+            <p class="text-xl opacity-90 mb-8">Rejoignez des milliers d'étudiants qui ont trouvé leur job étudiant, stage ou alternance avec JobLink.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="bg-white text-primary font-bold px-8 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                    <i class="fab fa-apple mr-2 text-xl"></i> Télécharger
+                </a>
+                <a href="#" class="bg-dark text-white font-bold px-8 py-3 rounded-lg hover:bg-opacity-90 transition flex items-center">
+                    <i class="fab fa-google-play mr-2 text-xl"></i> Télécharger
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fas fa-link text-white text-xl"></i>
+                        </div>
+                        <span class="ml-3 text-xl font-bold">Job<span class="text-primary">Link</span></span>
+                    </div>
+                    <p class="text-gray-400">La nouvelle manière de trouver un job étudiant, un stage ou une alternance.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Accueil</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition">Fonctionnalités</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition">Comment ça marche</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition">Témoignages</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Conditions d'utilisation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Mentions légales</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-gray-400 mr-2"></i>
+                            <a href="mailto:contact@joblink.fr" class="text-gray-400 hover:text-white transition">contact@joblink.fr</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-gray-400 mr-2"></i>
+                            <span class="text-gray-400">01 23 45 67 89</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                            <span class="text-gray-400">Paris, France</span>
+                        </li>
+                    </ul>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">© 2023 JobLink. Tous droits réservés.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Accessibilité</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Plan du site</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ toggle functionality
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    content.classList.add('hidden');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
