@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmes de Tri Visuels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                            600: '#475569',
+                        },
+                        primary: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes highlight {
+            0%, 100% { background-color: rgba(99, 102, 241, 0.5); }
+            50% { background-color: rgba(239, 68, 68, 0.7); }
+        }
+        
+        .array-bar {
+            transition: all 0.3s ease;
+        }
+        
+        .highlight {
+            animation: highlight 1s ease infinite;
+        }
+        
+        .sorted {
+            background-color: #10b981 !important;
+        }
+        
+        .comparing {
+            background-color: #f59e0b !important;
+        }
+        
+        .min-selected {
+            background-color: #ef4444 !important;
+        }
+        
+        .code-block {
+            font-family: 'Courier New', monospace;
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-200 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-primary-500 mb-2">Algorithmes de Tri Visuels</h1>
+            <p class="text-xl text-gray-400">Visualisation interactive des algorithmes de tri classiques</p>
+        </header>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Controls Panel -->
+            <div class="bg-dark-800 rounded-xl p-6 shadow-lg lg:col-span-1">
+                <h2 class="text-2xl font-semibold mb-4 text-primary-500">Contrôles</h2>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Taille du tableau</label>
+                    <input type="range" id="array-size" min="5" max="50" value="15" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>5</span>
+                        <span>50</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Vitesse d'animation</label>
+                    <input type="range" id="speed" min="10" max="500" value="100" class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>Lent</span>
+                        <span>Rapide</span>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Algorithme de tri</label>
+                    <select id="algorithm" class="w-full bg-dark-700 border border-dark-600 text-gray-200 rounded-lg px-4 py-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="bubble">Tri à bulles</option>
+                        <option value="selection">Tri par sélection</option>
+                        <option value="insertion">Tri par insertion</option>
+                        <option value="heap">Tri par tas</option>
+                        <option value="merge">Tri fusion</option>
+                    </select>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button id="generate-btn" class="flex-1 bg-primary-600 hover:bg-primary-500 text-white font-medium py-2 px-4 rounded-lg transition">
+                        <i class="fas fa-random mr-2"></i>Nouveau tableau
+                    </button>
+                    <button id="sort-btn" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition">
+                        <i class="fas fa-play mr-2"></i>Lancer le tri
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Visualization Panel -->
+            <div class="bg-dark-800 rounded-xl p-6 shadow-lg lg:col-span-2">
+                <h2 class="text-2xl font-semibold mb-4 text-primary-500">Visualisation</h2>
+                <div id="array-container" class="flex items-end h-64 w-full border-b border-dark-700 mb-4 overflow-hidden">
+                    <!-- Array bars will be inserted here by JavaScript -->
+                </div>
+                
+                <div class="bg-dark-700 rounded-lg p-4">
+                    <div class="flex border-b border-dark-600 mb-4">
+                        <button class="tab-btn active px-4 py-2 font-medium text-primary-500 border-b-2 border-primary-500" data-tab="description">Description</button>
+                        <button class="tab-btn px-4 py-2 font-medium text-gray-400 hover:text-primary-500" data-tab="complexity">Complexité</button>
+                        <button class="tab-btn px-4 py-2 font-medium text-gray-400 hover:text-primary-500" data-tab="code">Code C</button>
+                    </div>
+                    
+                    <div id="description" class="tab-content active">
+                        <p id="algorithm-description" class="text-gray-300">
+                            Sélectionnez un algorithme pour voir sa description ici.
+                        </p>
+                    </div>
+                    
+                    <div id="complexity" class="tab-content">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-dark-800 p-3 rounded-lg">
+                                <div class="text-sm text-gray-400">Meilleur cas</div>
+                                <div id="best-case" class="text-xl font-bold text-green-400">-</div>
+                            </div>
+                            <div class="bg-dark-800 p-3 rounded-lg">
+                                <div class="text-sm text-gray-400">Cas moyen</div>
+                                <div id="average-case" class="text-xl font-bold text-yellow-400">-</div>
+                            </div>
+                            <div class="bg-dark-800 p-3 rounded-lg">
+                                <div class="text-sm text-gray-400">Pire cas</div>
+                                <div id="worst-case" class="text-xl font-bold text-red-400">-</div>
+                            </div>
+                        </div>
+                        <p id="complexity-explanation" class="mt-4 text-gray-300">
+                            La complexité algorithmique mesure l'efficacité d'un algorithme en fonction de la taille des données d'entrée.
+                        </p>
+                    </div>
+                    
+                    <div id="code" class="tab-content">
+                        <pre id="algorithm-code" class="code-block text-gray-200">
+// Sélectionnez un algorithme pour voir son implémentation en C
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial setup
+        let array = [];
+        let arraySize = 15;
+        let speed = 100;
+        let algorithm = 'bubble';
+        let isSorting = false;
+        let animationQueue = [];
+        let animationTimeout = null;
+        
+        // DOM elements
+        const arrayContainer = document.getElementById('array-container');
+        const arraySizeInput = document.getElementById('array-size');
+        const speedInput = document.getElementById('speed');
+        const algorithmSelect = document.getElementById('algorithm');
+        const generateBtn = document.getElementById('generate-btn');
+        const sortBtn = document.getElementById('sort-btn');
+        const algorithmDescription = document.getElementById('algorithm-description');
+        const bestCase = document.getElementById('best-case');
+        const averageCase = document.getElementById('average-case');
+        const worstCase = document.getElementById('worst-case');
+        const complexityExplanation = document.getElementById('complexity-explanation');
+        const algorithmCode = document.getElementById('algorithm-code');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Algorithm descriptions and code
+        const algorithmData = {
+            bubble: {
+                description: "Le tri à bulles est un algorithme simple qui compare et échange répétitivement les éléments adjacents s'ils sont dans le mauvais ordre. Ce processus se répète jusqu'à ce que le tableau soit trié. Bien que simple à comprendre et à implémenter, le tri à bulles est inefficace pour les grandes listes.",
+                best: "O(n)",
+                average: "O(n²)",
+                worst: "O(n²)",
+                complexity: "Le tri à bulles a une complexité quadratique dans le pire cas et le cas moyen, mais linéaire dans le meilleur cas (lorsque le tableau est déjà trié).",
+                code: `void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                // Échange arr[j] et arr[j+1]
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}`
+            },
+            selection: {
+                description: "Le tri par sélection fonctionne en trouvant systématiquement l'élément minimum (ou maximum) de la partie non triée du tableau et en le plaçant à sa position correcte. Cet algorithme conserve deux sous-tableaux dans un tableau donné : un sous-tableau trié et un sous-tableau non trié.",
+                best: "O(n²)",
+                average: "O(n²)",
+                worst: "O(n²)",
+                complexity: "Le tri par sélection a toujours une complexité quadratique, car il doit parcourir tout le sous-tableau non trié pour chaque élément, même si le tableau est déjà trié.",
+                code: `void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        // Trouver l'élément minimum dans le tableau non trié
+        int min_idx = i;
+        for (int j = i+1; j < n; j++) {
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+        }
+        
+        // Échanger l'élément minimum trouvé avec le premier élément
+        int temp = arr[min_idx];
+        arr[min_idx] = arr[i];
+        arr[i] = temp;
+    }
+}`
+            },
+            insertion: {
+                description: "Le tri par insertion construit le tableau trié un élément à la fois. Il prend un élément du tableau non trié et l'insère à sa position correcte dans le tableau trié. Cet algorithme est efficace pour les petits ensembles de données ou lorsque le tableau est presque trié.",
+                best: "O(n)",
+                average: "O(n²)",
+                worst: "O(n²)",
+                complexity: "Le tri par insertion a une complexité linéaire dans le meilleur cas (tableau déjà trié) mais quadratique dans le pire cas. Il est souvent utilisé en pratique pour de petits tableaux ou comme partie d'algorithmes plus complexes.",
+                code: `void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        
+        // Déplacer les éléments de arr[0..i-1] qui sont plus grands que key
+        // vers une position en avant de leur position actuelle
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}`
+            },
+            heap: {
+                description: "Le tri par tas (ou heapsort) est un algorithme de tri basé sur la structure de données tas. Il commence par construire un tas max à partir du tableau, puis extrait récursivement l'élément maximum du tas et reconstruit le tas avec les éléments restants. Le tri par tas est un tri en place avec une complexité garantie O(n log n).",
+                best: "O(n log n)",
+                average: "O(n log n)",
+                worst: "O(n log n)",
+                complexity: "Le tri par tas a une complexité logarithmique linéaire dans tous les cas, ce qui en fait un algorithme très efficace. Cependant, il a une mauvaise localité de référence et n'est pas stable.",
+                code: `// Fonction pour transformer un sous-arbre en tas max
+void heapify(int arr[], int n, int i) {
+    int largest = i; // Initialiser largest comme racine
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    // Si l'enfant gauche est plus grand que la racine
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+    
+    // Si l'enfant droit est plus grand que largest
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+    
+    // Si largest n'est pas la racine
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        // Heapify le sous-arbre affecté
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int n) {
+    // Construire le tas (réorganiser le tableau)
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+    
+    // Extraire un par un les éléments du tas
+    for (int i = n - 1; i > 0; i--) {
+        // Déplacer la racine actuelle à la fin
+        swap(arr[0], arr[i]);
+        // appeler heapify sur le tas réduit
+        heapify(arr, i, 0);
+    }
+}`
+            },
+            merge: {
+                description: "Le tri fusion est un algorithme de tri basé sur la technique diviser pour régner. Il divise récursivement le tableau en deux moitiés, trie chacune d'elles, puis fusionne les deux moitiés triées. Le tri fusion est stable et garantit une complexité O(n log n), mais il nécessite un espace supplémentaire O(n).",
+                best: "O(n log n)",
+                average: "O(n log n)",
+                worst: "O(n log n)",
+                complexity: "Le tri fusion a une complexité logarithmique linéaire dans tous les cas. C'est un algorithme stable qui fonctionne bien pour les grandes listes, mais il nécessite un espace mémoire supplémentaire proportionnel à la taille du tableau d'entrée.",
+                code: `// Fonction pour fusionner deux sous-tableaux triés
+void merge(int arr[], int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    
+    // Créer des tableaux temporaires
+    int L[n1], R[n2];
+    
+    // Copier les données dans les tableaux temporaires
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+    
+    // Fusionner les tableaux temporaires dans arr[l..r]
+    int i = 0, j = 0, k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    // Copier les éléments restants de L[]
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    // Copier les éléments restants de R[]
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        // Trouver le point milieu
+        int m = l + (r - l) / 2;
+        
+        // Trier les première et deuxième moitiés
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        
+        // Fusionner les moitiés triées
+        merge(arr, l, m, r);
+    }
+}`
+            }
+        };
+        
+        // Initialize the app
+        function init() {
+            generateNewArray();
+            updateAlgorithmInfo();
+            setupEventListeners();
+        }
+        
+        // Generate a new random array
+        function generateNewArray() {
+            if (isSorting) return;
+            
+            array = [];
+            const containerWidth = arrayContainer.clientWidth;
+            const barWidth = Math.max(5, Math.floor(containerWidth / arraySize) - 2);
+            
+            for (let i = 0; i < arraySize; i++) {
+                array.push(Math.floor(Math.random() * 100) + 5);
+            }
+            
+            renderArray();
+        }
+        
+        // Render the array as bars
+        function renderArray() {
+            arrayContainer.innerHTML = '';
+            const containerHeight = arrayContainer.clientHeight;
+            const containerWidth = arrayContainer.clientWidth;
+            const barWidth = Math.max(5, Math.floor(containerWidth / arraySize) - 2);
+            
+            for (let i = 0; i < array.length; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'array-bar bg-primary-500 mx-px';
+                bar.style.height = `${(array[i] / 105) * 100}%`;
+                bar.style.width = `${barWidth}px`;
+                bar.setAttribute('data-value', array[i]);
+                arrayContainer.appendChild(bar);
+            }
+        }
+        
+        // Update algorithm information
+        function updateAlgorithmInfo() {
+            const data = algorithmData[algorithm];
+            algorithmDescription.textContent = data.description;
+            bestCase.textContent = data.best;
+            averageCase.textContent = data.average;
+            worstCase.textContent = data.worst;
+            complexityExplanation.textContent = data.complexity;
+            algorithmCode.textContent = data.code;
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Input controls
+            arraySizeInput.addEventListener('input', () => {
+                arraySize = parseInt(arraySizeInput.value);
+                generateNewArray();
+            });
+            
+            speedInput.addEventListener('input', () => {
+                speed = parseInt(speedInput.value);
+            });
+            
+            algorithmSelect.addEventListener('change', () => {
+                algorithm = algorithmSelect.value;
+                updateAlgorithmInfo();
+            });
+            
+            // Buttons
+            generateBtn.addEventListener('click', generateNewArray);
+            
+            sortBtn.addEventListener('click', () => {
+                if (isSorting) return;
+                isSorting = true;
+                sortBtn.disabled = true;
+                generateBtn.disabled = true;
+                
+                // Clear any existing animations
+                clearTimeout(animationTimeout);
+                animationQueue = [];
+                
+                // Start the selected algorithm
+                switch (algorithm) {
+                    case 'bubble':
+                        bubbleSort();
+                        break;
+                    case 'selection':
+                        selectionSort();
+                        break;
+                    case 'insertion':
+                        insertionSort();
+                        break;
+                    case 'heap':
+                        heapSort();
+                        break;
+                    case 'merge':
+                        mergeSort();
+                        break;
+                }
+                
+                // Process the animation queue
+                processAnimationQueue();
+            });
+            
+            // Tab switching
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'text-primary-500', 'border-primary-500');
+                        btn.classList.add('text-gray-400');
+                    });
+                    button.classList.add('active', 'text-primary-500', 'border-primary-500');
+                    button.classList.remove('text-gray-400');
+                    
+                    // Update active tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+        
+        // Process the animation queue
+        function processAnimationQueue() {
+            if (animationQueue.length === 0) {
+                // Sorting is complete
+                isSorting = false;
+                sortBtn.disabled = false;
+                generateBtn.disabled = false;
+                
+                // Highlight all bars as sorted
+                const bars = document.querySelectorAll('.array-bar');
+                bars.forEach(bar => {
+                    bar.classList.add('sorted');
+                });
+                
+                return;
+            }
+            
+            const animation = animationQueue.shift();
+            const bars = document.querySelectorAll('.array-bar');
+            
+            // Reset all bars to default state
+            bars.forEach(bar => {
+                bar.classList.remove('highlight', 'comparing', 'min-selected', 'sorted');
+            });
+            
+            // Apply the animation
+            switch (animation.type) {
+                case 'compare':
+                    bars[animation.indices[0]].classList.add('comparing');
+                    bars[animation.indices[1]].classList.add('comparing');
+                    break;
+                case 'swap':
+                    bars[animation.indices[0]].classList.add('highlight');
+                    bars[animation.indices[1]].classList.add('highlight');
+                    
+                    // Swap heights
+                    const tempHeight = bars[animation.indices[0]].style.height;
+                    bars[animation.indices[0]].style.height = bars[animation.indices[1]].style.height;
+                    bars[animation.indices[1]].style.height = tempHeight;
+                    break;
+                case 'select':
+                    bars[animation.index].classList.add('min-selected');
+                    break;
+                case 'sorted':
+                    bars[animation.index].classList.add('sorted');
+                    break;
+            }
+            
+            // Process next animation after delay
+            animationTimeout = setTimeout(processAnimationQueue, speed);
+        }
+        
+        // Sorting algorithms with animation
+        function bubbleSort() {
+            const arr = [...array];
+            const n = arr.length;
+            
+            for (let i = 0; i < n-1; i++) {
+                for (let j = 0; j < n-i-1; j++) {
+                    // Compare animation
+                    animationQueue.push({ type: 'compare', indices: [j, j+1] });
+                    
+                    if (arr[j] > arr[j+1]) {
+                        // Swap animation
+                        animationQueue.push({ type: 'swap', indices: [j, j+1] });
+                        
+                        // Swap elements
+                        [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+                    }
+                }
+                // Mark last element as sorted
+                animationQueue.push({ type: 'sorted', index: n-i-1 });
+            }
+            // Mark first element as sorted
+            animationQueue.push({ type: 'sorted', index: 0 });
+        }
+        
+        function selectionSort() {
+            const arr = [...array];
+            const n = arr.length;
+            
+            for (let i = 0; i < n-1; i++) {
+                let min_idx = i;
+                
+                // Select current min animation
+                animationQueue.push({ type: 'select', index: min_idx });
+                
+                for (let j = i+1; j < n; j++) {
+                    // Compare animation
+                    animationQueue.push({ type: 'compare', indices: [min_idx, j] });
+                    
+                    if (arr[j] < arr[min_idx]) {
+                        min_idx = j;
+                        
+                        // Select new min animation
+                        animationQueue.push({ type: 'select', index: min_idx });
+                    }
+                }
+                
+                if (min_idx !== i) {
+                    // Swap animation
+                    animationQueue.push({ type: 'swap', indices: [i, min_idx] });
+                    
+                    // Swap elements
+                    [arr[i], arr[min_idx]] = [arr[min_idx], arr[i]];
+                }
+                
+                // Mark current position as sorted
+                animationQueue.push({ type: 'sorted', index: i });
+            }
+            // Mark last element as sorted
+            animationQueue.push({ type: 'sorted', index: n-1 });
+        }
+        
+        function insertionSort() {
+            const arr = [...array];
+            const n = arr.length;
+            
+            for (let i = 1; i < n; i++) {
+                let key = arr[i];
+                let j = i - 1;
+                
+                // Highlight current element being inserted
+                animationQueue.push({ type: 'select', index: i });
+                
+                while (j >= 0 && arr[j] > key) {
+                    // Compare animation
+                    animationQueue.push({ type: 'compare', indices: [j, j+1] });
+                    
+                    // Shift animation
+                    animationQueue.push({ type: 'swap', indices: [j, j+1] });
+                    
+                    arr[j + 1] = arr[j];
+                    j = j - 1;
+                }
+                
+                arr[j + 1] = key;
+                
+                // Mark elements as sorted up to i
+                for (let k = 0; k <= i; k++) {
+                    animationQueue.push({ type: 'sorted', index: k });
+                }
+            }
+        }
+        
+        function heapSort() {
+            const arr = [...array];
+            const n = arr.length;
+            
+            // Build heap (rearrange array)
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+                heapify(arr, n, i);
+            }
+            
+            // One by one extract an element from heap
+            for (let i = n - 1; i > 0; i--) {
+                // Move current root to end
+                animationQueue.push({ type: 'swap', indices: [0, i] });
+                [arr[0], arr[i]] = [arr[i], arr[0]];
+                
+                // Mark as sorted
+                animationQueue.push({ type: 'sorted', index: i });
+                
+                // call max heapify on the reduced heap
+                heapify(arr, i, 0);
+            }
+            
+            // Mark first element as sorted
+            animationQueue.push({ type: 'sorted', index: 0 });
+        }
+        
+        function heapify(arr, n, i) {
+            let largest = i;
+            const left = 2 * i + 1;
+            const right = 2 * i + 2;
+            
+            // Compare with left child
+            if (left < n) {
+                animationQueue.push({ type: 'compare', indices: [largest, left] });
+                
+                if (arr[left] > arr[largest]) {
+                    largest = left;
+                }
+            }
+            
+            // Compare with right child
+            if (right < n) {
+                animationQueue.push({ type: 'compare', indices: [largest, right] });
+                
+                if (arr[right] > arr[largest]) {
+                    largest = right;
+                }
+            }
+            
+            // If largest is not root
+            if (largest !== i) {
+                animationQueue.push({ type: 'swap', indices: [i, largest] });
+                [arr[i], arr[largest]] = [arr[largest], arr[i]];
+                
+                // Recursively heapify the affected sub-tree
+                heapify(arr, n, largest);
+            }
+        }
+        
+        function mergeSort() {
+            const arr = [...array];
+            const n = arr.length;
+            const tempArray = new Array(n);
+            
+            // Create a copy of the original array for visualization
+            const originalIndices = Array.from({ length: n }, (_, i) => i);
+            
+            // Top-down merge sort
+            topDownMergeSort(arr, tempArray, 0, n - 1, originalIndices);
+            
+            // Mark all as sorted at the end
+            for (let i = 0; i < n; i++) {
+                animationQueue.push({ type: 'sorted', index: i });
+            }
+        }
+        
+        function topDownMergeSort(arr, tempArray, left, right, originalIndices) {
+            if (left < right) {
+                const middle = Math.floor((left + right) / 2);
+                
+                // Sort first and second halves
+                topDownMergeSort(arr, tempArray, left, middle, originalIndices);
+                topDownMergeSort(arr, tempArray, middle + 1, right, originalIndices);
+                
+                // Merge the sorted halves
+                merge(arr, tempArray, left, middle, right, originalIndices);
+            }
+        }
+        
+        function merge(arr, tempArray, left, middle, right, originalIndices) {
+            let i = left;
+            let j = middle + 1;
+            let k = left;
+            
+            // Create a copy of the current state for visualization
+            const currentState = [...arr];
+            const currentIndices = [...originalIndices];
+            
+            while (i <= middle && j <= right) {
+                // Compare animation
+                animationQueue.push({ type: 'compare', indices: [originalIndices[i], originalIndices[j]] });
+                
+                if (arr[i] <= arr[j]) {
+                    tempArray[k] = arr[i];
+                    originalIndices[k] = currentIndices[i];
+                    i++;
+                } else {
+                    tempArray[k] = arr[j];
+                    originalIndices[k] = currentIndices[j];
+                    j++;
+                }
+                k++;
+            }
+            
+            // Copy the remaining elements of left subarray
+            while (i <= middle) {
+                tempArray[k] = arr[i];
+                originalIndices[k] = currentIndices[i];
+                i++;
+                k++;
+            }
+            
+            // Copy the remaining elements of right subarray
+            while (j <= right) {
+                tempArray[k] = arr[j];
+                originalIndices[k] = currentIndices[j];
+                j++;
+                k++;
+            }
+            
+            // Copy back from temp array to original array
+            for (let l = left; l <= right; l++) {
+                arr[l] = tempArray[l];
+                originalIndices[l] = currentIndices[l];
+                
+                // Visualize the merge by showing swaps
+                if (originalIndices[l] !== currentIndices[l]) {
+                    animationQueue.push({ type: 'swap', indices: [l, originalIndices[l]] });
+                }
+            }
+        }
+        
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
