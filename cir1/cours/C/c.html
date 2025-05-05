@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours C pour le partiel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .course-card {
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateX(4px);
+            border-left-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon-bg {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .file-icon { background-color: #e0f2fe; color: #0369a1; }
+        .chapter-icon { background-color: #dcfce7; color: #166534; }
+        .exam-icon { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Cours C pour le partiel</h1>
+            <p class="text-slate-500">Ressources complètes pour préparer votre examen</p>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- Accueil -->
+            <a href=" #" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg file-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Page d'accueil du cours C</h3>
+                        <p class="text-sm text-slate-500">Navigation vers les cours</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Chapitre 1 -->
+            <a href="1.html" class="block">
+                <div class="course-card bg-white p-4 rounded-lg shadow-sm flex items-center gap-4">
+                    <div class="icon-bg chapter-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-slate-800">Cours 1 : Structure, Mémoire, Tableaux, Fonctions, Contrôle</h3>
+                        <p class="text-sm text-slate-500">Introduction aux bases du langage C, gestion de la mémoire et structures de données.</p>
+                    </div>
+                    <div class="text-slate-400">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

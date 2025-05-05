@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours de Programmation C</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow-x: auto;
+        }
+        .keyword { color: #f92672; }
+        .type { color: #66d9ef; }
+        .string { color: #e6db74; }
+        .comment { color: #75715e; }
+        .function { color: #a6e22e; }
+        .preprocessor { color: #ae81ff; }
+        .number { color: #ae81ff; }
+        .operator { color: #f92672; }
+        
+        .memory-diagram {
+            background-color: #f0f4f8;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: monospace;
+            margin: 1rem 0;
+        }
+        
+        .memory-segment {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-left: 4px solid;
+        }
+        
+        .memory-address {
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl font-bold text-blue-800 mb-2">Programmation en C</h1>
+            <p class="text-xl text-gray-600">Les concepts fondamentaux pour les débutants</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">#Malloc</span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">#Tableaux</span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">#Mémoire</span>
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">#Fonctions</span>
+            </div>
+        </header>
+        
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Introduction</h2>
+                <p class="text-gray-700 mb-4">
+                    Le C est un langage de programmation impératif et généraliste. Il est particulièrement adapté pour la programmation système et les applications nécessitant une gestion fine de la mémoire.
+                </p>
+                <p class="text-gray-700">
+                    Ce cours couvrira les concepts essentiels avec un accent particulier sur la gestion de la mémoire dynamique et les tableaux.
+                </p>
+            </div>
+        </div>
+        
+        <div class="flex flex-wrap mb-6 bg-white rounded-lg shadow overflow-hidden">
+            <button class="tab-button active px-4 py-2 font-medium text-sm" data-tab="structure">Structure</button>
+            <button class="tab-button px-4 py-2 font-medium text-sm" data-tab="memory">Mémoire</button>
+            <button class="tab-button px-4 py-2 font-medium text-sm" data-tab="arrays">Tableaux</button>
+            <button class="tab-button px-4 py-2 font-medium text-sm" data-tab="functions">Fonctions</button>
+            <button class="tab-button px-4 py-2 font-medium text-sm" data-tab="control">Contrôle</button>
+        </div>
+        
+        <!-- Structure Tab -->
+        <div id="structure" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Structure d'un programme C</h2>
+                    
+                    <div class="code-block mb-6">
+                        <span class="comment">/* hello.c - Premier programme en C */</span><br>
+                        <span class="preprocessor">#include</span> <span class="string">&lt;stdio.h&gt;</span><br><br>
+                        <span class="type">int</span> <span class="function">main</span>(<span class="type">void</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">printf</span>(<span class="string">"Bonjour le monde!\n"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;<br>
+                        }
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-blue-800 mb-2">Éléments clés</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                <li><code class="bg-blue-100 px-1 rounded">#include</code> - directives du préprocesseur</li>
+                                <li><code class="bg-blue-100 px-1 rounded">main()</code> - point d'entrée du programme</li>
+                                <li><code class="bg-blue-100 px-1 rounded">printf()</code> - fonction d'affichage</li>
+                                <li><code class="bg-blue-100 px-1 rounded">return 0</code> - code de sortie</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-green-800 mb-2">Compilation</h3>
+                            <div class="code-block bg-gray-800 text-sm">
+                                gcc -Wall -Wextra -std=c17 hello.c -o hello<br>
+                                ./hello
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Options recommandées : <code class="bg-green-100 px-1 rounded">-Wall -Wextra</code> pour tous les warnings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Memory Management Tab -->
+        <div id="memory" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Gestion de la mémoire</h2>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Organisation de la mémoire</h3>
+                    
+                    <div class="memory-diagram mb-6">
+                        <div class="memory-segment border-blue-500 bg-blue-50">
+                            <strong>Text/Code</strong> <span class="memory-address">(0x00000000)</span><br>
+                            Instructions du programme (lecture seule)
+                        </div>
+                        <div class="memory-segment border-green-500 bg-green-50">
+                            <strong>Data + BSS</strong> <span class="memory-address">(0x10000000)</span><br>
+                            Variables globales initialisées et non-initialisées
+                        </div>
+                        <div class="memory-segment border-yellow-500 bg-yellow-50">
+                            <strong>Heap (Tas)</strong> <span class="memory-address">(0x20000000)</span><br>
+                            Mémoire dynamique (malloc/calloc/realloc) → croît vers le haut
+                        </div>
+                        <div class="memory-segment border-red-500 bg-red-50">
+                            <strong>Stack (Pile)</strong> <span class="memory-address">(0x80000000)</span><br>
+                            Variables locales, arguments → croît vers le bas
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">malloc, calloc, realloc et free</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <div class="code-block mb-4">
+                                <span class="comment">// Allocation simple</span><br>
+                                <span class="type">int</span> *<span class="operator">p</span> = <span class="function">malloc</span>(<span class="number">10</span> * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br>
+                                <span class="keyword">if</span> (<span class="operator">!</span>p) { <span class="comment">/* Gestion d'erreur */</span> }<br><br>
+                                
+                                <span class="comment">// Initialisation à zéro</span><br>
+                                <span class="type">int</span> *<span class="operator">p</span> = <span class="function">calloc</span>(<span class="number">10</span>, <span class="keyword">sizeof</span>(<span class="type">int</span>));<br><br>
+                                
+                                <span class="comment">// Redimensionnement</span><br>
+                                p = <span class="function">realloc</span>(p, <span class="number">20</span> * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br><br>
+                                
+                                <span class="comment">// Libération</span><br>
+                                <span class="function">free</span>(p);<br>
+                                p = <span class="keyword">NULL</span>; <span class="comment">// Bonne pratique</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-purple-800 mb-2">Règles d'or</h4>
+                                <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                                    <li>Toujours vérifier si <code>malloc/calloc/realloc</code> retourne NULL</li>
+                                    <li>Chaque allocation doit avoir exactement un <code>free</code></li>
+                                    <li>Ne jamais utiliser un pointeur après <code>free</code></li>
+                                    <li>Mettre le pointeur à NULL après libération</li>
+                                    <li>Utiliser <code>valgrind</code> pour détecter les fuites mémoire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Exemple complet</h3>
+                    <div class="code-block mb-4">
+                        <span class="preprocessor">#include</span> <span class="string">&lt;stdio.h&gt;</span><br>
+                        <span class="preprocessor">#include</span> <span class="string">&lt;stdlib.h&gt;</span><br><br>
+                        
+                        <span class="type">int</span> <span class="function">main</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> <span class="operator">*</span>tab = <span class="keyword">NULL</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">size_t</span> size = <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> val;<br><br>
+                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (<span class="function">scanf</span>(<span class="string">"%d"</span>, &amp;val) == <span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab = <span class="function">realloc</span>(tab, (size + <span class="number">1</span>) * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="operator">!</span>tab) { <span class="function">perror</span>(<span class="string">"realloc"</span>); <span class="keyword">return</span> <span class="number">1</span>; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tab[size<span class="operator">++</span>] = val;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+                        
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Traitement du tableau...</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">free</span>(tab);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;<br>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Arrays Tab -->
+        <div id="arrays" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Tableaux en C</h2>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">1. Tableaux statiques 1D</h3>
+                    <div class="code-block mb-6">
+                        <span class="type">int</span> notes[<span class="number">5</span>] = {<span class="number">12</span>, <span class="number">15</span>, <span class="number">14</span>, <span class="number">9</span>, <span class="number">18</span>};<br>
+                        <span class="type">float</span> temperatures[<span class="number">7</span>] = {<span class="number">12.5</span>, <span class="number">13.2</span>, <span class="number">14.8</span>}; <span class="comment">// Reste à 0</span><br><br>
+                        
+                        <span class="comment">// Accès</span><br>
+                        notes[<span class="number">2</span>] = <span class="number">16</span>; <span class="comment">// Modification</span><br>
+                        <span class="type">int</span> x = notes[<span class="number">0</span>]; <span class="comment">// Lecture</span><br><br>
+                        
+                        <span class="comment">// Taille calculée</span><br>
+                        <span class="type">size_t</span> len = <span class="keyword">sizeof</span>(notes) / <span class="keyword">sizeof</span>(notes[<span class="number">0</span>]);
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">2. Tableaux dynamiques 1D</h3>
+                    <div class="code-block mb-6">
+                        <span class="type">size_t</span> n;<br>
+                        <span class="function">printf</span>(<span class="string">"Taille du tableau ? "</span>);<br>
+                        <span class="function">scanf</span>(<span class="string">"%zu"</span>, &amp;n);<br><br>
+                        
+                        <span class="type">int</span> *tab = <span class="function">malloc</span>(n * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br>
+                        <span class="keyword">if</span> (<span class="operator">!</span>tab) { <span class="function">perror</span>(<span class="string">"malloc"</span>); <span class="keyword">return</span> <span class="number">1</span>; }<br><br>
+                        
+                        <span class="comment">// Initialisation</span><br>
+                        <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; n; i<span class="operator">++</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;tab[i] = i * <span class="number">2</span>;<br>
+                        }<br><br>
+                        
+                        <span class="function">free</span>(tab); <span class="comment">// Ne pas oublier !</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">3. Tableaux 2D - Méthodes d'allocation</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <h4 class="font-bold text-blue-800 mb-2">Méthode 1: Bloc contigu</h4>
+                            <div class="code-block text-sm">
+                                <span class="type">int</span> **<span class="operator">mat</span> = <span class="function">malloc</span>(rows * <span class="keyword">sizeof</span>(<span class="type">int</span>*));<br>
+                                <span class="type">int</span> *<span class="operator">data</span> = <span class="function">malloc</span>(rows * cols * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br><br>
+                                
+                                <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; rows; i<span class="operator">++</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;mat[i] = data + i * cols;<br>
+                                }<br><br>
+                                
+                                <span class="comment">// Libération</span><br>
+                                <span class="function">free</span>(data);<br>
+                                <span class="function">free</span>(mat);
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Avantage: Meilleure localité spatiale (cache-friendly)</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-800 mb-2">Méthode 2: Lignes indépendantes</h4>
+                            <div class="code-block text-sm">
+                                <span class="type">int</span> **<span class="operator">mat</span> = <span class="function">malloc</span>(rows * <span class="keyword">sizeof</span>(<span class="type">int</span>*));<br><br>
+                                
+                                <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; rows; i<span class="operator">++</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;mat[i] = <span class="function">malloc</span>(cols * <span class="keyword">sizeof</span>(<span class="type">int</span>));<br>
+                                }<br><br>
+                                
+                                <span class="comment">// Libération</span><br>
+                                <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; rows; i<span class="operator">++</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">free</span>(mat[i]);<br>
+                                }<br>
+                                <span class="function">free</span>(mat);
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Avantage: Chaque ligne peut avoir une taille différente</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-diagram mb-6">
+                        <h4 class="font-bold mb-2">Représentation mémoire d'un tableau 2D (3x4)</h4>
+                        <div class="bg-gray-100 p-3 rounded">
+                            <strong>Bloc contigu:</strong><br>
+                            [0,0][0,1][0,2][0,3][1,0][1,1][1,2][1,3][2,0][2,1][2,2][2,3]<br><br>
+                            
+                            <strong>Lignes indépendantes:</strong><br>
+                            [0,0][0,1][0,2][0,3]<br>
+                            [1,0][1,1][1,2][1,3]<br>
+                            [2,0][2,1][2,2][2,3]<br>
+                            (peuvent être à des adresses différentes)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Functions Tab -->
+        <div id="functions" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Fonctions en C</h2>
+                    
+                    <div class="code-block mb-6">
+                        <span class="comment">// Prototype (dans un .h ou avant main())</span><br>
+                        <span class="type">double</span> <span class="function">moyenne</span>(<span class="type">int</span> tab[], <span class="type">size_t</span> len);<br><br>
+                        
+                        <span class="comment">// Définition</span><br>
+                        <span class="type">double</span> <span class="function">moyenne</span>(<span class="type">int</span> tab[], <span class="type">size_t</span> len) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="type">int</span> total = <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; len; i<span class="operator">++</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total += tab[i];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (<span class="type">double</span>)total / len; <span class="comment">// Cast pour éviter la division entière</span><br>
+                        }<br><br>
+                        
+                        <span class="comment">// Utilisation</span><br>
+                        <span class="type">int</span> notes[] = {<span class="number">12</span>, <span class="number">15</span>, <span class="number">14</span>, <span class="number">9</span>, <span class="number">18</span>};<br>
+                        <span class="type">double</span> moy = <span class="function">moyenne</span>(notes, <span class="number">5</span>);
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-blue-800 mb-2">Passage de paramètres</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                <li><strong>Par valeur</strong> (défaut) : copie de la valeur</li>
+                                <li><strong>Par adresse</strong> : utiliser des pointeurs pour modifier la variable originale</li>
+                            </ul>
+                            <div class="code-block bg-gray-800 text-sm mt-2">
+                                <span class="type">void</span> <span class="function">incrementer</span>(<span class="type">int</span> *p) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;(<span class="operator">*</span>p)<span class="operator">++</span>;<br>
+                                }
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-bold text-green-800 mb-2">Bonnes pratiques</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                                <li>Toujours déclarer un prototype</li>
+                                <li>Utiliser <code>const</code> pour les paramètres en lecture seule</li>
+                                <li>Documenter le rôle de la fonction et ses paramètres</li>
+                                <li>Limiter la taille des fonctions (30 lignes max)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Control Structures Tab -->
+        <div id="control" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Structures de contrôle</h2>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">1. Conditions</h3>
+                    <div class="code-block mb-6">
+                        <span class="type">int</span> x = <span class="number">10</span>;<br><br>
+                        
+                        <span class="comment">// if-else</span><br>
+                        <span class="keyword">if</span> (x &gt; <span class="number">0</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">puts</span>(<span class="string">"positif"</span>);<br>
+                        } <span class="keyword">else</span> <span class="keyword">if</span> (x == <span class="number">0</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">puts</span>(<span class="string">"nul"</span>);<br>
+                        } <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">puts</span>(<span class="string">"négatif"</span>);<br>
+                        }<br><br>
+                        
+                        <span class="comment">// switch-case</span><br>
+                        <span class="keyword">switch</span> (x) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">case</span> <span class="number">1</span>: <span class="function">puts</span>(<span class="string">"un"</span>); <span class="keyword">break</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">case</span> <span class="number">2</span>: <span class="function">puts</span>(<span class="string">"deux"</span>); <span class="keyword">break</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">default</span>: <span class="function">puts</span>(<span class="string">"autre"</span>);<br>
+                        }
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">2. Boucles</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-blue-800 mb-2">while</h4>
+                            <div class="code-block bg-gray-800 text-sm">
+                                <span class="type">int</span> i = <span class="number">0</span>;<br>
+                                <span class="keyword">while</span> (i &lt; <span class="number">10</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">printf</span>(<span class="string">"%d "</span>, i);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;i<span class="operator">++</span>;<br>
+                                }
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Test avant la première itération</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-green-800 mb-2">do-while</h4>
+                            <div class="code-block bg-gray-800 text-sm">
+                                <span class="type">char</span> c;<br>
+                                <span class="keyword">do</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;c = <span class="function">getchar</span>();<br>
+                                } <span class="keyword">while</span> (c != <span class="string">'q'</span>);
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Exécution garantie au moins une fois</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-purple-800 mb-2">for</h4>
+                            <div class="code-block bg-gray-800 text-sm">
+                                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i<span class="operator">++</span>) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">printf</span>(<span class="string">"%d "</span>, i);<br>
+                                }
+                            </div>
+                            <p class="text-gray-700 mt-2 text-sm">Idéal pour les compteurs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-diagram mb-6">
+                        <h4 class="font-bold mb-2">Flowchart d'une boucle for</h4>
+                        <div class="bg-gray-100 p-3 rounded text-center">
+                            <div class="inline-block text-center">
+                                <div class="bg-blue-200 px-4 py-2 rounded-t-lg">Initialisation (i=0)</div>
+                                <div class="bg-blue-100 px-4 py-2">↓</div>
+                                <div class="bg-yellow-200 px-4 py-2">Condition (i&lt;10)?</div>
+                                <div class="grid grid-cols-2">
+                                    <div class="bg-green-100 px-4 py-2">Vrai → Corps de la bouche</div>
+                                    <div class="bg-red-100 px-4 py-2">Faux → Sortie</div>
+                                </div>
+                                <div class="bg-purple-100 px-4 py-2">Incrémentation (i++)</div>
+                                <div class="bg-blue-100 px-4 py-2 rounded-b-lg">↑ Retour au test</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Conclusion</h2>
+                <p class="text-gray-700 mb-4">
+                    Vous maîtrisez désormais les concepts fondamentaux de la programmation en C, avec un accent particulier sur la gestion de la mémoire dynamique et les tableaux.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-blue-800 mb-2">Points clés</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                            <li>Structure d'un programme C</li>
+                            <li>Gestion de la mémoire avec malloc/free</li>
+                            <li>Tableaux statiques et dynamiques (1D/2D)</li>
+                            <li>Fonctions et passage de paramètres</li>
+                            <li>Structures de contrôle</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-green-800 mb-2">Pour aller plus loin</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                            <li>Structures (struct) et unions</li>
+                            <li>Pointeurs de fonctions</li>
+                            <li>Manipulation de fichiers</li>
+                            <li>Programmation système</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500">
+                    <h3 class="font-bold text-yellow-800 mb-2">Conseils pratiques</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                        <li>Toujours compiler avec <code>-Wall -Wextra</code></li>
+                        <li>Utiliser <code>valgrind</code> pour détecter les fuites mémoire</li>
+                        <li>Documenter votre code</li>
+                        <li>Tester chaque fonction séparément</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('bg-gray-100', 'hover:bg-gray-200');
+                    btn.classList.remove('bg-blue-500', 'text-white', 'hover:bg-blue-600');
+                });
+                
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active', 'bg-blue-500', 'text-white', 'hover:bg-blue-600');
+                button.classList.remove('bg-gray-100', 'hover:bg-gray-200');
+                
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
