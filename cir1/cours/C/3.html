@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours sur les Fonctions Récursives</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            font-family: 'Courier New', monospace;
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .recursion-visualization {
+            width: 100%;
+            height: 300px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .stack-frame {
+            position: absolute;
+            width: 80%;
+            left: 10%;
+            height: 60px;
+            background-color: white;
+            border: 2px solid #3b82f6;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .factorial-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+        }
+        .factorial-step {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .active-step {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-blue-600 mb-2">Fonctions Récursives</h1>
+            <p class="text-xl text-gray-600">Comprendre et maîtriser la récursivité en programmation</p>
+            <div class="mt-4">
+                <span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                    PRG1061 - v1.1
+                </span>
+            </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <div class="flex items-start">
+                <div class="mr-4 text-blue-500">
+                    <i class="fas fa-brain text-3xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">Introduction à la Récursivité</h2>
+                    <p class="text-gray-700 mb-4">
+                        Une fonction est dite <span class="font-bold text-blue-600">récursive</span> lorsqu'elle s'appelle elle-même dans son propre corps. 
+                        C'est une technique puissante qui permet de résoudre des problèmes complexes en les décomposant en sous-problèmes plus simples.
+                    </p>
+                    <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-blue-800">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Exemple simple :</strong> Calcul de la longueur d'une chaîne
+                        </p>
+                        <div class="code-block mt-2">
+                            <span class="text-blue-400">longueur</span>(<span class="text-green-400">chaine</span>) = 1 + <span class="text-blue-400">longueur</span>(<span class="text-green-400">chaine</span>+1)
+                        </div>
+                        <p class="text-blue-800 mt-2">
+                            <strong>Condition d'arrêt :</strong> Quand la chaîne est vide (<code class="bg-blue-100 px-1 rounded">'\0'</code>), on retourne 0.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conception -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-tools text-blue-500 mr-3"></i>
+                Conception d'une fonction récursive
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Deux éléments indispensables :</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">1</span>
+                            <span><strong>Un cas récursif</strong> (appel à elle-même avec un paramètre modifié)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">2</span>
+                            <span><strong>Une condition d'arrêt</strong> claire qui termine la récursion</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-6 bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                        <p class="text-yellow-800">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <strong>Attention :</strong> Sans condition d'arrêt ou avec une condition mal définie, la fonction s'appellera indéfiniment jusqu'à provoquer un débordement de pile (stack overflow).
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Problèmes adaptés à la récursivité :</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-calculator mr-2"></i> Factorielle
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-tree mr-2"></i> Parcours d'arbre
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-rabbit mr-2"></i> Suite de Fibonacci
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-bolt mr-2"></i> Calcul de puissance
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-divide mr-2"></i> PGCD
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                            <i class="fas fa-sort mr-2"></i> Tris récursifs
+                        </span>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+                        <p class="text-gray-700">
+                            <i class="fas fa-lightbulb mr-2 text-blue-500"></i>
+                            L'objectif est de résoudre un <strong>problème plus grand</strong> en s'appuyant sur la solution d'un <strong>sous-problème plus simple</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pile d'appels -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-layer-group text-purple-500 mr-3"></i>
+                Gestion mémoire : Pile d'appels
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-gray-700 mb-4">
+                        Chaque appel récursif utilise une <strong>nouvelle entrée dans la pile</strong> mémoire. La pile grandit jusqu'à ce que la condition d'arrêt soit atteinte, puis se vide au fur et à mesure que chaque appel retourne son résultat.
+                    </p>
+                    
+                    <div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                        <p class="text-red-800">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <strong>Débordement de pile (stack overflow) :</strong> Si la récursion est trop profonde (trop d'appels imbriqués), la pile mémoire peut déborder, causant une erreur.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button id="visualizeBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-play mr-2"></i> Visualiser la pile d'appels
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="recursion-visualization" id="stackVisualization">
+                    <!-- Les frames de pile seront ajoutées dynamiquement par JavaScript -->
+                    <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                        Cliquez sur "Visualiser la pile d'appels" pour voir l'animation
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exemples -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-code text-green-500 mr-3"></i>
+                Exemples et Exercices
+            </h2>
+            
+            <div class="space-y-8">
+                <!-- Compteur -->
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Compteur récursif</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-700 mb-2">Version itérative (avec boucle for) :</p>
+                            <div class="code-block">
+                                <span class="text-blue-400">void</span> <span class="text-green-400">IterCompteur</span>(<span class="text-blue-400">int</span> debut, <span class="text-blue-400">int</span> fin) {<br>
+                                &nbsp;&nbsp;<span class="text-purple-400">for</span> (<span class="text-blue-400">int</span> i = debut; i <= fin; i++) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">printf</span>(<span class="text-orange-400">"%d "</span>, i);<br>
+                                &nbsp;&nbsp;}<br>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 mb-2">Version récursive :</p>
+                            <div class="code-block">
+                                <span class="text-blue-400">void</span> <span class="text-green-400">RecursCompteur</span>(<span class="text-blue-400">int</span> debut, <span class="text-blue-400">int</span> fin) {<br>
+                                &nbsp;&nbsp;<span class="text-purple-400">if</span> (debut > fin) <span class="text-purple-400">return</span>;<br>
+                                &nbsp;&nbsp;<span class="text-green-400">printf</span>(<span class="text-orange-400">"%d "</span>, debut);<br>
+                                &nbsp;&nbsp;<span class="text-green-400">RecursCompteur</span>(debut + <span class="text-red-400">1</span>, fin);<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Factorielle -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Calcul de factorielle</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-700 mb-2">Définition mathématique :</p>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <p class="text-center text-lg font-mono">
+                                    n! = n × (n-1)! <br>
+                                    0! = 1
+                                </p>
+                            </div>
+                            <p class="text-gray-700 mt-4 mb-2">Implémentation récursive :</p>
+                            <div class="code-block">
+                                <span class="text-blue-400">int</span> <span class="text-green-400">Factorielle</span>(<span class="text-blue-400">int</span> n) {<br>
+                                &nbsp;&nbsp;<span class="text-purple-400">if</span> (n == <span class="text-red-400">0</span>) <span class="text-purple-400">return</span> <span class="text-red-400">1</span>;<br>
+                                &nbsp;&nbsp;<span class="text-purple-400">return</span> n * <span class="text-green-400">Factorielle</span>(n - <span class="text-red-400">1</span>);<br>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div class="factorial-animation" id="factorialAnimation">
+                                <div class="factorial-step active-step" data-step="0">
+                                    <p class="text-gray-700 mb-4">Calculons 5! (5 factorielle)</p>
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-blue-800 font-mono">5! = 5 × 4!</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="1">
+                                    <p class="text-gray-700 mb-4">Nous devons d'abord calculer 4!</p>
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-blue-800 font-mono">4! = 4 × 3!</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="2">
+                                    <p class="text-gray-700 mb-4">Puis calculer 3!</p>
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-blue-800 font-mono">3! = 3 × 2!</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="3">
+                                    <p class="text-gray-700 mb-4">Puis calculer 2!</p>
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-blue-800 font-mono">2! = 2 × 1!</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="4">
+                                    <p class="text-gray-700 mb-4">Puis calculer 1!</p>
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-blue-800 font-mono">1! = 1 × 0!</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="5">
+                                    <p class="text-gray-700 mb-4">Nous atteignons le cas de base : 0! = 1</p>
+                                    <div class="bg-green-100 p-4 rounded-lg">
+                                        <p class="text-green-800 font-mono">0! = 1</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="6">
+                                    <p class="text-gray-700 mb-4">Maintenant, remontons la pile :</p>
+                                    <div class="bg-purple-100 p-4 rounded-lg">
+                                        <p class="text-purple-800 font-mono">1! = 1 × 1 = 1</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="7">
+                                    <p class="text-gray-700 mb-4">Puis :</p>
+                                    <div class="bg-purple-100 p-4 rounded-lg">
+                                        <p class="text-purple-800 font-mono">2! = 2 × 1 = 2</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="8">
+                                    <p class="text-gray-700 mb-4">Puis :</p>
+                                    <div class="bg-purple-100 p-4 rounded-lg">
+                                        <p class="text-purple-800 font-mono">3! = 3 × 2 = 6</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="9">
+                                    <p class="text-gray-700 mb-4">Puis :</p>
+                                    <div class="bg-purple-100 p-4 rounded-lg">
+                                        <p class="text-purple-800 font-mono">4! = 4 × 6 = 24</p>
+                                    </div>
+                                </div>
+                                <div class="factorial-step" data-step="10">
+                                    <p class="text-gray-700 mb-4">Enfin :</p>
+                                    <div class="bg-purple-100 p-4 rounded-lg">
+                                        <p class="text-purple-800 font-mono">5! = 5 × 24 = 120</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-center">
+                                <button id="prevStep" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-l">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <button id="nextStep" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-r">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Autres exemples -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Fibonacci -->
+                    <div class="border-l-4 border-pink-500 pl-4">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">Suite de Fibonacci</h3>
+                        <div class="code-block">
+                            <span class="text-blue-400">int</span> <span class="text-green-400">FiboNaive</span>(<span class="text-blue-400">int</span> n) {<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">if</span> (n <= <span class="text-red-400">1</span>) <span class="text-purple-400">return</span> n;<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">FiboNaive</span>(n - <span class="text-red-400">1</span>) + <span class="text-green-400">FiboNaive</span>(n - <span class="text-red-400">2</span>);<br>
+                            }
+                        </div>
+                        <div class="mt-3 bg-red-50 p-3 rounded-lg">
+                            <p class="text-red-800 text-sm">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Cette version est inefficace pour les grands n à cause des appels redondants.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- PGCD -->
+                    <div class="border-l-4 border-indigo-500 pl-4">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">PGCD (méthode d'Euclide)</h3>
+                        <div class="code-block">
+                            <span class="text-blue-400">int</span> <span class="text-green-400">RecursPGCD</span>(<span class="text-blue-400">int</span> a, <span class="text-blue-400">int</span> b) {<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">if</span> (b == <span class="text-red-400">0</span>) <span class="text-purple-400">return</span> a;<br>
+                            &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">RecursPGCD</span>(b, a % b);<br>
+                            }
+                        </div>
+                        <div class="mt-3 bg-green-50 p-3 rounded-lg">
+                            <p class="text-green-800 text-sm">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                Version récursive élégante de l'algorithme d'Euclide.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Récursivité terminale -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-bolt text-yellow-500 mr-3"></i>
+                Récursivité Terminale (Tail Recursion)
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Définition</h3>
+                    <p class="text-gray-700 mb-4">
+                        Une fonction est dite <strong>récursive terminale</strong> lorsque l'appel récursif est la dernière instruction avant le retour. Cette forme particulière peut être optimisée par le compilateur.
+                    </p>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="text-blue-800">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Avantage :</strong> Le compilateur peut convertir la récursion terminale en une boucle, évitant ainsi la surcharge de la pile d'appels.
+                        </p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Technique</h3>
+                    <p class="text-gray-700">
+                        On utilise un <strong>paramètre accumulateur</strong> qui stocke le résultat intermédiaire. Une fonction "wrapper" masque ce paramètre technique.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-3">Exemple : Factorielle</h3>
+                    <div class="code-block">
+                        <span class="text-blue-400">int</span> <span class="text-green-400">RecursTermFactorielle</span>(<span class="text-blue-400">int</span> n, <span class="text-blue-400">int</span> accu) {<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">if</span> (n == <span class="text-red-400">0</span>) <span class="text-purple-400">return</span> accu;<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">RecursTermFactorielle</span>(n - <span class="text-red-400">1</span>, n * accu);<br>
+                        }<br><br>
+                        <span class="text-blue-400">int</span> <span class="text-green-400">Factorielle</span>(<span class="text-blue-400">int</span> n) {<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">RecursTermFactorielle</span>(n, <span class="text-red-400">1</span>);<br>
+                        }
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-3">Exemple : Fibonacci optimisée</h3>
+                    <div class="code-block">
+                        <span class="text-blue-400">int</span> <span class="text-green-400">RecursTermFibo</span>(<span class="text-blue-400">int</span> n, <span class="text-blue-400">int</span> accu0, <span class="text-blue-400">int</span> accu1) {<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">if</span> (n == <span class="text-red-400">0</span>) <span class="text-purple-400">return</span> accu1;<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">RecursTermFibo</span>(n - <span class="text-red-400">1</span>, accu1, accu0 + accu1);<br>
+                        }<br><br>
+                        <span class="text-blue-400">int</span> <span class="text-green-400">Fibo</span>(<span class="text-blue-400">int</span> n) {<br>
+                        &nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">RecursTermFibo</span>(n, <span class="text-red-400">1</span>, <span class="text-red-400">0</span>);<br>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schémas -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <i class="fas fa-project-diagram text-red-500 mr-3"></i>
+                Schémas Explicatifs
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Schéma 1 -->
+                <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mb-3 mx-auto">
+                        <i class="fas fa-sitemap text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-center mb-2">Structure d'une fonction récursive</h3>
+                    <div class="text-center">
+                        <img src="https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggVEQ7XG4gIEFbQ29uZGl0aW9uIGQnYXJyw6p0XSAgLS0-IHx2cmFpfCBCKEFwcGVsIHLDqWN1cnNpZik7XG4gIEEgLS0-IHxmYXV4fCBDKFJldG91cik7IiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0?type=png" alt="Structure récursive" class="mx-auto max-h-40">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3">
+                        Schéma arborescent montrant la condition d'arrêt et l'appel récursif.
+                    </p>
+                </div>
+                
+                <!-- Schéma 2 -->
+                <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-3 mx-auto">
+                        <i class="fas fa-layer-group text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-center mb-2">Pile d'appels</h3>
+                    <div class="text-center">
+                        <img src="https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlQ7XG4gIHN1YmdyYXBoIFBpbGUgZCdhcHBlbHM7XG4gICAgRDVbRmFjdG9yaWVsbGUoNSldIC0tPiBELjRbRmFjdG9yaWVsbGUoNCldO1xuICAgIEQuNCAtLT4gRC4zW0ZhY3RvcmllbGxlKDMpXTtcbiAgICBELjMgLS0-IEQuMltGYWN0b3JpZWxsZSgyKV07XG4gICAgRC4yIC0tPiBELjFbRmFjdG9yaWVsbGUoMSldO1xuICAgIEQuMSAtLT4gRC4wW0ZhY3RvcmllbGxlKDApXTtcbiAgZW5kIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0?type=png" alt="Pile d'appels" class="mx-auto max-h-40">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3">
+                        Empilement des appels récursifs avec les valeurs des arguments.
+                    </p>
+                </div>
+                
+                <!-- Schéma 3 -->
+                <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mb-3 mx-auto">
+                        <i class="fas fa-exchange-alt text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-center mb-2">Comparaison récursivité</h3>
+                    <div class="text-center">
+                        <img src="https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFI7XG4gIHN1YmdyYXBoIENsYXNzaXF1ZTtcbiAgICBBW0NhbHMgcsOpY3Vyc2lmXSAgLS0-IEJbVHJhaXRlbWVudF07XG4gICAgQiAtLT4gQ1tSZXRvdXJdO1xuICBlbmQ7XG4gIHN1YmdyYXBoIFRlcm1pbmFsZTtcbiAgICBEKEFwcGVsIHImZWN1cnNpZikgLS0-IEVbUmV0b3VyXTtcbiAgZW5kIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0?type=png" alt="Comparaison" class="mx-auto max-h-40">
+                    </div>
+                    <p class="text-gray-600 text-sm mt-3">
+                        Comparaison entre récursivité classique et récursivité terminale.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-blue-50 p-6 rounded-xl border border-blue-200">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-blue-800 mb-3">En Résumé</h2>
+                <p class="text-blue-700 mb-4">
+                    La récursivité est une technique puissante mais qui doit être utilisée avec discernement. Comprendre la pile d'appels et maîtriser la récursivité terminale permet d'écrire du code à la fois élégant et efficace.
+                </p>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Animation de la pile d'appels
+        document.getElementById('visualizeBtn').addEventListener('click', function() {
+            const stackVisualization = document.getElementById('stackVisualization');
+            stackVisualization.innerHTML = '';
+            
+            // Création des frames de pile pour factorielle(5)
+            const values = [5, 4, 3, 2, 1, 0];
+            const colors = ['bg-blue-100', 'bg-blue-200', 'bg-blue-300', 'bg-blue-400', 'bg-blue-500', 'bg-green-500'];
+            
+            values.forEach((value, index) => {
+                const frame = document.createElement('div');
+                frame.className = `stack-frame ${colors[index]} z-${10 - index}`;
+                frame.style.bottom = `${index * 70}px`;
+                frame.innerHTML = `fact(${value})`;
+                
+                // Animation d'entrée
+                setTimeout(() => {
+                    frame.style.bottom = `${index * 70 + 10}px`;
+                    stackVisualization.appendChild(frame);
+                    
+                    // Animation de sortie (pour montrer le déstacking)
+                    if (index === values.length - 1) {
+                        setTimeout(() => {
+                            for (let i = values.length - 1; i >= 0; i--) {
+                                setTimeout(() => {
+                                    const frames = document.querySelectorAll('.stack-frame');
+                                    if (frames[i]) {
+                                        frames[i].style.transform = 'translateX(100%)';
+                                        frames[i].style.opacity = '0';
+                                    }
+                                }, (values.length - i) * 500);
+                            }
+                        }, 1500);
+                    }
+                }, index * 500);
+            });
+            
+            // Réinitialiser après l'animation
+            setTimeout(() => {
+                stackVisualization.innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-gray-400">Cliquez à nouveau pour revoir l\'animation</div>';
+            }, values.length * 500 + 2000);
+        });
+        
+        // Animation des étapes de factorielle
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.factorial-step');
+        
+        function showStep(step) {
+            steps.forEach(s => s.classList.remove('active-step'));
+            steps[step].classList.add('active-step');
+            currentStep = step;
+        }
+        
+        document.getElementById('nextStep').addEventListener('click', function() {
+            if (currentStep < steps.length - 1) {
+                showStep(currentStep + 1);
+            }
+        });
+        
+        document.getElementById('prevStep').addEventListener('click', function() {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+            }
+        });
+        
+        // Initialisation
+        showStep(0);
+    </script>
+</body>
+</html>
