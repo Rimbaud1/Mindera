@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRG2030 - Listes Chaînées Unilatères</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            position: relative;
+            overflow-x: auto;
+        }
+        .code-keyword { color: #c678dd; }
+        .code-type { color: #e5c07b; }
+        .code-function { color: #61afef; }
+        .code-value { color: #98c379; }
+        .code-comment { color: #5c6370; font-style: italic; }
+        .code-operator { color: #56b6c2; }
+        
+        .node {
+            display: inline-flex;
+            align-items: center;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 0 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .data {
+            background-color: #a5b4fc;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        .pointer {
+            color: #6b7280;
+            margin: 0 4px;
+        }
+        .arrow {
+            color: #9ca3af;
+            margin: 0 4px;
+        }
+        .null {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .list-visualization {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f9fafb;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .head-tail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+        .head, .tail {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+        .head {
+            background-color: #86efac;
+            color: #166534;
+        }
+        .tail {
+            background-color: #fca5a5;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-12">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-2">PRG2030 - Listes Chaînées Unilatères</h1>
+            <p class="text-lg text-gray-600">Structure de données dynamique pour un stockage efficace</p>
+            <div class="mt-4 flex items-center text-indigo-600">
+                <i class="fas fa-code mr-2"></i>
+                <span>Programmation en C</span>
+            </div>
+        </header>
+        
+        <!-- Introduction -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <i class="fas fa-info-circle mr-2"></i>
+                Introduction
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Une <span class="font-bold text-indigo-600">liste chaînée</span> est une structure de données fondamentale en informatique qui permet un stockage dynamique et efficace d'éléments en mémoire. Contrairement aux tableaux, les éléments ne sont pas stockés de manière contiguë.
+            </p>
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                <p class="text-blue-700">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    <strong>Saviez-vous ?</strong> Les listes chaînées sont utilisées dans de nombreuses applications comme les gestionnaires de mémoire, les systèmes de fichiers, et même dans l'implémentation d'autres structures de données comme les piles et les files.
+                </p>
+            </div>
+        </section>
+        
+        <!-- 1. Définition -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                Définition
+            </h2>
+            
+            <p class="text-gray-700 mb-4">
+                Une <span class="font-bold text-indigo-600">liste chaînée unilatère</span> est composée de maillons (ou nœuds) contenant :
+            </p>
+            
+            <ul class="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+                <li>Une <span class="font-bold">donnée utile</span> (peut être de n'importe quel type)</li>
+                <li>Un <span class="font-bold">pointeur</span> vers le maillon suivant</li>
+            </ul>
+            
+            <div class="mb-6">
+                <h3 class="text-lg font-medium text-gray-800 mb-3">Maillons particuliers :</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-800 mb-2">Tête de liste (head)</h4>
+                        <p class="text-gray-700">Premier maillon de la liste. Si la liste est vide, head = NULL.</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100">
+                        <h4 class="font-bold text-red-800 mb-2">Queue de liste (tail)</h4>
+                        <p class="text-gray-700">Dernier maillon de la liste, dont le pointeur suivant est NULL.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Schéma 1 -->
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-project-diagram mr-2 text-indigo-600"></i>
+                    Schéma 1 : Structure d'une liste chaînée unilatère
+                </h3>
+                
+                <div class="list-visualization">
+                    <div class="head-tail">
+                        <div class="head">head</div>
+                        <div class="tail">tail</div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="node">
+                            <div class="data">10</div>
+                            <div class="pointer">next</div>
+                            <i class="fas fa-arrow-right arrow"></i>
+                        </div>
+                        
+                        <div class="node">
+                            <div class="data">20</div>
+                            <div class="pointer">next</div>
+                            <i class="fas fa-arrow-right arrow"></i>
+                        </div>
+                        
+                        <div class="node">
+                            <div class="data">30</div>
+                            <div class="pointer">next</div>
+                            <i class="fas fa-arrow-right arrow"></i>
+                        </div>
+                        
+                        <div class="null">NULL</div>
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 mt-4 text-center">
+                    Représentation d'une liste chaînée avec 3 éléments. Chaque maillon contient une donnée et un pointeur vers le suivant.
+                </p>
+            </div>
+        </section>
+        
+        <!-- 2. Comportement -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                Comportement
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Avantages -->
+                <div class="bg-green-50 p-5 rounded-lg border border-green-200">
+                    <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Avantages
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-plus-circle text-green-600 mt-1 mr-2"></i>
+                            <span>Structure <span class="font-bold">extensible dynamiquement</span> sans limitation de taille prédéfinie</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-plus-circle text-green-600 mt-1 mr-2"></i>
+                            <span>Ajout/suppression <span class="font-bold">sans décalage</span> des autres éléments</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-plus-circle text-green-600 mt-1 mr-2"></i>
+                            <span>Efficace pour les <span class="font-bold">insertions fréquentes</span> en tête ou queue</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Inconvénients -->
+                <div class="bg-red-50 p-5 rounded-lg border border-red-200">
+                    <h3 class="text-xl font-bold text-red-800 mb-4 flex items-center">
+                        <i class="fas fa-times-circle mr-2"></i>
+                        Inconvénients
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-minus-circle text-red-600 mt-1 mr-2"></i>
+                            <span>Accès <span class="font-bold">séquentiel uniquement</span> (pas d'accès direct à un élément)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-minus-circle text-red-600 mt-1 mr-2"></i>
+                            <span>Parcours dans <span class="font-bold">un seul sens</span> (unilatère)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-minus-circle text-red-600 mt-1 mr-2"></i>
+                            <span>Implémentation <span class="font-bold">plus complexe</span> qu'un tableau</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-yellow-700">
+                            <strong>Attention :</strong> Le choix entre tableau et liste chaînée dépend du contexte d'utilisation. Les tableaux sont meilleurs pour l'accès aléatoire, les listes pour les insertions/suppressions fréquentes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 3. Implémentation en C -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                Implémentation en C
+            </h2>
+            
+            <h3 class="text-xl font-medium text-gray-800 mb-3">Définition d'un maillon :</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="code-keyword">typedef</span> <span class="code-keyword">struct</span> <span class="code-type">SingleLinkedListElem</span> {
+  <span class="code-type">int</span> <span class="code-function">data</span>;               <span class="code-comment">// Donnée stockée</span>
+  <span class="code-keyword">struct</span> <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">next</span>;  <span class="code-comment">// Pointeur vers le suivant</span>
+} <span class="code-type">SingleLinkedListElem</span>;</code></pre>
+            </div>
+            
+            <h3 class="text-xl font-medium text-gray-800 mb-3">Définition de la liste :</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="code-keyword">typedef</span> <span class="code-keyword">struct</span> <span class="code-type">LinkedList</span> {
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">head</span>;  <span class="code-comment">// Premier élément</span>
+  <span class="code-type">int</span> <span class="code-function">size</span>;                <span class="code-comment">// Nombre d'éléments</span>
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">tail</span>;  <span class="code-comment">// Dernier élément</span>
+} <span class="code-type">LinkedList</span>;</code></pre>
+            </div>
+            
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                <p class="text-purple-700">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Une liste vide a <code class="bg-purple-100 px-1 rounded">head = NULL</code>, <code class="bg-purple-100 px-1 rounded">tail = NULL</code>, <code class="bg-purple-100 px-1 rounded">size = 0</code>.
+                </p>
+            </div>
+        </section>
+        
+        <!-- 4. Création d'une liste -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                Création d'une liste
+            </h2>
+            
+            <div class="space-y-8">
+                <!-- Étape 1 -->
+                <div>
+                    <h3 class="text-xl font-medium text-gray-800 mb-3 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
+                        Créer la structure de liste
+                    </h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-type">LinkedList</span> *<span class="code-function">NewLinkedList</span>() {
+  <span class="code-type">LinkedList</span> *<span class="code-function">tmp</span> = <span class="code-function">malloc</span>(<span class="code-keyword">sizeof</span>(<span class="code-type">LinkedList</span>));
+  <span class="code-keyword">if</span> (tmp != <span class="code-value">NULL</span>) {
+    tmp-&gt;<span class="code-function">head</span> = <span class="code-value">NULL</span>;
+    tmp-&gt;<span class="code-function">tail</span> = <span class="code-value">NULL</span>;
+    tmp-&gt;<span class="code-function">size</span> = <span class="code-value">0</span>;
+  }
+  <span class="code-keyword">return</span> tmp;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Étape 2 -->
+                <div>
+                    <h3 class="text-xl font-medium text-gray-800 mb-3 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
+                        Créer un maillon
+                    </h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-type">SingleLinkedListElem</span> *<span class="code-function">NewLinkedListItem</span>(<span class="code-type">int</span> <span class="code-function">value</span>) {
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">tmp</span> = <span class="code-function">malloc</span>(<span class="code-keyword">sizeof</span>(<span class="code-type">SingleLinkedListElem</span>));
+  <span class="code-keyword">if</span> (tmp != <span class="code-value">NULL</span>) {
+    tmp-&gt;<span class="code-function">data</span> = value;
+    tmp-&gt;<span class="code-function">next</span> = <span class="code-value">NULL</span>;
+  }
+  <span class="code-keyword">return</span> tmp;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Étape 3 -->
+                <div>
+                    <h3 class="text-xl font-medium text-gray-800 mb-3 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center mr-2">3</span>
+                        Ajouter un maillon à la fin
+                    </h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-type">int</span> <span class="code-function">AddNewElemToSingleLinkedList</span>(<span class="code-type">LinkedList</span> *<span class="code-function">list</span>, <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">elem</span>) {
+  <span class="code-keyword">if</span> (list == <span class="code-value">NULL</span> || elem == <span class="code-value">NULL</span> || elem-&gt;<span class="code-function">next</span> != <span class="code-value">NULL</span>) <span class="code-keyword">return</span> <span class="code-value">0</span>;
+  
+  <span class="code-keyword">if</span> (list-&gt;<span class="code-function">tail</span> == <span class="code-value">NULL</span>) { <span class="code-comment">// liste vide</span>
+    list-&gt;<span class="code-function">head</span> = elem;
+    list-&gt;<span class="code-function">tail</span> = elem;
+    list-&gt;<span class="code-function">size</span> = <span class="code-value">1</span>;
+  } <span class="code-keyword">else</span> { <span class="code-comment">// liste non vide</span>
+    list-&gt;<span class="code-function">tail</span>-&gt;<span class="code-function">next</span> = elem;
+    list-&gt;<span class="code-function">tail</span> = elem;
+    list-&gt;<span class="code-function">size</span>++;
+  }
+  <span class="code-keyword">return</span> <span class="code-value">1</span>;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <!-- Schéma 2 -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-project-diagram mr-2 text-indigo-600"></i>
+                        Schéma 2 : Ajout d'un maillon
+                    </h3>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <div class="mb-6">
+                            <h4 class="font-bold text-gray-700 mb-2">Cas 1 : Liste vide</h4>
+                            <div class="flex justify-center items-center">
+                                <div class="head-tail">
+                                    <div class="head">head</div>
+                                    <div class="tail">tail</div>
+                                </div>
+                                <div class="text-gray-500 mx-4">→</div>
+                                <div class="node">
+                                    <div class="data">42</div>
+                                    <div class="pointer">next</div>
+                                    <div class="null">NULL</div>
+                                </div>
+                            </div>
+                            <p class="text-center text-gray-600 mt-2">Après ajout : head et tail pointent vers le nouveau maillon</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-700 mb-2">Cas 2 : Liste existante</h4>
+                            <div class="flex flex-col items-center">
+                                <div class="flex items-center mb-4">
+                                    <div class="head-tail">
+                                        <div class="head">head</div>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">10</div>
+                                        <div class="pointer">next</div>
+                                        <i class="fas fa-arrow-right arrow"></i>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">20</div>
+                                        <div class="pointer">next</div>
+                                        <i class="fas fa-arrow-right arrow"></i>
+                                    </div>
+                                    <div class="head-tail">
+                                        <div class="tail">tail</div>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">30</div>
+                                        <div class="pointer">next</div>
+                                        <div class="null">NULL</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-gray-500 mb-4">↓ Ajout de 40 ↓</div>
+                                
+                                <div class="flex items-center">
+                                    <div class="head-tail">
+                                        <div class="head">head</div>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">10</div>
+                                        <div class="pointer">next</div>
+                                        <i class="fas fa-arrow-right arrow"></i>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">20</div>
+                                        <div class="pointer">next</div>
+                                        <i class="fas fa-arrow-right arrow"></i>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">30</div>
+                                        <div class="pointer">next</div>
+                                        <i class="fas fa-arrow-right arrow"></i>
+                                    </div>
+                                    <div class="head-tail">
+                                        <div class="tail">tail</div>
+                                    </div>
+                                    <div class="node">
+                                        <div class="data">40</div>
+                                        <div class="pointer">next</div>
+                                        <div class="null">NULL</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-center text-gray-600 mt-2">tail->next est mis à jour pour pointer vers le nouveau maillon, puis tail est mis à jour</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Exemple d'utilisation -->
+                <div>
+                    <h3 class="text-xl font-medium text-gray-800 mb-3">Exemple d'utilisation :</h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-type">LinkedList</span> *<span class="code-function">MyListe</span> = <span class="code-function">NewLinkedList</span>();
+<span class="code-keyword">for</span> (<span class="code-type">int</span> <span class="code-function">i</span> = <span class="code-value">10</span>; i &lt;= <span class="code-value">100</span>; i += <span class="code-value">10</span>) {
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">elem</span> = <span class="code-function">NewLinkedListItem</span>(i);
+  <span class="code-function">AddNewElemToSingleLinkedList</span>(MyListe, elem);
+}
+<span class="code-function">DisplayList</span>(MyListe);</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. Suppression d'un maillon -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">5</span>
+                Suppression d'un maillon
+            </h2>
+            
+            <p class="text-gray-700 mb-4">
+                La suppression d'un maillon nécessite de maintenir l'intégrité des pointeurs. Plusieurs cas doivent être considérés :
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 class="font-bold text-blue-800 mb-2">1. Seul élément</h4>
+                    <p class="text-gray-700">Mettre head et tail à NULL</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h4 class="font-bold text-green-800 mb-2">2. En tête</h4>
+                    <p class="text-gray-700">Mettre head à head->next</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h4 class="font-bold text-purple-800 mb-2">3. En queue ou milieu</h4>
+                    <p class="text-gray-700">Mettre à jour le pointeur next du précédent</p>
+                </div>
+            </div>
+            
+            <div class="code-block mb-8">
+                <pre><code><span class="code-type">int</span> <span class="code-function">RemoveElemFromSingleLinkedList</span>(<span class="code-type">LinkedList</span> *<span class="code-function">list</span>, <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">elem</span>) {
+  <span class="code-keyword">if</span> (list == <span class="code-value">NULL</span> || list-&gt;<span class="code-function">head</span> == <span class="code-value">NULL</span> || elem == <span class="code-value">NULL</span>) <span class="code-keyword">return</span> <span class="code-value">0</span>;
+  
+  <span class="code-comment">// Cas 1 : seul élément</span>
+  <span class="code-keyword">if</span> (list-&gt;<span class="code-function">head</span> == elem && list-&gt;<span class="code-function">tail</span> == elem) {
+    list-&gt;<span class="code-function">head</span> = <span class="code-value">NULL</span>; list-&gt;<span class="code-function">tail</span> = <span class="code-value">NULL</span>; list-&gt;<span class="code-function">size</span> = <span class="code-value">0</span>;
+    <span class="code-function">free</span>(elem); <span class="code-keyword">return</span> <span class="code-value">1</span>;
+  }
+  
+  <span class="code-comment">// Cas 2 : en tête</span>
+  <span class="code-keyword">if</span> (list-&gt;<span class="code-function">head</span> == elem) {
+    list-&gt;<span class="code-function">head</span> = elem-&gt;<span class="code-function">next</span>; list-&gt;<span class="code-function">size</span>--;
+    <span class="code-function">free</span>(elem); <span class="code-keyword">return</span> <span class="code-value">1</span>;
+  }
+  
+  <span class="code-comment">// Recherche du maillon précédent</span>
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">tmp</span> = list-&gt;<span class="code-function">head</span>;
+  <span class="code-type">SingleLinkedListElem</span> *<span class="code-function">previous</span> = <span class="code-value">NULL</span>;
+  
+  <span class="code-keyword">while</span> (tmp != <span class="code-value">NULL</span> && tmp != elem) {
+    previous = tmp;
+    tmp = tmp-&gt;<span class="code-function">next</span>;
+  }
+  
+  <span class="code-keyword">if</span> (tmp == <span class="code-value">NULL</span>) <span class="code-keyword">return</span> <span class="code-value">0</span>; <span class="code-comment">// pas trouvé</span>
+  
+  <span class="code-comment">// Cas 3 : en queue</span>
+  <span class="code-keyword">if</span> (tmp-&gt;<span class="code-function">next</span> == <span class="code-value">NULL</span>) {
+    list-&gt;<span class="code-function">tail</span> = previous;
+    previous-&gt;<span class="code-function">next</span> = <span class="code-value">NULL</span>;
+  } <span class="code-keyword">else</span> { <span class="code-comment">// Cas 4 : au milieu</span>
+    previous-&gt;<span class="code-function">next</span> = tmp-&gt;<span class="code-function">next</span>;
+  }
+  
+  list-&gt;<span class="code-function">size</span>--;
+  <span class="code-function">free</span>(elem);
+  <span class="code-keyword">return</span> <span class="code-value">1</span>;
+}</code></pre>
+            </div>
+            
+            
+        </section>
+        
+        <!-- 6. Remarques finales -->
+        <section class="mb-12 bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="text-2xl font-semibold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-800 rounded-full w-8 h-8 flex items-center justify-center mr-3">6</span>
+                Remarques finales
+            </h2>
+            
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <i class="fas fa-memory text-indigo-600"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-gray-700">
+                            <strong>Gestion de la mémoire :</strong> Il est <span class="font-bold text-red-600">indispensable de libérer la mémoire</span> des maillons supprimés avec <code class="bg-gray-100 px-1 rounded">free()</code> pour éviter les fuites mémoire.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <i class="fas fa-lightbulb text-yellow-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-gray-700">
+                            <strong>Optimisation :</strong> Pour améliorer les performances, on peut imaginer une <span class="font-bold">implémentation hybride</span> combinant une liste chaînée avec un tableau d'index pour accéder plus rapidement aux éléments par position.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-1">
+                        <i class="fas fa-share-alt text-green-600"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-gray-700">
+                            <strong>Variantes :</strong> Les listes chaînées peuvent être déclinées en plusieurs variantes : listes <span class="font-bold">doublement chaînées</span> (accès dans les deux sens), listes <span class="font-bold">circulaires</span> (le dernier pointe vers le premier), etc.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Conclusion -->
+        <section class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
+            <h2 class="text-2xl font-semibold text-indigo-800 mb-4 flex items-center">
+                <i class="fas fa-graduation-cap mr-2"></i>
+                Conclusion
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Les listes chaînées unilatères sont une structure de données fondamentale qui offre une grande flexibilité pour le stockage dynamique d'éléments. Bien que leur implémentation soit plus complexe que les tableaux, elles excellent dans les situations nécessitant des insertions et suppressions fréquentes.
+            </p>
+            <div class="bg-white p-4 rounded-lg border border-indigo-100">
+                <h3 class="font-bold text-indigo-700 mb-2">Points clés à retenir :</h3>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                    <li>Chaque maillon contient une donnée et un pointeur vers le suivant</li>
+                    <li>La tête (head) et la queue (tail) sont des pointeurs essentiels</li>
+                    <li>L'ajout en fin de liste est une opération efficace (O(1) si on maintient tail)</li>
+                    <li>La suppression nécessite de reconfigurer soigneusement les pointeurs</li>
+                    <li>La mémoire allouée dynamiquement doit être libérée explicitement</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>PRG2030 - Structures de Données - Listes Chaînées Unilatères</p>
+            <p class="mt-2">© 2023 - Cours généré avec <i class="fas fa-heart text-red-500"></i> pour les étudiants en informatique</p>
+        </footer>
+    </div>
+</body>
+</html>
