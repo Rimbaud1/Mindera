@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours Piles & Files</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow-x: auto;
+        }
+        .code-keyword { color: #c678dd; }
+        .code-function { color: #61afef; }
+        .code-comment { color: #5c6370; font-style: italic; }
+        .code-string { color: #98c379; }
+        .code-number { color: #d19a66; }
+        .code-operator { color: #56b6c2; }
+        .code-preprocessor { color: #e06c75; }
+        
+        .stack-visual {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .stack-item {
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .stack-item.top {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            transform: scale(1.05);
+        }
+        
+        .queue-visual {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .queue-item {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .queue-item.front {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            transform: scale(1.1);
+        }
+        .queue-item.rear {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            transform: scale(1.1);
+        }
+        
+        .comparison-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 mb-4">
+                <i class="fas fa-layer-group mr-2"></i>Piles & Files
+            </h1>
+            <p class="text-xl text-gray-600">Structures de données linéaires fondamentales</p>
+        </header>
+        
+        <!-- Introduction -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">
+                <i class="fas fa-info-circle mr-2"></i>Introduction
+            </h2>
+            <p class="mb-4">Les <span class="font-bold text-purple-600">piles</span> et <span class="font-bold text-blue-600">files</span> sont des structures de données linéaires qui gèrent des collections d'éléments selon un ordre d'accès spécifique.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                    <h3 class="font-semibold text-purple-700 mb-2"><i class="fas fa-layer-group mr-2"></i>Pile (Stack)</h3>
+                    <p><span class="font-bold">LIFO</span> : Last In, First Out</p>
+                    <p class="text-sm text-purple-600 mt-2">Comme une pile d'assiettes : on ajoute et retire toujours par le haut.</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <h3 class="font-semibold text-blue-700 mb-2"><i class="fas fa-people-arrows mr-2"></i>File (Queue)</h3>
+                    <p><span class="font-bold">FIFO</span> : First In, First Out</p>
+                    <p class="text-sm text-blue-600 mt-2">Comme une file d'attente : premier arrivé, premier servi.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stack Section -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-purple-600">
+                <i class="fas fa-layer-group mr-2"></i>La Pile (Stack)
+            </h2>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-purple-700">Opérations fondamentales</h3>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-plus-circle text-purple-600 mr-2"></i>push(x)</p>
+                    <p class="text-sm">Ajoute l'élément x au sommet de la pile</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-minus-circle text-purple-600 mr-2"></i>pop()</p>
+                    <p class="text-sm">Retire et renvoie l'élément au sommet</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-eye text-purple-600 mr-2"></i>peek()</p>
+                    <p class="text-sm">Consulte l'élément au sommet sans le retirer</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-question-circle text-purple-600 mr-2"></i>isEmpty()</p>
+                    <p class="text-sm">Vérifie si la pile est vide</p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-purple-700">Implémentation en C</h3>
+            <div class="code-block mb-6">
+                <span class="code-preprocessor">#define</span> <span class="code-number">MAX</span> <span class="code-number">100</span><br>
+                <span class="code-keyword">int</span> <span class="code-function">stack</span>[<span class="code-number">MAX</span>];<br>
+                <span class="code-keyword">int</span> <span class="code-function">top</span> = <span class="code-number">-1</span>;<br><br>
+                
+                <span class="code-comment">// Ajouter un élément</span><br>
+                <span class="code-keyword">void</span> <span class="code-function">push</span>(<span class="code-keyword">int</span> <span class="code-function">val</span>) {<br>
+                &nbsp;&nbsp;<span class="code-keyword">if</span> (<span class="code-function">top</span> < <span class="code-number">MAX</span> - <span class="code-number">1</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-function">stack</span>[++<span class="code-function">top</span>] = <span class="code-function">val</span>;<br>
+                &nbsp;&nbsp;}<br>
+                }<br><br>
+                
+                <span class="code-comment">// Retirer un élément</span><br>
+                <span class="code-keyword">int</span> <span class="code-function">pop</span>() {<br>
+                &nbsp;&nbsp;<span class="code-keyword">if</span> (<span class="code-function">top</span> >= <span class="code-number">0</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-function">stack</span>[<span class="code-function">top</span>--];<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-number">-1</span>; <span class="code-comment">// pile vide</span><br>
+                }
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-purple-700">Visualisation</h3>
+            <div class="stack-visual mb-6">
+                <div class="stack-item top">20 (top)</div>
+                <div class="stack-item">10</div>
+                <div class="stack-item">5</div>
+                <div class="stack-item">8</div>
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-purple-700">Cas d'usage</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-code-branch text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Appels récursifs</p>
+                        <p class="text-sm text-gray-600">La pile d'exécution utilise le principe LIFO</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-project-diagram text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Parcours de graphes (DFS)</p>
+                        <p class="text-sm text-gray-600">Depth-First Search utilise une pile</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-undo text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Annulation d'actions</p>
+                        <p class="text-sm text-gray-600">Les logiciels utilisent des piles pour undo/redo</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-calculator text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Évaluation d'expressions</p>
+                        <p class="text-sm text-gray-600">Conversion notation polonaise</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Queue Section -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-blue-600">
+                <i class="fas fa-people-arrows mr-2"></i>La File (Queue)
+            </h2>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-blue-700">Opérations fondamentales</h3>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-plus-circle text-blue-600 mr-2"></i>enqueue(x)</p>
+                    <p class="text-sm">Ajoute l'élément x à la fin de la file</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-minus-circle text-blue-600 mr-2"></i>dequeue()</p>
+                    <p class="text-sm">Retire et renvoie l'élément au début</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-eye text-blue-600 mr-2"></i>front()</p>
+                    <p class="text-sm">Consulte l'élément au début sans le retirer</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <p class="font-semibold"><i class="fas fa-question-circle text-blue-600 mr-2"></i>isEmpty()</p>
+                    <p class="text-sm">Vérifie si la file est vide</p>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-blue-700">Implémentation en C</h3>
+            <div class="code-block mb-6">
+                <span class="code-preprocessor">#define</span> <span class="code-number">MAX</span> <span class="code-number">100</span><br>
+                <span class="code-keyword">int</span> <span class="code-function">queue</span>[<span class="code-number">MAX</span>];<br>
+                <span class="code-keyword">int</span> <span class="code-function">front</span> = <span class="code-number">0</span>, <span class="code-function">rear</span> = <span class="code-number">0</span>;<br><br>
+                
+                <span class="code-comment">// Ajouter un élément</span><br>
+                <span class="code-keyword">void</span> <span class="code-function">enqueue</span>(<span class="code-keyword">int</span> <span class="code-function">val</span>) {<br>
+                &nbsp;&nbsp;<span class="code-keyword">if</span> (<span class="code-function">rear</span> < <span class="code-number">MAX</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-function">queue</span>[<span class="code-function">rear</span>++] = <span class="code-function">val</span>;<br>
+                &nbsp;&nbsp;}<br>
+                }<br><br>
+                
+                <span class="code-comment">// Retirer un élément</span><br>
+                <span class="code-keyword">int</span> <span class="code-function">dequeue</span>() {<br>
+                &nbsp;&nbsp;<span class="code-keyword">if</span> (<span class="code-function">front</span> < <span class="code-function">rear</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-function">queue</span>[<span class="code-function">front</span>++];<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-number">-1</span>; <span class="code-comment">// file vide</span><br>
+                }
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-blue-700">Visualisation</h3>
+            <div class="queue-visual mb-6">
+                <div class="queue-item front">5 (front)</div>
+                <div class="queue-item">10</div>
+                <div class="queue-item">15</div>
+                <div class="queue-item rear">20 (rear)</div>
+            </div>
+            
+            <h3 class="text-xl font-medium mt-6 mb-3 text-blue-700">Cas d'usage</h3>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex items-start">
+                    <div class="bg-blue-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-print text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Files d'impression</p>
+                        <p class="text-sm text-gray-600">Les documents sont traités dans l'ordre d'arrivée</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-blue-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-project-diagram text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Parcours de graphes (BFS)</p>
+                        <p class="text-sm text-gray-600">Breadth-First Search utilise une file</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-blue-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-tasks text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Planification de tâches</p>
+                        <p class="text-sm text-gray-600">Ordonnancement des processus</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-blue-100 p-2 rounded-full mr-3 mt-1">
+                        <i class="fas fa-network-wired text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Gestion de paquets réseau</p>
+                        <p class="text-sm text-gray-600">Les routeurs utilisent des files</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Comparison Section -->
+        <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-6 text-indigo-600">
+                <i class="fas fa-balance-scale mr-2"></i>Comparatif Pile vs File
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="comparison-card bg-gradient-to-br from-purple-50 to-purple-100 p-6 border border-purple-200">
+                    <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                        <i class="fas fa-layer-group mr-2"></i>Pile (Stack)
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span><span class="font-semibold">LIFO</span> : Last In, First Out</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Un seul point d'accès (<span class="font-semibold">top</span>)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Opérations rapides (O(1))</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-purple-500 mt-1 mr-2"></i>
+                            <span>Idéale pour les parcours en profondeur</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card bg-gradient-to-br from-blue-50 to-blue-100 p-6 border border-blue-200">
+                    <h3 class="text-xl font-semibold text-blue-700 mb-4 flex items-center">
+                        <i class="fas fa-people-arrows mr-2"></i>File (Queue)
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span><span class="font-semibold">FIFO</span> : First In, First Out</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Deux points d'accès (<span class="font-semibold">front</span> et <span class="font-semibold">rear</span>)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Opérations rapides (O(1))</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                            <span>Idéale pour les parcours en largeur</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Caractéristique</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-purple-600 uppercase tracking-wider">Pile</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">File</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Ordre d'accès</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-600">LIFO</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">FIFO</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Points d'accès</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-600">1 (sommet)</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">2 (entrée/sortie)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Complexité des opérations</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-600">O(1) pour push/pop</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">O(1) pour enqueue/dequeue</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Accès aléatoire</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-600">Non</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">Non</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Métaphore</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-purple-600">Pile d'assiettes</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">File d'attente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- Summary -->
+        <section class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl shadow-md p-6 border border-indigo-100">
+            <h2 class="text-2xl font-semibold mb-4 text-indigo-600">
+                <i class="fas fa-lightbulb mr-2"></i>Résumé
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-purple-700 mb-2">Quand utiliser une pile ?</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                        <li>Algorithmes récursifs</li>
+                        <li>Parcours en profondeur (DFS)</li>
+                        <li>Mécanismes d'annulation (undo/redo)</li>
+                        <li>Évaluation d'expressions</li>
+                        <li>Vérification de parenthèses</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold text-blue-700 mb-2">Quand utiliser une file ?</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                        <li>Gestion de processus</li>
+                        <li>Parcours en largeur (BFS)</li>
+                        <li>Systèmes de file d'attente</li>
+                        <li>Buffers de données</li>
+                        <li>Gestion de requêtes</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 p-4 bg-white rounded-lg border border-gray-200">
+                <div class="flex items-center">
+                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-exclamation-circle text-indigo-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-indigo-700">À retenir</p>
+                        <p class="text-sm text-gray-600">Le choix entre pile et file dépend principalement de l'ordre dans lequel vous avez besoin d'accéder à vos données : dernier arrivé ou premier arrivé.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <p>© 2023 Cours sur les structures de données linéaires</p>
+            <p class="mt-2">Créé avec <i class="fas fa-heart text-red-500"></i> pour les étudiants en informatique</p>
+        </footer>
+    </div>
+</body>
+</html>
