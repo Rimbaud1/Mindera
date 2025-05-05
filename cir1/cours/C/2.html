@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours C - Allocation dynamique et structures</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
+        .code-block {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        .code-header {
+            background-color: #2d2d2d;
+            color: #ccc;
+            padding: 0.5rem 1rem;
+            font-family: monospace;
+            display: flex;
+            justify-content: space-between;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            color: white;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white rounded-xl p-6 mb-8 shadow-lg">
+            <h1 class="text-3xl font-bold">🚀 Cours C - Allocation dynamique et structures</h1>
+            <p class="mt-2 text-blue-100">Maîtrisez malloc, les tableaux dynamiques et les structures en C</p>
+        </header>
+
+        <!-- Navigation -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">📚 Sommaire</h2>
+            <ul class="space-y-2">
+                <li><a href="#malloc" class="nav-link text-blue-600 hover:text-blue-800 flex items-center"><span class="mr-2">→</span>1. malloc - Allocation dynamique</a></li>
+                <li><a href="#tableaux-1d" class="nav-link text-blue-600 hover:text-blue-800 flex items-center"><span class="mr-2">→</span>2. Tableaux dynamiques 1D</a></li>
+                <li><a href="#tableaux-2d" class="nav-link text-blue-600 hover:text-blue-800 flex items-center"><span class="mr-2">→</span>3. Tableaux dynamiques 2D</a></li>
+                <li><a href="#structures" class="nav-link text-blue-600 hover:text-blue-800 flex items-center"><span class="mr-2">→</span>4. Structures et typedef</a></li>
+                <li><a href="#bonnes-pratiques" class="nav-link text-blue-600 hover:text-blue-800 flex items-center"><span class="mr-2">→</span>5. Bonnes pratiques</a></li>
+            </ul>
+        </div>
+
+        <!-- Objectives -->
+        <div class="bg-green-50 border-l-4 border-green-500 rounded-r-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">🎯 Objectifs du cours</h2>
+            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                <li>Allouer dynamiquement de la mémoire avec <code class="bg-green-100 px-1 rounded">malloc</code></li>
+                <li>Manipuler des tableaux dynamiques 1D et 2D</li>
+                <li>Créer et utiliser des <code class="bg-green-100 px-1 rounded">struct</code> avec <code class="bg-green-100 px-1 rounded">typedef</code></li>
+                <li>Combiner les structures et l'allocation dynamique</li>
+            </ul>
+        </div>
+
+        <!-- Section 1: malloc -->
+        <section id="malloc" class="mb-12">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold">1</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">🧩 malloc en C - Allocation dynamique</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">🔍 Pourquoi malloc ?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-gray-700 mb-2">Pile (Stack)</h4>
+                        <p class="text-gray-600">Les variables locales sont stockées dans la pile et sont automatiquement libérées quand la fonction se termine.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-gray-700 mb-2">Tas (Heap)</h4>
+                        <p class="text-gray-600">malloc alloue de la mémoire dans le tas qui persiste jusqu'à ce que vous la libériez avec free.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">📌 Syntaxe de malloc</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Syntaxe de base</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                    </div>
+                    <pre><code class="language-c">void *malloc(size_t taille);</code></pre>
+                </div>
+                <div class="mt-4 space-y-3 text-gray-700">
+                    <p>• Alloue <code class="bg-gray-100 px-1 rounded">taille</code> octets et retourne un pointeur vers cette zone mémoire</p>
+                    <p>• Retourne <code class="bg-gray-100 px-1 rounded">NULL</code> si l'allocation échoue</p>
+                    <p>• Il faut caster le résultat pour un type spécifique</p>
+                </div>
+                
+                <div class="code-block mt-6">
+                    <div class="code-header">
+                        <span>Exemple d'allocation</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                    </div>
+                    <pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+int main() {
+    // Allocation pour 10 entiers
+    int *p = (int *) malloc(10 * sizeof(int));
+    
+    if (p == NULL) {
+        // Gestion d'erreur
+        return 1;
+    }
+    
+    // Utilisation...
+    
+    // Libération obligatoire !
+    free(p);
+    return 0;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Tableaux 1D -->
+        <section id="tableaux-1d" class="mb-12">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold">2</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">📏 Tableaux dynamiques 1D avec malloc</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">✅ Exemple complet</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Tableau dynamique de n entiers</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                    </div>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int n = 5;
+    // Allocation dynamique
+    int *tab = (int *) malloc(n * sizeof(int));
+    
+    // Vérification de l'allocation
+    if (tab == NULL) {
+        printf("Erreur d'allocation mémoire.\n");
+        return 1;
+    }
+    
+    // Remplissage du tableau
+    for (int i = 0; i < n; i++) {
+        tab[i] = i * i;  // Carrés des indices
+    }
+    
+    // Affichage
+    printf("Tableau dynamique : ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", tab[i]);
+    }
+    printf("\n");
+    
+    // Libération de la mémoire
+    free(tab);
+    
+    return 0;
+}</code></pre>
+                </div>
+                
+                <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                    <h4 class="font-semibold text-yellow-800">⚠️ Points clés</h4>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-yellow-800">
+                        <li>Toujours vérifier si <code class="bg-yellow-100 px-1 rounded">malloc</code> retourne <code class="bg-yellow-100 px-1 rounded">NULL</code></li>
+                        <li>Calculer correctement la taille avec <code class="bg-yellow-100 px-1 rounded">sizeof</code></li>
+                        <li>Ne pas oublier <code class="bg-yellow-100 px-1 rounded">free</code> pour éviter les fuites mémoire</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Tableaux 2D -->
+        <section id="tableaux-2d" class="mb-12">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold">3</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">🧮 Tableaux dynamiques 2D</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">🅰️ Méthode classique : tableau de pointeurs</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Allocation</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                            </div>
+                            <pre><code class="language-c">int **mat = malloc(rows * sizeof(int *));
+for (int i = 0; i < rows; i++) {
+    mat[i] = malloc(cols * sizeof(int));
+}</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Libération</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                            </div>
+                            <pre><code class="language-c">for (int i = 0; i < rows; i++) {
+    free(mat[i]);
+}
+free(mat);</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-3">✅ Exemple complet : Matrice 3x4</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Matrice dynamique</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                    </div>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int rows = 3, cols = 4;
+    
+    // Allocation de la matrice
+    int **mat = (int **) malloc(rows * sizeof(int *));
+    if (mat == NULL) return 1;
+    
+    for (int i = 0; i < rows; i++) {
+        mat[i] = (int *) malloc(cols * sizeof(int));
+        if (mat[i] == NULL) return 1;
+    }
+    
+    // Remplissage
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            mat[i][j] = i + j;  // Valeur = somme des indices
+        }
+    }
+    
+    // Affichage
+    printf("Matrice dynamique :\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+    
+    // Libération
+    for (int i = 0; i < rows; i++) {
+        free(mat[i]);
+    }
+    free(mat);
+    
+    return 0;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Structures -->
+        <section id="structures" class="mb-12">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold">4</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">🧱 Structures et typedef</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">🔧 Définir une structure</h3>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Sans typedef</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                            </div>
+                            <pre><code class="language-c">struct Point {
+    int x;
+    int y;
+};
+
+// Utilisation
+struct Point p1 = {3, 4};</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">🙌 Avec typedef</h3>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Avec typedef</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                            </div>
+                            <pre><code class="language-c">typedef struct {
+    int x;
+    int y;
+} Point;
+
+// Utilisation simplifiée
+Point p1 = {3, 4};</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-3">✅ Exemple : Tableau dynamique de structures</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Gestion de personnes</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+                    </div>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct {
+    char nom[20];
+    int age;
+} Personne;
+
+int main() {
+    int n = 3;
+    Personne *tab = (Personne *) malloc(n * sizeof(Personne));
+    
+    if (tab == NULL) return 1;
+    
+    // Saisie des données
+    for (int i = 0; i < n; i++) {
+        printf("Personne %d\n", i+1);
+        printf("Nom ? ");
+        scanf("%19s", tab[i].nom);
+        printf("Âge ? ");
+        scanf("%d", &tab[i].age);
+    }
+    
+    // Affichage
+    printf("\nListe des personnes :\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s a %d ans.\n", tab[i].nom, tab[i].age);
+    }
+    
+    free(tab);
+    return 0;
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Bonnes pratiques -->
+        <section id="bonnes-pratiques" class="mb-12">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-100 w-10 h-10 rounded-full flex items-center justify-center mr-3">
+                    <span class="text-blue-600 font-bold">5</span>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">⚠️ Bonnes pratiques</h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                        <h3 class="font-semibold text-red-800 mb-2">❌ À éviter</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-red-800">
+                            <li>Oublier de vérifier le retour de malloc</li>
+                            <li>Ne pas libérer la mémoire (fuites mémoire)</li>
+                            <li>Utiliser de la mémoire après free (comportement indéfini)</li>
+                            <li>Libérer plusieurs fois la même zone</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                        <h3 class="font-semibold text-green-800 mb-2">✅ À faire</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-green-800">
+                            <li>Toujours vérifier si malloc retourne NULL</li>
+                            <li>Libérer toute mémoire allouée</li>
+                            <li>Initialiser les données après allocation</li>
+                            <li>Utiliser sizeof avec le type de la variable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">🧠 Résumé visuel</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 px-4 border-b">Élément</th>
+                                    <th class="py-2 px-4 border-b">Utilité</th>
+                                    <th class="py-2 px-4 border-b">Exemple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">malloc</td>
+                                    <td class="py-2 px-4 border-b">Allocation dynamique</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">int *p = malloc(10 * sizeof(int));</code></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">free</td>
+                                    <td class="py-2 px-4 border-b">Libération mémoire</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">free(p);</code></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">Tableau 1D</td>
+                                    <td class="py-2 px-4 border-b">Tableau dynamique</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">int *tab = malloc(n * sizeof(int));</code></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">Tableau 2D</td>
+                                    <td class="py-2 px-4 border-b">Matrice dynamique</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">int **mat = malloc(rows * sizeof(int *));</code></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">struct</td>
+                                    <td class="py-2 px-4 border-b">Type composé</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">struct Point { int x, y; };</code></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-4 border-b">typedef</td>
+                                    <td class="py-2 px-4 border-b">Alias de type</td>
+                                    <td class="py-2 px-4 border-b"><code class="bg-gray-100 px-1 rounded">typedef struct { ... } Point;</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <div class="bg-purple-50 border-l-4 border-purple-500 rounded-r-lg p-6 mb-8">
+            <h2 class="text-xl font-semibold text-purple-800 mb-2">🎉 Félicitations !</h2>
+            <p class="text-purple-700">Vous maîtrisez maintenant les concepts clés de l'allocation dynamique et des structures en C. Pour aller plus loin, voici quelques suggestions :</p>
+            <ul class="list-disc pl-5 mt-2 space-y-1 text-purple-700">
+                <li>Implémenter une liste chaînée</li>
+                <li>Créer un gestionnaire de contacts dynamique</li>
+                <li>Développer une matrice dynamique avec fonctions d'opérations</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 mt-12">
+            <p>© 2023 Cours C - Allocation dynamique et structures</p>
+        </footer>
+    </div>
+
+    <script>
+        // Fonction pour copier le code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.nextElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                // Animation de feedback
+                button.textContent = 'Copié !';
+                setTimeout(() => {
+                    button.textContent = 'Copier';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
