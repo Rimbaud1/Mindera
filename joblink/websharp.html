@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSharp.fr - Création de sites web professionnels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#7C3AED',
+                        accent: '#F59E0B',
+                        dark: '#1E1B4B',
+                        light: '#E0E7FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -8px;
+            left: 20%;
+            background: linear-gradient(90deg, #F59E0B 0%, #7C3AED 100%);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-dark bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-primary font-bold text-2xl">WebSharp<span class="text-accent">.fr</span></span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#hero" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Accueil</a>
+                    <a href="#pourquoi" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Pourquoi nous ?</a>
+                    <a href="#offres" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Nos offres</a>
+                    <a href="#fonctionnalites" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Fonctionnalités</a>
+                    <a href="#contact" class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg text-sm font-medium transition-all glow-effect hover:glow-effect">Demander un devis</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-primary hover:bg-gray-100 focus:outline-none">
+                        <span class="sr-only">Ouvrir le menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#hero" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Accueil</a>
+                <a href="#pourquoi" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Pourquoi nous ?</a>
+                <a href="#offres" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Nos offres</a>
+                <a href="#fonctionnalites" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Fonctionnalités</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-white bg-primary rounded-lg">Demander un devis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Votre site web <span class="text-accent">professionnel</span>, sans complication</h1>
+                    <p class="text-xl text-light mb-8">Sites modernes, clairs et efficaces pour artisans, commerçants, indépendants et petites entreprises.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold text-center transition-all shadow-lg hover:shadow-xl">Demander un devis gratuit</a>
+                        <a href="#offres" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-lg text-lg font-semibold text-center transition-all">Voir les offres</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-accent rounded-xl opacity-20 blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Site web professionnel" class="relative rounded-2xl shadow-2xl max-w-full h-auto border-4 border-white">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pourquoi nous ? -->
+    <section id="pourquoi" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Pourquoi me confier votre site ?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Je crée des sites web qui répondent parfaitement à vos besoins professionnels</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-indigo-100 text-primary">
+                        <i class="fas fa-tools text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Sites sur mesure</h3>
+                    <p class="text-gray-600">Je conçois des sites adaptés à votre activité, avec un design qui reflète votre identité professionnelle.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-purple-100 text-secondary">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Solution clé en main</h3>
+                    <p class="text-gray-600">Je m'occupe de tout : design, hébergement, HTTPS, nom de domaine. Vous n'avez rien à gérer.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-blue-100 text-primary">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Optimisé mobile</h3>
+                    <p class="text-gray-600">Vos clients vous trouveront facilement, quel que soit leur appareil (ordinateur, tablette ou mobile).</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-amber-100 text-accent">
+                        <i class="fas fa-search text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Optimisation SEO</h3>
+                    <p class="text-gray-600">Votre site sera optimisé pour Google et les autres moteurs de recherche pour une meilleure visibilité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-red-100 text-red-600">
+                        <i class="fas fa-headset text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Suivi personnalisé</h3>
+                    <p class="text-gray-600">Je reste disponible pour les mises à jour et le suivi de votre site après sa mise en ligne.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-green-100 text-green-600">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Rapidité</h3>
+                    <p class="text-gray-600">Sites ultra-rapides pour une meilleure expérience utilisateur et un meilleur référencement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nos offres -->
+    <section id="offres" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Nos offres de création de site web</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Des solutions adaptées à chaque besoin et budget</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pack Essentiel -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all card-hover">
+                    <div class="bg-primary/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-primary">Pack Essentiel</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">129€</span>
+                            <span class="text-gray-600">/ à partir de</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Site One Page (1 seule page)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Design clair et responsive</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Formulaire de contact simple</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Optimisation SEO de base</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Compatible tous supports</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>1 intervention de maintenance offerte</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all">Choisir cette offre</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pack Pro -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all card-hover transform scale-105 z-10 relative">
+                    <div class="absolute top-0 right-0 bg-accent text-dark text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">Populaire</div>
+                    <div class="bg-secondary/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-secondary">Pack Professionnel</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">249€</span>
+                            <span class="text-gray-600">/ à partir de</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Site de 3 à 5 pages</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Design sur mesure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Formulaire de contact</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Référencement local optimisé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Compatible tous supports</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>2 interventions de maintenance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-secondary hover:bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all glow-effect">Choisir cette offre</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pack Sur-mesure -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all card-hover">
+                    <div class="bg-accent/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-accent">Pack Sur-mesure</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">Sur devis</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Site dynamique adapté à vos besoins</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Fonctionnalités avancées</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Design personnalisé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Optimisation SEO technique</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>2 mois de maintenance inclus</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Solution clé en main</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-accent hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-medium transition-all">Demander un devis</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="text-2xl font-bold text-center mb-6 section-title">Options d'hébergement & suivi technique</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4 text-primary">
+                                <i class="fas fa-user-shield text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold">Option Autonomie</h4>
+                        </div>
+                        <p class="text-gray-600 mb-4">Vous gérez l'hébergement et le nom de domaine après mise en ligne.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Paiement unique (0 frais récurrents)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Accompagnement pour l'achat (hébergement + domaine)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Mise en ligne et sécurisation HTTPS</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Vous recevez tous les accès</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-secondary/10 p-3 rounded-full mr-4 text-secondary">
+                                <i class="fas fa-hands-helping text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold">Option Tranquillité</h4>
+                        </div>
+                        <p class="text-gray-600 mb-4">Je gère tout à votre place, vous n'avez rien à faire.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>À partir de 12€/mois (selon la taille du site)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Hébergement + nom de domaine + HTTPS</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Accès administrateur conservé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>1 mise à jour mineure par mois</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fonctionnalités -->
+    <section id="fonctionnalites" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Fonctionnalités proposées</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Tout ce dont vous avez besoin pour votre présence en ligne</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary/10 p-3 rounded-lg mr-4 text-primary">
+                            <i class="fas fa-laptop-code text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Site responsive</h3>
+                    </div>
+                    <p class="text-gray-600">Votre site s'adapte parfaitement à tous les écrans (PC, tablette et mobile) pour une expérience utilisateur optimale.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-secondary/10 p-3 rounded-lg mr-4 text-secondary">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Formulaire de contact</h3>
+                    </div>
+                    <p class="text-gray-600">Formulaire de contact simple ou avancé selon vos besoins, avec protection anti-spam et notifications par email.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-accent/10 p-3 rounded-lg mr-4 text-accent">
+                            <i class="fas fa-paint-brush text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Design personnalisé</h3>
+                    </div>
+                    <p class="text-gray-600">Un design unique qui reflète votre identité professionnelle et met en valeur votre activité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-lg mr-4 text-secondary">
+                            <i class="fas fa-map-marker-alt text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Référencement local</h3>
+                    </div>
+                    <p class="text-gray-600">Optimisation pour le référencement local afin que vos clients vous trouvent facilement dans les résultats de recherche.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg mr-4 text-green-600">
+                            <i class="fas fa-boxes text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Gestion de contenu</h3>
+                    </div>
+                    <p class="text-gray-600">Système de gestion de contenu, de stock ou de réservation selon les besoins spécifiques de votre activité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4 text-primary">
+                            <i class="fas fa-rocket text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Mise en ligne</h3>
+                    </div>
+                    <p class="text-gray-600">Mise en ligne complète avec hébergement, nom de domaine et certificat SSL inclus, plus maintenance si nécessaire.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Qui suis-je ? -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="lg:w-1/2 mb-12 lg:mb-0">
+                    <h2 class="text-3xl font-bold text-dark mb-6 section-title">Qui suis-je ?</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Je suis développeur web freelance, étudiant en école d'ingénieur informatique, spécialisé dans la création de sites professionnels modernes, rapides à mettre en ligne, et optimisés pour la visibilité locale.
+                    </p>
+                    <p class="text-lg text-gray-600">
+                        Mon objectif : vous fournir un outil clair, fiable, et adapté à votre activité. Je m'engage à créer des sites web qui non seulement vous représentent professionnellement, mais qui vous aident également à développer votre clientèle.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#contact" class="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all">Me contacter</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-accent/20 rounded-2xl blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Développeur web" class="relative rounded-2xl shadow-lg max-w-full h-auto border-4 border-white">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Témoignages clients</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Bientôt disponible : vos retours !</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-10">
+                    <h2 class="text-3xl font-bold text-dark mb-6 section-title">Contactez-moi</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Vous avez un projet de site web ? Envoyez-moi un message et je vous répondrai dans les plus brefs délais pour discuter de vos besoins et vous proposer une solution adaptée.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4 text-primary">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Email</h4>
+                                <p class="text-gray-600">fire5917.5917@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-secondary/10 p-3 rounded-full mr-4 text-secondary">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Téléphone</h4>
+                                <p class="text-gray-600">Disponible sur demande</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-accent/10 p-3 rounded-full mr-4 text-accent">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Localisation</h4>
+                                <p class="text-gray-600">Travail à distance possible partout en France</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                        <form action="https://formsubmit.co/fire5917.5917@gmail.com" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_autoresponse" value="Merci pour votre message ! Je vous répondrai dans les plus brefs délais. Cordialement, WebSharp.fr">
+                            
+                            <div class="mb-6">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="pack" class="block text-sm font-medium text-gray-700 mb-1">Pack intéressé</label>
+                                <select id="pack" name="pack" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                                    <option value="">-- Sélectionnez une option --</option>
+                                    <option value="Pack Essentiel">Pack Essentiel (129€)</option>
+                                    <option value="Pack Professionnel">Pack Professionnel (249€)</option>
+                                    <option value="Pack Sur-mesure">Pack Sur-mesure (sur devis)</option>
+                                    <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Votre message *</label>
+                                <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all"></textarea>
+                            </div>
+                            
+                            <div class="flex items-center mb-6">
+                                <input id="consent" name="consent" type="checkbox" required class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                <label for="consent" class="ml-2 block text-sm text-gray-700">
+                                    J'accepte que mes données soient utilisées pour me recontacter dans le cadre de ma demande.
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg">Recevoir un devis gratuit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <span class="text-primary">WebSharp</span><span class="text-accent">.fr</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        Création de sites web professionnels pour artisans, commerçants, indépendants et petites entreprises.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens utiles</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#hero" class="text-gray-400 hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="#pourquoi" class="text-gray-400 hover:text-white transition-colors">Pourquoi nous ?</a></li>
+                        <li><a href="#offres" class="text-gray-400 hover:text-white transition-colors">Nos offres</a></li>
+                        <li><a href="#fonctionnalites" class="text-gray-400 hover:text-white transition-colors">Fonctionnalités</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Mentions légales</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">CGV</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 <span class="text-primary">WebSharp.fr</span> - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSharp.fr - Création de sites web professionnels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#7C3AED',
+                        accent: '#F59E0B',
+                        dark: '#1E1B4B',
+                        light: '#E0E7FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -8px;
+            left: 20%;
+            background: linear-gradient(90deg, #F59E0B 0%, #7C3AED 100%);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-dark bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-primary font-bold text-2xl">WebSharp<span class="text-accent">.fr</span></span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#hero" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Accueil</a>
+                    <a href="#pourquoi" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Pourquoi nous ?</a>
+                    <a href="#offres" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Nos offres</a>
+                    <a href="#fonctionnalites" class="text-dark hover:text-primary px-3 py-2 text-sm font-medium transition-colors">Fonctionnalités</a>
+                    <a href="#contact" class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg text-sm font-medium transition-all glow-effect hover:glow-effect">Demander un devis</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-primary hover:bg-gray-100 focus:outline-none">
+                        <span class="sr-only">Ouvrir le menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#hero" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Accueil</a>
+                <a href="#pourquoi" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Pourquoi nous ?</a>
+                <a href="#offres" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Nos offres</a>
+                <a href="#fonctionnalites" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Fonctionnalités</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-white bg-primary rounded-lg">Demander un devis</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">Votre site web <span class="text-accent">professionnel</span>, sans complication</h1>
+                    <p class="text-xl text-light mb-8">Sites modernes, clairs et efficaces pour artisans, commerçants, indépendants et petites entreprises.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#contact" class="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold text-center transition-all shadow-lg hover:shadow-xl">Demander un devis gratuit</a>
+                        <a href="#offres" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-lg text-lg font-semibold text-center transition-all">Voir les offres</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-accent rounded-xl opacity-20 blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Site web professionnel" class="relative rounded-2xl shadow-2xl max-w-full h-auto border-4 border-white">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pourquoi nous ? -->
+    <section id="pourquoi" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Pourquoi me confier votre site ?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Je crée des sites web qui répondent parfaitement à vos besoins professionnels</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-indigo-100 text-primary">
+                        <i class="fas fa-tools text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Sites sur mesure</h3>
+                    <p class="text-gray-600">Je conçois des sites adaptés à votre activité, avec un design qui reflète votre identité professionnelle.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-purple-100 text-secondary">
+                        <i class="fas fa-globe text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Solution clé en main</h3>
+                    <p class="text-gray-600">Je m'occupe de tout : design, hébergement, HTTPS, nom de domaine. Vous n'avez rien à gérer.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-blue-100 text-primary">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Optimisé mobile</h3>
+                    <p class="text-gray-600">Vos clients vous trouveront facilement, quel que soit leur appareil (ordinateur, tablette ou mobile).</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-amber-100 text-accent">
+                        <i class="fas fa-search text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Optimisation SEO</h3>
+                    <p class="text-gray-600">Votre site sera optimisé pour Google et les autres moteurs de recherche pour une meilleure visibilité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-red-100 text-red-600">
+                        <i class="fas fa-headset text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Suivi personnalisé</h3>
+                    <p class="text-gray-600">Je reste disponible pour les mises à jour et le suivi de votre site après sa mise en ligne.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all card-hover border border-gray-100">
+                    <div class="feature-icon bg-green-100 text-green-600">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Rapidité</h3>
+                    <p class="text-gray-600">Sites ultra-rapides pour une meilleure expérience utilisateur et un meilleur référencement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nos offres -->
+    <section id="offres" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Nos offres de création de site web</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Des solutions adaptées à chaque besoin et budget</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pack Essentiel -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all card-hover">
+                    <div class="bg-primary/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-primary">Pack Essentiel</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">129€</span>
+                            <span class="text-gray-600">/ à partir de</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Site One Page (1 seule page)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Design clair et responsive</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Formulaire de contact simple</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Optimisation SEO de base</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Compatible tous supports</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>1 intervention de maintenance offerte</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all">Choisir cette offre</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pack Pro -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all card-hover transform scale-105 z-10 relative">
+                    <div class="absolute top-0 right-0 bg-accent text-dark text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">Populaire</div>
+                    <div class="bg-secondary/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-secondary">Pack Professionnel</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">249€</span>
+                            <span class="text-gray-600">/ à partir de</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Site de 3 à 5 pages</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Design sur mesure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Formulaire de contact</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Référencement local optimisé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Compatible tous supports</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>2 interventions de maintenance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-secondary hover:bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all glow-effect">Choisir cette offre</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pack Sur-mesure -->
+                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all card-hover">
+                    <div class="bg-accent/10 p-6 text-center border-b border-gray-200">
+                        <h3 class="text-2xl font-bold text-accent">Pack Sur-mesure</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-dark">Sur devis</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Site dynamique adapté à vos besoins</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Fonctionnalités avancées</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Design personnalisé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Optimisation SEO technique</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Mise en ligne complète</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>2 mois de maintenance inclus</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                                <span>Solution clé en main</span>
+                            </li>
+                        </ul>
+                        <div class="mt-8 text-center">
+                            <a href="#contact" class="inline-block bg-accent hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-medium transition-all">Demander un devis</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="text-2xl font-bold text-center mb-6 section-title">Options d'hébergement & suivi technique</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4 text-primary">
+                                <i class="fas fa-user-shield text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold">Option Autonomie</h4>
+                        </div>
+                        <p class="text-gray-600 mb-4">Vous gérez l'hébergement et le nom de domaine après mise en ligne.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Paiement unique (0 frais récurrents)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Accompagnement pour l'achat (hébergement + domaine)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Mise en ligne et sécurisation HTTPS</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary mt-1 mr-2"></i>
+                                <span>Vous recevez tous les accès</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-secondary/10 p-3 rounded-full mr-4 text-secondary">
+                                <i class="fas fa-hands-helping text-xl"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold">Option Tranquillité</h4>
+                        </div>
+                        <p class="text-gray-600 mb-4">Je gère tout à votre place, vous n'avez rien à faire.</p>
+                        <ul class="space-y-2 mb-6">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>À partir de 12€/mois (selon la taille du site)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Hébergement + nom de domaine + HTTPS</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>Accès administrateur conservé</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-secondary mt-1 mr-2"></i>
+                                <span>1 mise à jour mineure par mois</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fonctionnalités -->
+    <section id="fonctionnalites" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Fonctionnalités proposées</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Tout ce dont vous avez besoin pour votre présence en ligne</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary/10 p-3 rounded-lg mr-4 text-primary">
+                            <i class="fas fa-laptop-code text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Site responsive</h3>
+                    </div>
+                    <p class="text-gray-600">Votre site s'adapte parfaitement à tous les écrans (PC, tablette et mobile) pour une expérience utilisateur optimale.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-secondary/10 p-3 rounded-lg mr-4 text-secondary">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Formulaire de contact</h3>
+                    </div>
+                    <p class="text-gray-600">Formulaire de contact simple ou avancé selon vos besoins, avec protection anti-spam et notifications par email.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-accent/10 p-3 rounded-lg mr-4 text-accent">
+                            <i class="fas fa-paint-brush text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Design personnalisé</h3>
+                    </div>
+                    <p class="text-gray-600">Un design unique qui reflète votre identité professionnelle et met en valeur votre activité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-3 rounded-lg mr-4 text-secondary">
+                            <i class="fas fa-map-marker-alt text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Référencement local</h3>
+                    </div>
+                    <p class="text-gray-600">Optimisation pour le référencement local afin que vos clients vous trouvent facilement dans les résultats de recherche.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-3 rounded-lg mr-4 text-green-600">
+                            <i class="fas fa-boxes text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Gestion de contenu</h3>
+                    </div>
+                    <p class="text-gray-600">Système de gestion de contenu, de stock ou de réservation selon les besoins spécifiques de votre activité.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all card-hover border border-gray-200">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4 text-primary">
+                            <i class="fas fa-rocket text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">Mise en ligne</h3>
+                    </div>
+                    <p class="text-gray-600">Mise en ligne complète avec hébergement, nom de domaine et certificat SSL inclus, plus maintenance si nécessaire.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Qui suis-je ? -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="lg:w-1/2 mb-12 lg:mb-0">
+                    <h2 class="text-3xl font-bold text-dark mb-6 section-title">Qui suis-je ?</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Je suis développeur web freelance, étudiant en école d'ingénieur informatique, spécialisé dans la création de sites professionnels modernes, rapides à mettre en ligne, et optimisés pour la visibilité locale.
+                    </p>
+                    <p class="text-lg text-gray-600">
+                        Mon objectif : vous fournir un outil clair, fiable, et adapté à votre activité. Je m'engage à créer des sites web qui non seulement vous représentent professionnellement, mais qui vous aident également à développer votre clientèle.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#contact" class="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all">Me contacter</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-accent/20 rounded-2xl blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Développeur web" class="relative rounded-2xl shadow-lg max-w-full h-auto border-4 border-white">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4 section-title">Témoignages clients</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Bientôt disponible : vos retours !</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm text-center border border-gray-200">
+                    <div class="flex justify-center mb-4">
+                        <i class="fas fa-user-circle text-gray-400 text-5xl"></i>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"Bientôt votre témoignage ici !"</p>
+                    <div class="text-amber-400 mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="font-semibold">Nom du client</p>
+                    <p class="text-sm text-gray-500">Profession</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-10">
+                    <h2 class="text-3xl font-bold text-dark mb-6 section-title">Contactez-moi</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Vous avez un projet de site web ? Envoyez-moi un message et je vous répondrai dans les plus brefs délais pour discuter de vos besoins et vous proposer une solution adaptée.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary/10 p-3 rounded-full mr-4 text-primary">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Email</h4>
+                                <p class="text-gray-600">fire5917.5917@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-secondary/10 p-3 rounded-full mr-4 text-secondary">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Téléphone</h4>
+                                <p class="text-gray-600">Disponible sur demande</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-accent/10 p-3 rounded-full mr-4 text-accent">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Localisation</h4>
+                                <p class="text-gray-600">Travail à distance possible partout en France</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                        <form action="https://formsubmit.co/fire5917.5917@gmail.com" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_autoresponse" value="Merci pour votre message ! Je vous répondrai dans les plus brefs délais. Cordialement, WebSharp.fr">
+                            
+                            <div class="mb-6">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="pack" class="block text-sm font-medium text-gray-700 mb-1">Pack intéressé</label>
+                                <select id="pack" name="pack" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all">
+                                    <option value="">-- Sélectionnez une option --</option>
+                                    <option value="Pack Essentiel">Pack Essentiel (129€)</option>
+                                    <option value="Pack Professionnel">Pack Professionnel (249€)</option>
+                                    <option value="Pack Sur-mesure">Pack Sur-mesure (sur devis)</option>
+                                    <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Votre message *</label>
+                                <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary focus:outline-none transition-all"></textarea>
+                            </div>
+                            
+                            <div class="flex items-center mb-6">
+                                <input id="consent" name="consent" type="checkbox" required class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                <label for="consent" class="ml-2 block text-sm text-gray-700">
+                                    J'accepte que mes données soient utilisées pour me recontacter dans le cadre de ma demande.
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg">Recevoir un devis gratuit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <span class="text-primary">WebSharp</span><span class="text-accent">.fr</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        Création de sites web professionnels pour artisans, commerçants, indépendants et petites entreprises.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Liens utiles</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#hero" class="text-gray-400 hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="#pourquoi" class="text-gray-400 hover:text-white transition-colors">Pourquoi nous ?</a></li>
+                        <li><a href="#offres" class="text-gray-400 hover:text-white transition-colors">Nos offres</a></li>
+                        <li><a href="#fonctionnalites" class="text-gray-400 hover:text-white transition-colors">Fonctionnalités</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Mentions légales</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">CGV</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 <span class="text-primary">WebSharp.fr</span> - Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Add shadow to navbar on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-lg');
+                nav.classList.remove('shadow-sm');
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.classList.add('shadow-sm');
+            }
+        });
+    </script>
+</body>
+</html>
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Add shadow to navbar on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-lg');
+                nav.classList.remove('shadow-sm');
+            } else {
+                nav.classList.remove('shadow-lg');
+                nav.classList.add('shadow-sm');
+            }
+        });
+    </script>
+</body>
+</html>
