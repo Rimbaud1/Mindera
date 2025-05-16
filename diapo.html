@@ -368,64 +368,61 @@
                 </h2>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <!-- Carousel -->
-                <div class="relative">
-                    <div class="carousel-container relative">
-                        <img src="./home1.png" alt="Home 1" class="carousel-img active rounded-lg max-h-[70vh]">
-                        <img src="./home2.png" alt="Home 2" class="carousel-img rounded-lg max-h-[70vh]">
-                        <img src="./home3.png" alt="Home 3" class="carousel-img rounded-lg max-h-[70vh]">
-                    </div>
-                    <div class="flex justify-center mt-4 space-x-2">
-                        <button onclick="showCarouselSlide(1)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">①</button>
-                        <button onclick="showCarouselSlide(2)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">②</button>
-                        <button onclick="showCarouselSlide(3)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">③</button>
-                    </div>
-                    
-                    <div class="absolute top-1/2 left-0 right-0 flex justify-between px-2 transform -translate-y-1/2">
-                        <button onclick="prevCarouselSlide()" class="carousel-nav-btn w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button onclick="nextCarouselSlide()" class="carousel-nav-btn w-10 h-10 rounded-full flex items-center justify-center">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
+            <!-- Description thème -->
+            <div class="bg-gray-900/80 backdrop-blur-md rounded-lg p-6 mb-8 flex flex-col lg:flex-row gap-8">
+                <div class="space-y-4 text-gray-300 lg:w-1/2">
+                    <div class="flex items-start">
+                        <span class="text-2xl mr-3">🎨</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-amber-300">Thème visuel</h4>
+                            <p>Univers médiéval-fantastique, avec ambiance sombre et interface moderne.</p>
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Description thème -->
-                <div class="bg-gray-900/80 backdrop-blur-md rounded-lg p-6">
-                    <h3 class="text-2xl font-bold text-amber-400 mb-4">Univers visuel</h3>
-                    
-                    <div class="space-y-4 text-gray-300">
-                        <div class="flex items-start">
-                            <span class="text-2xl mr-3">🎨</span>
-                            <div>
-                                <h4 class="text-lg font-bold text-amber-300">Thème visuel</h4>
-                                <p>Univers médiéval-fantastique, avec ambiance sombre et interface moderne.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-start">
-                            <span class="text-2xl mr-3">🛠️</span>
-                            <div>
-                                <h4 class="text-lg font-bold text-amber-300">Outils utilisés</h4>
-                                <ul class="space-y-2">
-                                    <li class="flex items-center">
-                                        <span class="mr-2">🌀</span>
-                                        <span>TailwindCSS (framework CSS utilitaire)</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <span class="mr-2">★</span>
-                                        <span>Font Awesome (bibliothèque d'icônes)</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <span class="mr-2">🅶</span>
-                                        <span>Google Fonts - MedievalSharp (typographie médiévale)</span>
-                                    </li>
-                                </ul>
-                            </div>
+                <div class="space-y-4 text-gray-300 lg:w-1/2">
+                    <div class="flex items-start">
+                        <span class="text-2xl mr-3">🛠️</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-amber-300">Outils utilisés</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <span class="mr-2">🌀</span>
+                                    <span>TailwindCSS (framework CSS utilitaire)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="mr-2">★</span>
+                                    <span>Font Awesome (bibliothèque d'icônes)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <span class="mr-2">🅶</span>
+                                    <span>Google Fonts - MedievalSharp (typographie médiévale)</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Carousel -->
+            <div class="relative">
+                <div class="carousel-container relative">
+                    <img src="./home1.png" alt="Home 1" class="carousel-img active rounded-lg w-auto max-h-[60vh] mx-auto">
+                    <img src="./home2.png" alt="Home 2" class="carousel-img rounded-lg w-auto max-h-[60vh] mx-auto">
+                    <img src="./home3.png" alt="Home 3" class="carousel-img rounded-lg w-auto max-h-[60vh] mx-auto">
+                </div>
+                <div class="flex justify-center mt-4 space-x-2">
+                    <button onclick="showCarouselSlide(1)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">①</button>
+                    <button onclick="showCarouselSlide(2)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">②</button>
+                    <button onclick="showCarouselSlide(3)" class="carousel-nav-btn w-8 h-8 rounded-full flex items-center justify-center">③</button>
+                </div>
+                
+                <div class="absolute top-1/2 left-0 right-0 flex justify-between px-2 transform -translate-y-1/2">
+                    <button onclick="prevCarouselSlide()" class="carousel-nav-btn w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button onclick="nextCarouselSlide()" class="carousel-nav-btn w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
