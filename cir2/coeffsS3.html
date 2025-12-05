@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +9,32 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        
-        /* Custom Inputs */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+
+        body {
+            font-family: 'Inter', sans-serif;
         }
+
+        /* Custom Inputs */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         .grade-input:focus {
             outline: none;
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-slate-800 pb-20">
 
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
         <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-calculator text-blue-600 mr-2"></i>Mes Notes</h1>
+            <h1 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-calculator text-blue-600 mr-2"></i>Mes
+                Notes</h1>
             <div class="text-right">
                 <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Moyenne Globale</p>
                 <div id="global-average" class="text-2xl font-bold text-gray-400">--/20</div>
@@ -39,35 +46,45 @@
 
         <!-- Introduction -->
         <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-800">
-            <p><strong>Objectif :</strong> Obtenir 10/20 minimum dans chaque bloc coloré. Les cases vides sont ignorées dans le calcul actuel.</p>
+            <p><strong>Objectif :</strong> Obtenir 10/20 minimum dans chaque bloc coloré. Les cases vides sont ignorées
+                dans le calcul actuel.</p>
         </div>
 
         <!-- 1. Mathématiques (Pink) -->
         <section class="bg-white rounded-xl shadow-sm border border-fuchsia-100 overflow-hidden" data-coeff="100">
             <div class="bg-fuchsia-100 px-6 py-4 flex justify-between items-center border-b border-fuchsia-200">
                 <h2 class="font-bold text-fuchsia-900 text-lg">Mathématiques</h2>
-                <span class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center" id="avg-maths">--</span>
+                <span
+                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
+                    id="avg-maths">--</span>
             </div>
             <div class="divide-y divide-gray-100">
-                
+
                 <!-- Calcul diff -->
                 <div class="p-4 module-row" data-weight="40">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Calcul différentiel <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 40)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Calcul différentiel <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 40)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (60%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.6">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.6">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC1 (20%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.2">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.2">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC2 (20%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.2">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.2">
                         </div>
                     </div>
                 </div>
@@ -75,21 +92,28 @@
                 <!-- Analyse avancée -->
                 <div class="p-4 module-row" data-weight="40">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Analyse avancée <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 40)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Analyse avancée <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 40)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (60%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.6">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.6">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC1 (20%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.2">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.2">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC2 (20%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.2">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.2">
                         </div>
                     </div>
                 </div>
@@ -97,21 +121,28 @@
                 <!-- Maths TP -->
                 <div class="p-4 module-row" data-weight="20">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Maths TP <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 20)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Maths TP <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 20)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP1 (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP2 (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP3 (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
                     </div>
                 </div>
@@ -124,28 +155,37 @@
         <section class="bg-white rounded-xl shadow-sm border border-orange-100 overflow-hidden" data-coeff="100">
             <div class="bg-orange-100 px-6 py-4 flex justify-between items-center border-b border-orange-200">
                 <h2 class="font-bold text-orange-900 text-lg">Physique & Élec.</h2>
-                <span class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center" id="avg-phys">--</span>
+                <span
+                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
+                    id="avg-phys">--</span>
             </div>
             <div class="divide-y divide-gray-100">
-                
+
                 <!-- Electro -->
                 <div class="p-4 module-row" data-weight="70">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Electromagnétisme <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 70)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Electromagnétisme <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 70)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Inter (30%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (60%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.6">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.6">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC1 (10%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.1">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.1">
                         </div>
                     </div>
                 </div>
@@ -153,17 +193,22 @@
                 <!-- Auto Seq -->
                 <div class="p-4 module-row" data-weight="30">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Automatique séq. <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Automatique séq. <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Inter (40%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.4">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.4">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (60%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.6">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.6">
                         </div>
                     </div>
                 </div>
@@ -174,28 +219,37 @@
         <section class="bg-white rounded-xl shadow-sm border border-sky-100 overflow-hidden" data-coeff="100">
             <div class="bg-sky-100 px-6 py-4 flex justify-between items-center border-b border-sky-200">
                 <h2 class="font-bold text-sky-900 text-lg">Informatique</h2>
-                <span class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center" id="avg-info">--</span>
+                <span
+                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
+                    id="avg-info">--</span>
             </div>
             <div class="divide-y divide-gray-100">
-                
+
                 <!-- Objet -->
                 <div class="p-4 module-row" data-weight="70">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Orientée objet <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 70)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Orientée objet <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 70)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Inter (35%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.35">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.35">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (35%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.35">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.35">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Projet (30%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.30">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.30">
                         </div>
                     </div>
                 </div>
@@ -203,25 +257,34 @@
                 <!-- Embarqué -->
                 <div class="p-4 module-row" data-weight="30">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Info. embarquée <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Info. embarquée <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-4 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP1 (25%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.25">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.25">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP2 (25%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.25">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.25">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Proj (25%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.25">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.25">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Final (25%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.25">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.25">
                         </div>
                     </div>
                 </div>
@@ -232,28 +295,37 @@
         <section class="bg-white rounded-xl shadow-sm border border-emerald-100 overflow-hidden" data-coeff="100">
             <div class="bg-emerald-100 px-6 py-4 flex justify-between items-center border-b border-emerald-200">
                 <h2 class="font-bold text-emerald-900 text-lg">Humanités</h2>
-                <span class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center" id="avg-hum">--</span>
+                <span
+                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
+                    id="avg-hum">--</span>
             </div>
             <div class="divide-y divide-gray-100">
-                
+
                 <!-- Anglais -->
                 <div class="p-4 module-row" data-weight="35">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Anglais <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 35)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Anglais <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 35)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (50%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.5">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.5">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC1 (30%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">TP1 (20%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.2">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.2">
                         </div>
                     </div>
                 </div>
@@ -261,43 +333,57 @@
                 <!-- Science -->
                 <div class="p-4 module-row" data-weight="30">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Science & Société <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Science & Société <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Inter (10%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.1">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.1">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Rap (50%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.5">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.5">
                         </div>
-                         <div class="grade-container">
+                        <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Sout (40%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.4">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.4">
                         </div>
                     </div>
                 </div>
 
-                 <!-- Episto -->
-                 <div class="p-4 module-row" data-weight="35">
+                <!-- Episto -->
+                <div class="p-4 module-row" data-weight="35">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Epistémologie <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 35)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Epistémologie <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 35)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Finale (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC1 (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
-                         <div class="grade-container">
+                        <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">CC2 (33%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="0.3333">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="0.3333">
                         </div>
                     </div>
                 </div>
@@ -308,26 +394,33 @@
         <section class="bg-white rounded-xl shadow-sm border border-rose-100 overflow-hidden" data-coeff="100">
             <div class="bg-rose-100 px-6 py-4 flex justify-between items-center border-b border-rose-200">
                 <h2 class="font-bold text-rose-900 text-lg">Stage</h2>
-                <span class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center" id="avg-stage">--</span>
+                <span
+                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
+                    id="avg-stage">--</span>
             </div>
             <div class="divide-y divide-gray-100">
                 <div class="p-4 module-row" data-weight="100">
                     <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Stage d'exécution <span class="text-xs text-gray-400 font-normal ml-1">(Coeff 100)</span></h3>
+                        <h3 class="font-semibold text-slate-700">Stage d'exécution <span
+                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 100)</span></h3>
                         <span class="module-score text-sm font-bold text-gray-400">--</span>
                     </div>
                     <div class="grid grid-cols-1 gap-2">
                         <div class="grade-container">
                             <label class="block text-xs text-gray-500 mb-1">Rapport (100%)</label>
-                            <input type="number" placeholder="-" class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400" min="0" max="20" data-weight="1.0">
+                            <input type="number" placeholder="-"
+                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
+                                min="0" max="20" data-weight="1.0">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <div class="text-center pt-8">
-            <button onclick="resetAll()" class="text-sm text-gray-400 hover:text-red-500 underline transition-colors">Réinitialiser toutes les notes</button>
+            <button onclick="resetAll()"
+                class="text-sm text-gray-400 hover:text-red-500 underline transition-colors">Réinitialiser toutes les
+                notes</button>
         </div>
 
     </main>
@@ -347,14 +440,14 @@
                 modules.forEach(module => {
                     const inputs = module.querySelectorAll('input');
                     const moduleWeight = parseFloat(module.dataset.weight);
-                    
+
                     let moduleWeightedSum = 0;
                     let moduleCurrentWeights = 0;
 
                     inputs.forEach(input => {
                         const val = parseFloat(input.value);
                         const weight = parseFloat(input.dataset.weight);
-                        
+
                         if (!isNaN(val)) {
                             moduleWeightedSum += val * weight;
                             moduleCurrentWeights += weight;
@@ -363,20 +456,55 @@
 
                     // Calculate Module Average
                     const displaySpan = module.querySelector('.module-score');
+
+                    // Prediction Logic
+                    const totalMaxWeight = Array.from(inputs).reduce((acc, input) => acc + parseFloat(input.dataset.weight), 0);
+                    const remainingWeight = totalMaxWeight - moduleCurrentWeights;
+                    const targetScore = 10 * totalMaxWeight;
+                    const pointsNeeded = targetScore - moduleWeightedSum;
+
+                    let predMsg = "";
+                    let predColor = "";
+
+                    if (remainingWeight > 0.001) {
+                        if (pointsNeeded <= 0) {
+                            predMsg = "Peut avoir (0)";
+                            predColor = "text-emerald-600";
+                        } else {
+                            const gradeNeeded = pointsNeeded / remainingWeight;
+                            if (gradeNeeded <= 20) {
+                                predMsg = `Doit avoir ${gradeNeeded.toFixed(2)}`;
+                                predColor = "text-orange-500";
+                            } else {
+                                predMsg = "Impossible";
+                                predColor = "text-rose-500";
+                            }
+                        }
+                    }
+
+                    let predSpan = module.querySelector('.prediction-msg');
+                    if (!predSpan) {
+                        predSpan = document.createElement('span');
+                        if (displaySpan) {
+                            displaySpan.parentNode.insertBefore(predSpan, displaySpan);
+                        }
+                    }
+                    predSpan.textContent = predMsg;
+                    predSpan.className = `prediction-msg text-xs font-medium mr-2 ${predColor}`;
                     let moduleAvg = 0;
 
                     if (moduleCurrentWeights > 0) {
                         // Normalize to 20 based on entered weights
                         moduleAvg = moduleWeightedSum / moduleCurrentWeights;
                         displaySpan.textContent = moduleAvg.toFixed(2);
-                        
+
                         // Color logic for Module
                         if (moduleAvg >= 10) {
                             displaySpan.className = "module-score text-sm font-bold text-emerald-600";
                         } else {
                             displaySpan.className = "module-score text-sm font-bold text-rose-500";
                         }
-                        
+
                         // Add to Section Calculation
                         // Note: For the section average, we assume the module Average applies to the whole module weight
                         // If a student has only done 1 test in a module, that grade represents the module for now.
@@ -404,7 +532,7 @@
                         blockDisplay.classList.remove('text-gray-400', 'text-emerald-600', 'bg-emerald-50');
                         blockDisplay.classList.add('text-rose-500');
                     }
-                    
+
                     // Add to Global Average (Simplified: Assuming all blocks have equal weight? 
                     // The prompt doesn't give block weights relative to each other, assume standard ECTS or equal visibility)
                     // Let's just track it visually for now or average the blocks if needed.
@@ -418,13 +546,13 @@
                     blockDisplay.className = "block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center";
                 }
             });
-            
+
             // Optional Global Average
             const globalDisplay = document.getElementById('global-average');
-            if(globalWeight > 0) {
+            if (globalWeight > 0) {
                 const gAvg = globalSum / globalWeight;
                 globalDisplay.textContent = gAvg.toFixed(2) + "/20";
-                if(gAvg >= 10) globalDisplay.classList.replace('text-gray-400', 'text-slate-800');
+                if (gAvg >= 10) globalDisplay.classList.replace('text-gray-400', 'text-slate-800');
             } else {
                 globalDisplay.textContent = "--/20";
             }
@@ -441,4 +569,5 @@
         });
     </script>
 </body>
+
 </html>
