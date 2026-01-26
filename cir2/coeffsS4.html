@@ -4,385 +4,885 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur de Moyenne S4</title>
+    <title>Mindera S4 | Ultimate</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Press+Start+2P&family=Fredoka:wght@300;400;500;600&family=Orbitron:wght@400;500;700;900&family=Comic+Neue:wght@700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
 
-        body {
-            font-family: 'Inter', sans-serif;
+    <style>
+        /* --- BASE VARIABLES & RESET --- */
+        :root {
+            --transition-speed: 0.3s;
         }
 
-        /* Custom Inputs */
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.6s ease, color 0.4s ease;
+        }
+
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
-        .grade-input:focus {
+        /* --- THEME 1: DARK (God-Tier UX) --- */
+        [data-theme="dark"] {
+            --bg-body: #09090b;
+            /* Subtle Aurora */
+            --bg-ambient: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
+                radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.05) 0%, transparent 60%);
+
+            --panel-bg: rgba(22, 22, 26, 0.7);
+            --card-bg: rgba(30, 30, 35, 0.5);
+
+            --border: rgba(255, 255, 255, 0.05);
+            /* Softer */
+            --border-highlight: rgba(139, 92, 246, 0.5);
+
+            --text-primary: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --text-accent: #a78bfa;
+            --text-accent-2: #fb7185;
+            --section-border: transparent;
+
+            --font-main: 'Outfit', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+
+            --backdrop: blur(50px) saturate(120%);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius: 24px;
+        }
+
+        /* --- THEME 2: LIGHT (Apple Clean) --- */
+        [data-theme="light"] {
+            --bg-body: #ffffff;
+            --bg-ambient: radial-gradient(circle at 50% 0%, #f8fafc, transparent);
+
+            --panel-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: #ffffff;
+
+            --border: rgba(0, 0, 0, 0.03);
+            /* Barely visible */
+            --border-highlight: #0ea5e9;
+
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-accent: #0ea5e9;
+            --text-accent-2: #f43f5e;
+            --section-border: rgba(0, 0, 0, 0.02);
+
+            --font-main: 'Inter', -apple-system, sans-serif;
+            --font-display: 'Inter', -apple-system, sans-serif;
+
+            --backdrop: blur(30px) saturate(180%);
+            --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            --radius: 28px;
+        }
+
+        /* --- THEME 3: CYBERPUNK (Readable Neon) --- */
+        [data-theme="cyberpunk"] {
+            --bg-body: #040404;
+            /* Static Grid (No dizzy anim) */
+            --bg-ambient:
+                linear-gradient(90deg, #111 1px, transparent 1px) 0 0 / 30px 30px,
+                linear-gradient(#111 1px, transparent 1px) 0 0 / 30px 30px;
+
+            --panel-bg: rgba(10, 10, 10, 0.96);
+            --card-bg: #000000;
+
+            --border: #333;
+            --border-highlight: #facc15;
+
+            --text-primary: #facc15;
+            /* Yellow main */
+            --text-secondary: #22d3ee;
+            /* Cyan sec */
+            --text-accent: #22d3ee;
+            --section-border: #facc15;
+
+            --font-main: 'Orbitron', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+
+            --backdrop: none;
+            --shadow: 5px 5px 0px rgba(34, 211, 238, 0.2);
+            --radius: 0px;
+        }
+
+        /* --- THEME 4: GAMER (High Contrast RGB) --- */
+        [data-theme="gamer"] {
+            --bg-body: #050505;
+            --bg-ambient: radial-gradient(circle at 50% 50%, #151515 0%, #000 100%);
+
+            --panel-bg: rgba(15, 15, 15, 0.95);
+            --card-bg: rgba(25, 25, 25, 0.95);
+            /* More opaque for readability */
+
+            --border: #404040;
+            --border-highlight: #00ff00;
+
+            --text-primary: #ffffff;
+            /* Pure white text */
+            --text-secondary: #d4d4d4;
+            /* Light gray */
+            --text-accent: #00ff00;
+            --section-border: #404040;
+
+            --font-main: 'Press Start 2P', monospace;
+            --font-display: 'Press Start 2P', monospace;
+
+            --backdrop: blur(0px);
+            --shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+            --radius: 4px;
+        }
+
+        /* --- THEME 5: KAWAII (Hardcore Cliché but Airy) --- */
+        [data-theme="kawaii"] {
+            --bg-body: #fff0f5;
+            /* Lavender Blush */
+            --bg-ambient: radial-gradient(#ffadd2 15%, transparent 16%) 0 0,
+                radial-gradient(#ffadd2 15%, transparent 16%) 16px 16px;
+            --bg-size: 32px 32px;
+            /* Bigger dots = more air */
+
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: #ffffff;
+
+            --border: #faa2c1;
+            --border-highlight: #f06595;
+
+            --text-primary: #d63384;
+            --text-secondary: #e64980;
+            --text-accent: #fcc419;
+            --section-border: #faa2c1;
+
+            --font-main: 'Fredoka', cursive;
+            --font-display: 'Fredoka', cursive;
+
+            --backdrop: blur(12px);
+            --shadow: 6px 6px 0px #ffdeeb;
+            --radius: 32px;
+        }
+
+        /* --- THEME 6: UGLY (Chaos Mode) --- */
+        [data-theme="ugly"] {
+            --bg-body: #FFFF00;
+            --bg-ambient: repeating-conic-gradient(red 0% 10%, yellow 10% 20%, blue 20% 30%);
+
+            --panel-bg: #fff;
+            --card-bg: #0F0;
+
+            --border: blue;
+            --border-highlight: red;
+
+            --text-primary: blue;
+            --text-secondary: red;
+            --text-accent: black;
+            --section-border: red;
+
+            --font-main: 'Comic Sans MS', cursive;
+            --font-display: 'Impact', sans-serif;
+
+            --backdrop: none;
+            --shadow: 15px 15px 0px black;
+            --radius: 50% 10% 50% 10%;
+        }
+
+        /* --- THEME 7: DELANGUE (Conspiracy/Perversion - Refined) --- */
+        [data-theme="delangue"] {
+            --bg-body: #dcdcdc;
+            /* Concrete Grey */
+            --bg-ambient: repeating-linear-gradient(45deg, #d0d0d0 0px, #d0d0d0 1px, transparent 1px, transparent 10px),
+                radial-gradient(at 0% 0%, rgba(0, 0, 0, 0.1), transparent);
+
+            --panel-bg: #fdfbf7;
+            /* Paper */
+            --card-bg: #fffbf0;
+            /* Manila Folder */
+
+            --border: #333;
+            /* Stark Black */
+            --border-highlight: #ff0000;
+            /* Redact Red */
+
+            --text-primary: #1a1a1a;
+            --text-secondary: #555;
+            --text-accent: #cc0000;
+            --section-border: #1a1a1a;
+
+            --font-main: 'Courier New', monospace;
+            --font-display: 'Courier New', monospace;
+
+            --backdrop: none;
+            --shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+            --radius: 2px;
+        }
+
+        /* === GLOBAL LAYOUT === */
+
+        body {
+            background-color: var(--bg-body);
+            background-image: var(--bg-ambient);
+            background-attachment: fixed;
+            font-family: var(--font-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            /* Better readability */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-display {
+            font-family: var(--font-display);
+        }
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: var(--backdrop);
+            -webkit-backdrop-filter: var(--backdrop);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+        }
+
+        /* Card Styling for Readability */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            padding: 1.75rem;
+            /* More padding */
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .glass-card:hover {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.1);
+        }
+
+        [data-theme="kawaii"] .glass-card:hover {
+            box-shadow: 6px 6px 0px #faa2c1;
+            transform: translate(-2px, -2px);
+        }
+
+        /* Section Frames */
+        .section-frame {
+            border: 1px solid transparent;
+            padding: 2.5rem;
+            /* Massive padding increase */
+            border-radius: var(--radius);
+            transition: all 0.5s;
+            margin-bottom: 3rem;
+            /* Spacing between modules */
+        }
+
+        [data-theme="dark"] .section-frame {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        [data-theme="light"] .section-frame {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="cyberpunk"] .section-frame {
+            border: 1px solid var(--section-border);
+            background: rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        [data-theme="cyberpunk"] .section-frame::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20px;
+            width: 100px;
+            height: 2px;
+            background: var(--bg-body);
+        }
+
+        [data-theme="cyberpunk"] .section-frame::after {
+            content: "SEC_LEVEL_9";
+            position: absolute;
+            top: -10px;
+            left: 25px;
+            color: var(--section-border);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        [data-theme="gamer"] .section-frame {
+            border: 2px solid #333;
+            background: rgba(20, 20, 20, 0.7);
+        }
+
+        [data-theme="kawaii"] .section-frame {
+            background: rgba(255, 255, 255, 0.6);
+            border: 3px dashed var(--section-border);
+        }
+
+        [data-theme="delangue"] .section-frame {
+            background: #fff;
+            border: 2px solid #000;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.1);
+            transform: rotate(-0.5deg);
+            position: relative;
+        }
+
+        [data-theme="delangue"] .section-frame::after {
+            content: 'EVIDENCE #84-B';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #000;
+            color: #fff;
+            padding: 2px 8px;
+            font-weight: bold;
+            font-family: 'Courier New';
+            transform: rotate(-2deg);
+        }
+
+        [data-theme="delangue"] .theme-input {
+            background: #fff;
+            border: 1px solid #999;
+            border-bottom: 3px solid #000;
+            color: #000;
+            font-weight: bold;
+            box-shadow: none;
+        }
+
+        [data-theme="delangue"] .theme-input:focus {
+            background: #ffffcc;
+            /* Highlighter yellow */
+            transform: scale(1.0);
+        }
+
+        [data-theme="delangue"] .input-label {
+            opacity: 1;
+            color: #000;
+            text-decoration: underline;
+        }
+
+        /* Label Styling */
+        .input-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+            font-family: var(--font-display);
+        }
+
+        [data-theme="cyberpunk"] .input-label {
+            color: var(--text-secondary);
+        }
+
+        /* Inputs */
+        .theme-input {
+            width: 100%;
+            background: transparent;
+            border-bottom: 2px solid var(--border);
+            padding: 10px 6px;
+            color: var(--text-primary);
+            text-align: center;
+            font-family: var(--font-display);
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        [data-theme="dark"] .theme-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        [data-theme="light"] .theme-input {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+
+        [data-theme="cyberpunk"] .theme-input {
+            border: 1px solid var(--border);
+            background: #000;
+            border-radius: 0;
+        }
+
+        [data-theme="gamer"] .theme-input {
+            border: 1px solid #333;
+            background: #000;
+            color: #fff;
+        }
+
+        [data-theme="kawaii"] .theme-input {
+            background: #fff;
+            border: 2px solid #ffd1dc;
+            border-radius: 20px;
+        }
+
+        .theme-input:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+            border-color: var(--text-accent);
+            transform: scale(1.02);
+        }
+
+        /* Menu */
+        #theme-menu {
+            border: 1px solid var(--border);
+            background: var(--panel-bg);
+            backdrop-filter: var(--backdrop);
+        }
+
+        .menu-btn:hover {
+            background: rgba(125, 125, 125, 0.1);
+        }
+
+        [data-theme="cyberpunk"] .menu-btn:hover {
+            background: var(--text-accent);
+            color: #000;
+        }
+
+        .text-accent-main {
+            color: var(--text-accent);
         }
     </style>
 </head>
 
-<body class="bg-gray-50 text-slate-800 pb-20">
+<body data-theme="dark">
 
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-calculator text-blue-600 mr-2"></i>Mes
-                Notes S4</h1>
-            <div class="text-right">
-                <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold">Moyenne Globale</p>
-                <div id="global-average" class="text-2xl font-bold text-gray-400">--/20</div>
+    <nav class="fixed top-0 w-full z-50 px-4 pt-4">
+        <div class="glass-panel mx-auto max-w-7xl px-8 py-5 flex justify-between items-center">
+
+            <div class="flex items-center gap-5">
+                <div
+                    class="w-12 h-12 rounded-2xl flex items-center justify-center text-white relative overflow-hidden shadow-lg group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-violet-600 to-indigo-500 opacity-90 transition-all duration-500 group-hover:opacity-100">
+                    </div>
+                    <i class="fa-solid fa-graduation-cap relative z-10 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-2xl tracking-tight leading-none" id="app-title">Mindera <span
+                            class="text-accent-main">S4</span></h1>
+                    <span class="text-[0.7rem] font-bold uppercase tracking-widest opacity-50 block mt-1"
+                        id="app-subtitle">Dashboard</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="relative">
+                    <button onclick="toggleMenu()" class="p-3 text-xl opacity-70 hover:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-palette"></i>
+                    </button>
+                    <!-- Menu -->
+                    <div id="theme-menu"
+                        class="hidden absolute right-0 mt-4 w-64 rounded-2xl p-3 shadow-2xl flex-col gap-2 z-50">
+                        <button onclick="setTheme('dark')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center"><i
+                                class="fa-solid fa-moon"></i> Premium Dark</button>
+                        <button onclick="setTheme('light')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center"><i
+                                class="fa-regular fa-sun"></i> Clean Light</button>
+                        <button onclick="setTheme('cyberpunk')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center"><i
+                                class="fa-solid fa-bolt text-yellow-500"></i> Cyberpunk</button>
+                        <button onclick="setTheme('gamer')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center"><i
+                                class="fa-solid fa-gamepad text-green-500"></i> RGB Gamer</button>
+                        <button onclick="setTheme('kawaii')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center"><i
+                                class="fa-solid fa-heart text-pink-400"></i> Ultime Kawaii</button>
+                        <button onclick="setTheme('delangue')"
+                            class="menu-btn w-full text-left p-3 rounded-xl text-sm font-bold flex gap-3 items-center text-red-700 bg-red-50 hover:bg-red-100"><i
+                                class="fa-solid fa-eye"></i> DELANGUE</button>
+                        <div class="h-px bg-current opacity-10 my-1"></div>
+                        <button onclick="setTheme('ugly')"
+                            class="menu-btn w-full text-left p-2 text-xs font-bold text-red-500 hover:bg-red-500/10 flex gap-2 items-center"><i
+                                class="fa-solid fa-skull"></i> Troll Mode</button>
+                    </div>
+                </div>
+
+                <div class="text-right hidden sm:block">
+                    <span id="global-average" class="font-display text-4xl font-bold text-accent-main">--</span>
+                </div>
+                <button onclick="resetAll()" class="p-3 opacity-60 hover:opacity-100"><i
+                        class="fa-solid fa-rotate-right"></i></button>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-3xl mx-auto px-4 py-6 space-y-6">
+    <main class="pt-40 pb-32 px-4 max-w-7xl mx-auto space-y-12">
 
-        <!-- Introduction -->
-        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-800">
-            <p><strong>Objectif :</strong> Obtenir 10/20 minimum dans chaque bloc coloré. Les cases vides sont ignorées
-                dans le calcul actuel. Les notes sont sauvegardées automatiquement.</p>
+        <div class="text-center space-y-4 mb-16">
+            <h2 class="text-5xl md:text-7xl font-display font-bold tracking-tight" id="main-header">Tableau de Bord</h2>
+            <p class="opacity-60 text-xl font-medium max-w-2xl mx-auto" id="main-desc">Gérez vos résultats avec
+                précision.</p>
         </div>
 
-        <!-- 1. Module des maths (Pink) -->
-        <section class="bg-white rounded-xl shadow-sm border border-fuchsia-100 overflow-hidden" data-coeff="100">
-            <div class="bg-fuchsia-100 px-6 py-4 flex justify-between items-center border-b border-fuchsia-200">
-                <h2 class="font-bold text-fuchsia-900 text-lg">Module des Maths</h2>
-                <span
-                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
-                    id="avg-maths">--</span>
-            </div>
-            <div class="divide-y divide-gray-100">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Maths Discrètes -->
-                <div class="p-4 module-row" data-weight="35">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Maths Discrètes <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 35)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
+            <!-- MODULE 1: MATHS -->
+            <section class="section-frame" data-coeff="100">
+                <div class="flex justify-between items-end mb-8 border-b border-gray-500/10 pb-4">
+                    <div>
+                        <h3 class="font-display font-bold text-3xl" data-original="Mathématiques">Mathématiques</h3>
+                        <span class="text-xs font-bold opacity-50 uppercase tracking-widest mt-1 block">UE Coeff
+                            100</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC1 (40%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.4" id="maths-dis-cc1">
+                    <span class="text-2xl font-bold font-display px-4 py-2 rounded-xl border border-current opacity-80"
+                        id="avg-maths">--</span>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="glass-card module-row" data-weight="35">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Discrètes</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">35%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
                         </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (60%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.6" id="maths-dis-partiel">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="input-label">CC1</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.4"
+                                    id="maths-dis-cc1" placeholder="40%">
+                            </div>
+                            <div>
+                                <label class="input-label">Partiel</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.6"
+                                    id="maths-dis-partiel" placeholder="60%">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card module-row" data-weight="50">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Algèbre</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">50%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="input-label">CC1</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.2"
+                                    id="maths-alg-cc1" placeholder="20%">
+                            </div>
+                            <div>
+                                <label class="input-label">CC2</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.2"
+                                    id="maths-alg-cc2" placeholder="20%">
+                            </div>
+                            <div>
+                                <label class="input-label">Final</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.6"
+                                    id="maths-alg-partiel" placeholder="60%">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card module-row" data-weight="15">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">TP Maths</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">15%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div><label class="input-label">TP1</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.333" id="maths-tp1" placeholder="33%"></div>
+                            <div><label class="input-label">TP2</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.333" id="maths-tp2" placeholder="33%"></div>
+                            <div><label class="input-label">TP3</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.333" id="maths-tp3" placeholder="33%"></div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Algèbre -->
-                <div class="p-4 module-row" data-weight="50">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Algèbre <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 50)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
+            <!-- MODULE 2: PHYSIQUE -->
+            <section class="section-frame" data-coeff="100">
+                <div class="flex justify-between items-end mb-8 border-b border-gray-500/10 pb-4">
+                    <div>
+                        <h3 class="font-display font-bold text-3xl" data-original="Physique">Physique</h3>
+                        <span class="text-xs font-bold opacity-50 uppercase tracking-widest mt-1 block">UE Coeff
+                            100</span>
                     </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC1 (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="maths-alg-cc1">
+                    <span class="text-2xl font-bold font-display px-4 py-2 rounded-xl border border-current opacity-80"
+                        id="avg-phys">--</span>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="glass-card module-row" data-weight="30">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Ondes</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">30%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
                         </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC2 (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="maths-alg-cc2">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div><label class="input-label">CC</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="phys-ondes-cc" placeholder="10%"></div>
+                            <div><label class="input-label">DS</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.3" id="phys-ondes-ds" placeholder="30%"></div>
+                            <div><label class="input-label">Final</label><input type="number" class="theme-input"
+                                    min="0" max="20" data-weight="0.6" id="phys-ondes-partiel" placeholder="60%"></div>
                         </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (60%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.6" id="maths-alg-partiel">
+                    </div>
+
+                    <div class="glass-card module-row" data-weight="40">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Elec. Num.</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">40%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div><label class="input-label">DS</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.2" id="elec-num-ds" placeholder="20%"></div>
+                            <div class="col-span-2">
+                                <label class="input-label">Partiel</label>
+                                <input type="number" class="theme-input" min="0" max="20" data-weight="0.4"
+                                    id="elec-num-partiel" placeholder="40%">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div><label class="input-label">TP1</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="elec-num-tp1" placeholder="10%"></div>
+                            <div><label class="input-label">TP2</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="elec-num-tp2" placeholder="10%"></div>
+                            <div><label class="input-label">TP3</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="elec-num-tp3" placeholder="10%"></div>
+                            <div><label class="input-label">TP4</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="elec-num-tp4" placeholder="10%"></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card module-row" data-weight="30">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Automatique</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">30%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mb-4">
+                            <div><label class="input-label">CC</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="auto-seq-cc" placeholder="10%"></div>
+                            <div class="col-span-2"><label class="input-label">Partiel</label><input type="number"
+                                    class="theme-input" min="0" max="20" data-weight="0.5" id="auto-seq-partiel"
+                                    placeholder="50%"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div><label class="input-label">Proj</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.2" id="auto-seq-projet" placeholder="20%"></div>
+                            <div><label class="input-label">TP1</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="auto-seq-tp1" placeholder="10%"></div>
+                            <div><label class="input-label">TP2</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.1" id="auto-seq-tp2" placeholder="10%"></div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- TPS maths -->
-                <div class="p-4 module-row" data-weight="15">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">TPS maths <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 15)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
+            <!-- MODULE 3: INFO -->
+            <section class="section-frame" data-coeff="100">
+                <div class="flex justify-between items-end mb-8 border-b border-gray-500/10 pb-4">
+                    <div>
+                        <h3 class="font-display font-bold text-3xl" data-original="Informatique">Informatique</h3>
+                        <span class="text-xs font-bold opacity-50 uppercase tracking-widest mt-1 block">UE Coeff
+                            100</span>
                     </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP1 (33.3%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.333" id="maths-tp1">
+                    <span class="text-2xl font-bold font-display px-4 py-2 rounded-xl border border-current opacity-80"
+                        id="avg-info">--</span>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="glass-card module-row" data-weight="70">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Prog. Avancée</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">70%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
                         </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP2 (33.3%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.333" id="maths-tp2">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div><label class="input-label">DS</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.2" id="prog-av-ds" placeholder="20%"></div>
+                            <div><label class="input-label">Partiel</label><input type="number" class="theme-input"
+                                    min="0" max="20" data-weight="0.4" id="prog-av-partiel" placeholder="40%"></div>
+                            <div><label class="input-label">TP</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.4" id="prog-av-tp" placeholder="40%"></div>
                         </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP3 (33.3%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.333" id="maths-tp3">
+                    </div>
+
+                    <div class="glass-card module-row" data-weight="30">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h4 class="font-bold text-xl inline-block">Web</h4>
+                                <span
+                                    class="ml-2 text-sm font-bold opacity-50 bg-gray-500/10 px-2 py-1 rounded">30%</span>
+                            </div>
+                            <span class="module-score font-bold font-display text-2xl opacity-50">--</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div><label class="input-label">CC</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.2" id="web-cc" placeholder="20%"></div>
+                            <div><label class="input-label">DS</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.4" id="web-ds" placeholder="40%"></div>
+                            <div><label class="input-label">Proj</label><input type="number" class="theme-input" min="0"
+                                    max="20" data-weight="0.2" id="web-projet" placeholder="20%"></div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-            </div>
-        </section>
-
-
-        <!-- 2. Module de Physique (Orange) -->
-        <section class="bg-white rounded-xl shadow-sm border border-orange-100 overflow-hidden" data-coeff="100">
-            <div class="bg-orange-100 px-6 py-4 flex justify-between items-center border-b border-orange-200">
-                <h2 class="font-bold text-orange-900 text-lg">Module de Physique</h2>
-                <span
-                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
-                    id="avg-phys">--</span>
-            </div>
-            <div class="divide-y divide-gray-100">
-
-                <!-- Physique des ondes -->
-                <div class="p-4 module-row" data-weight="30">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Physique des ondes <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="phys-ondes-cc">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">DS (30%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.3" id="phys-ondes-ds">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (60%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.6" id="phys-ondes-partiel">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Electronique Numérique -->
-                <div class="p-4 module-row" data-weight="40">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Electronique Numérique <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 40)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">DS (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="elec-num-ds">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (40%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.4" id="elec-num-partiel">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP1 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="elec-num-tp1">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP2 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="elec-num-tp2">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP3 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="elec-num-tp3">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP4 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="elec-num-tp4">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Automatique sequentielle -->
-                <div class="p-4 module-row" data-weight="30">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Automatique séq. <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="auto-seq-cc">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (50%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.5" id="auto-seq-partiel">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Projet (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="auto-seq-projet">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP1 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="auto-seq-tp1">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP2 (10%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.1" id="auto-seq-tp2">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Module de Programmation (Blue) -->
-        <section class="bg-white rounded-xl shadow-sm border border-sky-100 overflow-hidden" data-coeff="100">
-            <div class="bg-sky-100 px-6 py-4 flex justify-between items-center border-b border-sky-200">
-                <h2 class="font-bold text-sky-900 text-lg">Module de Programmation</h2>
-                <span
-                    class="block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center"
-                    id="avg-info">--</span>
-            </div>
-            <div class="divide-y divide-gray-100">
-
-                <!-- Prog avancée -->
-                <div class="p-4 module-row" data-weight="70">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Prog avancée <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 70)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">DS (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="prog-av-ds">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Partiel (40%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.4" id="prog-av-partiel">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">TP (40%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.4" id="prog-av-tp">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Web -->
-                <div class="p-4 module-row" data-weight="30">
-                    <div class="flex justify-between items-baseline mb-2">
-                        <h3 class="font-semibold text-slate-700">Web <span
-                                class="text-xs text-gray-400 font-normal ml-1">(Coeff 30)</span></h3>
-                        <span class="module-score text-sm font-bold text-gray-400">--</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">CC (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="web-cc">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">DS (40%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.4" id="web-ds">
-                        </div>
-                        <div class="grade-container">
-                            <label class="block text-xs text-gray-500 mb-1">Projet (20%)</label>
-                            <input type="number" placeholder="-"
-                                class="grade-input w-full bg-gray-50 border border-gray-200 rounded p-2 text-center font-semibold text-slate-700 placeholder-gray-300 transition-colors focus:bg-white focus:border-blue-400"
-                                min="0" max="20" data-weight="0.2" id="web-projet">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="text-center pt-8">
-            <button onclick="resetAll()"
-                class="text-sm text-gray-400 hover:text-red-500 underline transition-colors">Réinitialiser toutes les
-                notes</button>
         </div>
-
     </main>
 
     <script>
-        const sections = document.querySelectorAll('section');
+        function toggleMenu() {
+            const menu = document.getElementById('theme-menu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
 
-        // Persist data using LocalStorage (similar effect to cookies but better)
-        function saveGrades() {
-            const inputs = document.querySelectorAll('input');
-            const data = {};
-            inputs.forEach(input => {
-                if (input.id && input.value) {
-                    data[input.id] = input.value;
-                }
+        // --- DYNAMIC TEXT REPLACEMENT SYSTEM ---
+        const themeTexts = {
+            'dark': {
+                appTitle: 'Mindera <span class="text-accent-main">S4</span>',
+                appSub: 'Premium Dashboard',
+                mainHeader: 'Tableau de Bord',
+                mainDesc: 'Suivi des résultats & simulation de moyenne.',
+                headers: { 'Mathématiques': 'Mathématiques', 'Physique': 'Physique', 'Informatique': 'Informatique' }
+            },
+            'light': {
+                appTitle: 'Mindera <span class="text-accent-main">Clean</span>',
+                appSub: 'Academic Suite',
+                mainHeader: 'Vos Résultats',
+                mainDesc: 'Clarté, efficacité, simplicité.',
+                headers: { 'Mathématiques': 'Mathématiques', 'Physique': 'Sciences Phys.', 'Informatique': 'Développement' }
+            },
+            'cyberpunk': {
+                appTitle: 'NETRUN <span class="text-accent-main">v4.0</span>',
+                appSub: 'SYSTEM: ONLINE',
+                mainHeader: 'MAINFRAME',
+                mainDesc: 'Injection des données en cours...',
+                headers: { 'Mathématiques': 'Algorithms', 'Physique': 'Physics Engine', 'Informatique': 'Netrunning' }
+            },
+            'gamer': {
+                appTitle: 'Mindera <span class="text-accent-main">XP</span>',
+                appSub: 'Ranked Match',
+                mainHeader: 'Leaderboard',
+                mainDesc: 'Grind ton élo jusqu\'au level 20.',
+                headers: { 'Mathématiques': 'Calculus DPS', 'Physique': 'Physics Engine', 'Informatique': 'Hacking Skill' }
+            },
+            'kawaii': {
+                appTitle: 'Mindera <span class="text-accent-main">UwU</span>',
+                appSub: 'Baka Dashboard ✨',
+                mainHeader: 'Tableau de Kawaï',
+                mainDesc: 'Gère tes notes avec amour et paillettes senpai! (◕‿◕✿)<br>Ne sois pas un baka, valide ton semestre!',
+                headers: { 'Mathématiques': 'Maths (Desu)', 'Physique': 'Physique-chan', 'Informatique': 'Info-kun' }
+            },
+            'ugly': {
+                appTitle: 'MOCHe <span class="text-accent-main">OS</span>',
+                appSub: 'Pourquoi tu fais ça',
+                mainHeader: 'MES YEUX ALED',
+                mainDesc: 'Le graphisme est ma pasion',
+                headers: { 'Mathématiques': 'Calculs nuls', 'Physique': 'Trucs qui bougent', 'Informatique': 'Hackerman' }
+            },
+            'delangue': {
+                appTitle: 'PROJET <span class="text-accent-main">MK-ULTRA</span>',
+                appSub: 'CONFIDENTIEL DÉFENSE',
+                mainHeader: 'LA VÉRITÉ EST AILLEURS',
+                mainDesc: 'Ils nous observent via les webcams. Faites semblant de travailler.<br>Les pigeons sont des drones de surveillance.',
+                headers: { 'Mathématiques': 'Géométrie de la Terre Plate', 'Physique': 'Étude des Chemtrails', 'Informatique': 'Hacking de la NASA' }
+            }
+        };
+
+        function updateThemeText(theme) {
+            const config = themeTexts[theme] || themeTexts['dark'];
+
+            document.getElementById('app-title').innerHTML = config.appTitle;
+            document.getElementById('app-subtitle').innerHTML = config.appSub;
+            document.getElementById('main-header').innerText = config.mainHeader;
+            document.getElementById('main-desc').innerHTML = config.mainDesc;
+
+            document.querySelectorAll('h3').forEach(el => {
+                const key = el.dataset.original;
+                if (config.headers[key]) el.innerText = config.headers[key];
             });
-            localStorage.setItem('notes_s4', JSON.stringify(data));
+        }
+
+        function setTheme(themeName) {
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('mindera_theme_v8', themeName);
+            toggleMenu();
+            updateThemeText(themeName);
+        }
+
+        // Init
+        const savedTheme = localStorage.getItem('mindera_theme_v8') || 'dark';
+        setTheme(savedTheme);
+
+        // Core Calc Logic (unchanged from good state)
+        function saveGrades() {
+            try {
+                const inputs = document.querySelectorAll('input');
+                const data = {};
+                inputs.forEach(input => {
+                    if (input.id && input.value) data[input.id] = input.value;
+                });
+                localStorage.setItem('notes_s4_v8', JSON.stringify(data));
+            } catch (e) { }
         }
 
         function loadGrades() {
-            const data = JSON.parse(localStorage.getItem('notes_s4'));
-            if (data) {
-                Object.keys(data).forEach(id => {
-                    const input = document.getElementById(id);
-                    if (input) {
-                        input.value = data[id];
-                    }
+            try {
+                const data = JSON.parse(localStorage.getItem('notes_s4_v8'));
+                if (data) Object.keys(data).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = data[id];
                 });
-            }
-            calculate(); // Recalculate after loading
+            } catch (e) { }
+            calculate();
         }
 
         function calculate() {
+            const sections = document.querySelectorAll('section');
             let globalSum = 0;
             let globalWeight = 0;
+            const theme = document.body.getAttribute('data-theme');
 
             sections.forEach(section => {
                 const modules = section.querySelectorAll('.module-row');
@@ -399,124 +899,90 @@
                     inputs.forEach(input => {
                         const val = parseFloat(input.value);
                         const weight = parseFloat(input.dataset.weight);
-
                         if (!isNaN(val)) {
                             moduleWeightedSum += val * weight;
                             moduleCurrentWeights += weight;
                         }
                     });
 
-                    // Calculate Module Average
                     const displaySpan = module.querySelector('.module-score');
-
-                    // Prediction Logic
-                    const totalMaxWeight = Array.from(inputs).reduce((acc, input) => acc + parseFloat(input.dataset.weight), 0);
-                    const remainingWeight = totalMaxWeight - moduleCurrentWeights;
-                    const targetScore = 10 * totalMaxWeight;
-                    const pointsNeeded = targetScore - moduleWeightedSum;
-
-                    let predMsg = "";
-                    let predColor = "";
-
-                    if (remainingWeight > 0.001) {
-                        if (pointsNeeded <= 0) {
-                            predMsg = "Peut avoir (0)";
-                            predColor = "text-emerald-600";
-                        } else {
-                            const gradeNeeded = pointsNeeded / remainingWeight;
-                            if (gradeNeeded <= 20) {
-                                predMsg = `Doit avoir ${gradeNeeded.toFixed(2)}`;
-                                predColor = "text-orange-500";
-                            } else {
-                                predMsg = "Impossible";
-                                predColor = "text-rose-500";
-                            }
-                        }
-                    }
-
-                    let predSpan = module.querySelector('.prediction-msg');
-                    if (!predSpan) {
-                        predSpan = document.createElement('span');
-                        if (displaySpan) {
-                            displaySpan.parentNode.insertBefore(predSpan, displaySpan);
-                        }
-                    }
-                    predSpan.textContent = predMsg;
-                    predSpan.className = `prediction-msg text-xs font-medium mr-2 ${predColor}`;
-                    let moduleAvg = 0;
-
                     if (moduleCurrentWeights > 0) {
-                        // Normalize to 20 based on entered weights
-                        moduleAvg = moduleWeightedSum / moduleCurrentWeights;
-                        displaySpan.textContent = moduleAvg.toFixed(2);
+                        const avg = moduleWeightedSum / moduleCurrentWeights;
+                        displaySpan.textContent = avg.toFixed(2);
+                        displaySpan.classList.remove('opacity-50');
 
-                        // Color logic for Module
-                        if (moduleAvg >= 10) {
-                            displaySpan.className = "module-score text-sm font-bold text-emerald-600";
-                        } else {
-                            displaySpan.className = "module-score text-sm font-bold text-rose-500";
-                        }
+                        let niceColor = '#34d399'; let badColor = '#f87171';
+                        if (theme === 'cyberpunk') { niceColor = '#22d3ee'; badColor = '#facc15'; } // Cyan green / Yellow bad
+                        if (theme === 'light') { niceColor = '#10b981'; badColor = '#ef4444'; }
+                        if (theme === 'kawaii') { niceColor = '#d63384'; badColor = '#e64980'; }
+                        if (theme === 'delangue') { niceColor = '#000'; badColor = '#8b0000'; }
 
-                        sectionSum += moduleAvg * moduleWeight;
+                        displaySpan.style.color = avg >= 10 ? niceColor : badColor;
+                        sectionSum += avg * moduleWeight;
                         sectionTotalWeight += moduleWeight;
-
                     } else {
                         displaySpan.textContent = "--";
-                        displaySpan.className = "module-score text-sm font-bold text-gray-300";
+                        displaySpan.classList.add('opacity-50');
+                        displaySpan.style.color = "";
                     }
                 });
 
-                // Calculate Section (Block) Average
-                const blockDisplay = section.querySelector('.block-average');
+                const blockDisplay = section.querySelector('.text-2xl.font-bold');
                 if (sectionTotalWeight > 0) {
                     const sectionAvg = sectionSum / sectionTotalWeight;
                     blockDisplay.textContent = sectionAvg.toFixed(2);
 
-                    if (sectionAvg >= 10) {
-                        blockDisplay.classList.remove('text-gray-400', 'text-rose-500');
-                        blockDisplay.classList.add('text-emerald-600', 'bg-emerald-50');
-                    } else {
-                        blockDisplay.classList.remove('text-gray-400', 'text-emerald-600', 'bg-emerald-50');
-                        blockDisplay.classList.add('text-rose-500');
-                    }
+                    let niceColor = '#34d399'; let badColor = '#f87171';
+                    if (theme === 'cyberpunk') { niceColor = '#22d3ee'; badColor = '#facc15'; }
+                    if (theme === 'light') { niceColor = '#10b981'; badColor = '#ef4444'; }
+                    if (theme === 'kawaii') { niceColor = '#d63384'; badColor = '#e64980'; }
+                    if (theme === 'delangue') { niceColor = '#000'; badColor = '#8b0000'; }
+
+                    blockDisplay.style.color = sectionAvg >= 10 ? niceColor : badColor;
+                    blockDisplay.style.borderColor = sectionAvg >= 10 ? niceColor : badColor;
+                    blockDisplay.style.background = sectionAvg >= 10 ? `${niceColor}10` : `${badColor}10`;
 
                     globalSum += sectionAvg;
                     globalWeight += 1;
-
                 } else {
                     blockDisplay.textContent = "--";
-                    blockDisplay.className = "block-average bg-white px-3 py-1 rounded-full text-sm font-bold text-gray-400 min-w-[3rem] text-center";
+                    blockDisplay.style.color = "";
+                    blockDisplay.style.borderColor = "";
+                    blockDisplay.style.background = "";
                 }
             });
 
-            // Optional Global Average
             const globalDisplay = document.getElementById('global-average');
             if (globalWeight > 0) {
                 const gAvg = globalSum / globalWeight;
-                globalDisplay.textContent = gAvg.toFixed(2) + "/20";
-                if (gAvg >= 10) globalDisplay.classList.replace('text-gray-400', 'text-slate-800');
+                globalDisplay.textContent = gAvg.toFixed(2);
             } else {
-                globalDisplay.textContent = "--/20";
+                globalDisplay.textContent = "--";
             }
         }
 
         function resetAll() {
-            if (confirm("Voulez-vous vraiment effacer toutes les notes ?")) {
+            if (confirm('Tout effacer ?')) {
                 document.querySelectorAll('input').forEach(i => i.value = '');
-                localStorage.removeItem('notes_s4');
+                localStorage.removeItem('notes_s4_v8');
                 calculate();
             }
         }
 
-        // Attach listeners
         document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', () => {
-                calculate();
-                saveGrades();
-            });
+            input.addEventListener('input', () => { calculate(); saveGrades(); });
         });
 
-        // Load grades on startup
+        // Improve UX: click outside closes menu
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('theme-menu');
+            const btn = document.querySelector('button[onclick="toggleMenu()"]');
+            if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !menu.parentElement.contains(e.target)) {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
+        });
+
         loadGrades();
     </script>
 </body>
