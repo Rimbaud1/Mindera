@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marineland d'Antibes · Présentation BTS MCO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'DM Sans', sans-serif;
+    background:#0a0e17;
+    color:#e8edf5;
+    overflow-x:hidden;
+  }
+
+  .slide {
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    padding:80px 10%;
+    overflow:hidden;
+  }
+  .slide-content {
+    max-width:960px;
+    width:100%;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+  .slide-number {
+    position:absolute;
+    bottom:28px;
+    right:10%;
+    font-family:'Syne',sans-serif;
+    font-size:0.7rem;
+    font-weight:600;
+    color:rgba(255,255,255,0.08);
+    letter-spacing:0.1em;
+    z-index:1;
+  }
+
+  /* NAV */
+  .nav-bar {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 40px;
+    background:rgba(10,14,23,0.85);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-bar.hidden { transform:translateY(-100%); }
+  .nav-brand {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:0.8rem;
+    text-transform:uppercase; letter-spacing:0.2em;
+    color:rgba(255,255,255,0.45);
+  }
+  .nav-brand span { color:#5dade2; }
+  .nav-controls { display:flex; gap:12px; align-items:center; }
+  .nav-btn {
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    color:#e8edf5;
+    width:40px; height:40px; border-radius:50%;
+    cursor:pointer; font-size:1.1rem;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.3s ease;
+  }
+  .nav-btn:hover { background:rgba(93,173,226,0.2); border-color:#5dade2; transform:scale(1.05); }
+  .slide-counter { font-size:0.8rem; color:rgba(255,255,255,0.35); min-width:60px; text-align:center; }
+  .progress-bar {
+    position:fixed; top:0; left:0; height:3px;
+    background:linear-gradient(90deg,#5dade2,#1a5276);
+    z-index:1001;
+    transition:width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* LABELS / TITLES */
+  .label {
+    font-family:'Syne',sans-serif; font-size:0.7rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.25em;
+    color:#5dade2; margin-bottom:12px;
+  }
+  .title {
+    font-family:'Syne',sans-serif;
+    font-size:clamp(2rem,4vw,3rem);
+    font-weight:700; line-height:1.1; letter-spacing:-0.02em;
+  }
+  .title .hl { color:#5dade2; }
+  .sub {
+    color:rgba(255,255,255,0.45);
+    font-size:1rem;
+    font-weight:300;
+    line-height:1.5;
+    max-width:560px;
+    margin-top:8px;
+  }
+  .divider { width:36px; height:3px; background:#5dade2; border-radius:2px; margin:14px 0 20px; }
+
+  /* TWO COLUMNS */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:24px; }
+
+  /* INFO CARD */
+  .card {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:14px;
+    padding:24px 28px;
+  }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top:20px; }
+
+  /* STAT NUMBER */
+  .stat-num {
+    font-family:'Syne',sans-serif;
+    font-size:2.2rem; font-weight:700;
+    color:#5dade2; line-height:1;
+  }
+  .stat-label {
+    font-size:0.85rem; color:rgba(255,255,255,0.45);
+    margin-top:4px; line-height:1.4;
+  }
+
+  /* KEY NUMBERS ROW */
+  .kn-row { display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; }
+  .kn-item {
+    flex:1; min-width:130px; text-align:center;
+    padding:20px 14px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:12px;
+  }
+  .kn-item .big {
+    font-family:'Syne',sans-serif; font-size:2rem; font-weight:700;
+    color:#5dade2; line-height:1;
+  }
+  .kn-item .big .unit { font-size:0.5em; color:rgba(255,255,255,0.25); }
+  .kn-item .desc { font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:6px; line-height:1.3; }
+
+  /* TIMELINE */
+  .timeline { position:relative; padding-left:28px; margin-top:12px; }
+  .timeline::before {
+    content:''; position:absolute; left:6px; top:0; bottom:0; width:2px;
+    background:linear-gradient(180deg, rgba(93,173,226,0.5), rgba(93,173,226,0.05));
+  }
+  .tl-item { position:relative; padding:0 0 24px 24px; }
+  .tl-item::before {
+    content:''; position:absolute; left:-26px; top:6px;
+    width:10px; height:10px; border-radius:50%;
+    background:#0a0e17; border:2px solid #5dade2;
+  }
+  .tl-item:last-child { padding-bottom:0; }
+  .tl-year { font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700; color:#5dade2; margin-bottom:2px; }
+  .tl-text { font-size:0.95rem; line-height:1.5; color:rgba(255,255,255,0.65); }
+
+  /* HERO */
+  .slide-hero {
+    background:linear-gradient(135deg,#0a0e17 0%,#0d1b2a 40%,#0a2a3a 70%,#051018 100%);
+    text-align:center; justify-content:center; align-items:center;
+  }
+  .slide-hero::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(93,173,226,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, rgba(26,82,118,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(10,42,58,0.2) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .wave-bg { position:absolute; bottom:0; left:0; right:0; height:100px; overflow:hidden; opacity:0.12; pointer-events:none; }
+  .wave-bg svg { position:absolute; bottom:0; width:200%; height:100%; animation:waveMove 10s ease-in-out infinite alternate; }
+  .wave-bg svg:nth-child(2) { animation-delay:-4s; opacity:0.5; }
+  @keyframes waveMove {
+    0% { transform:translateX(0) translateY(0); }
+    100% { transform:translateX(-25%) translateY(8px); }
+  }
+  .hero-badge {
+    display:inline-block;
+    font-family:'Syne',sans-serif; font-size:0.65rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.3em;
+    padding:7px 18px;
+    border:1px solid rgba(93,173,226,0.25);
+    border-radius:100px; color:#5dade2;
+    background:rgba(93,173,226,0.06);
+    margin-bottom:28px;
+  }
+  .hero-title {
+    font-family:'Syne',sans-serif;
+    font-size:clamp(2.8rem,7vw,6rem);
+    font-weight:800; line-height:1.05; letter-spacing:-0.03em;
+    position:relative; z-index:1;
+  }
+  .hero-title .highlight {
+    background:linear-gradient(135deg,#5dade2,#85c1e9,#aed6f1);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero-title .year {
+    font-weight:400; color:rgba(255,255,255,0.12);
+    -webkit-text-fill-color:rgba(255,255,255,0.12);
+    font-size:0.55em; display:block; margin-top:-0.05em;
+  }
+  .hero-sub {
+    font-size:clamp(1rem,1.6vw,1.2rem);
+    font-weight:300; color:rgba(255,255,255,0.5);
+    max-width:560px; margin:16px auto 0;
+    line-height:1.6; position:relative; z-index:1;
+  }
+  .hero-meta { display:flex; gap:44px; justify-content:center; margin-top:36px; position:relative; z-index:1; }
+  .hero-meta-item { text-align:center; }
+  .hero-meta-item .num { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:700; color:#5dade2; line-height:1; }
+  .hero-meta-item .label { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,0.3); margin-top:4px; }
+  .scroll-indicator {
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    color:rgba(255,255,255,0.2); font-size:0.6rem;
+    text-transform:uppercase; letter-spacing:0.15em;
+    animation:bounceDown 2s infinite; z-index:2;
+  }
+  .scroll-indicator .arrow {
+    width:18px; height:18px;
+    border-right:1.5px solid rgba(255,255,255,0.2);
+    border-bottom:1.5px solid rgba(255,255,255,0.2);
+    transform:rotate(45deg);
+  }
+  @keyframes bounceDown {
+    0%,100% { transform:translateX(-50%) translateY(0); opacity:1; }
+    50% { transform:translateX(-50%) translateY(8px); opacity:0.3; }
+  }
+
+  /* TOC */
+  .toc-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-top:32px; }
+  .toc-item {
+    display:flex; align-items:center; gap:14px;
+    padding:14px 18px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:10px;
+    text-decoration:none; color:inherit;
+    transition:all 0.3s ease;
+  }
+  .toc-item:hover { background:rgba(93,173,226,0.07); border-color:rgba(93,173,226,0.2); transform:translateY(-1px); }
+  .toc-num { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:rgba(93,173,226,0.4); min-width:24px; }
+  .toc-text { font-size:0.85rem; font-weight:500; line-height:1.3; }
+  .toc-text small { display:block; font-weight:300; font-size:0.72rem; color:rgba(255,255,255,0.3); margin-top:2px; }
+
+  /* QUOTE */
+  .quote {
+    font-size:1.05rem; font-weight:300; font-style:italic;
+    line-height:1.6; color:rgba(255,255,255,0.55);
+    border-left:3px solid rgba(93,173,226,0.25);
+    padding-left:20px; margin:16px 0;
+  }
+  .quote cite { display:block; font-size:0.75rem; font-style:normal; color:rgba(255,255,255,0.25); margin-top:6px; }
+
+  /* PILL */
+  .pill {
+    display:inline-block; font-size:0.65rem; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.06em;
+    padding:4px 12px; border-radius:100px;
+    background:rgba(93,173,226,0.1); color:#5dade2;
+    border:1px solid rgba(93,173,226,0.12);
+  }
+  .pill.red { background:rgba(231,76,60,0.1); color:#e74c3c; border-color:rgba(231,76,60,0.15); }
+  .pill.amber { background:rgba(241,196,15,0.08); color:#f1c40f; border-color:rgba(241,196,15,0.12); }
+  .pill.green { background:rgba(46,204,113,0.08); color:#2ecc71; border-color:rgba(46,204,113,0.12); }
+
+  /* SPECIES */
+  .species-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  .sp-item {
+    padding:12px 18px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:10px;
+    text-align:center; min-width:110px;
+  }
+  .sp-item .icon { font-size:1.5rem; margin-bottom:4px; }
+  .sp-item .name { font-size:0.8rem; font-weight:500; }
+
+  /* DEBATE */
+  .debate-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px; }
+  .debate-col { padding:24px; border-radius:14px; }
+  .debate-col.pour { background:rgba(46,204,113,0.05); border:1px solid rgba(46,204,113,0.1); }
+  .debate-col.contre { background:rgba(231,76,60,0.05); border:1px solid rgba(231,76,60,0.1); }
+  .debate-col h4 {
+    font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;
+  }
+  .debate-col.pour h4 { color:#2ecc71; }
+  .debate-col.contre h4 { color:#e74c3c; }
+  .debate-col ul { list-style:none; }
+  .debate-col ul li {
+    font-size:0.85rem; line-height:1.5; color:rgba(255,255,255,0.65);
+    padding:5px 0; padding-left:16px; position:relative;
+  }
+  .debate-col ul li::before { content:'—'; position:absolute; left:0; color:rgba(255,255,255,0.1); }
+
+  /* THANKS */
+  .slide-thanks {
+    text-align:center; justify-content:center; align-items:center;
+    background:linear-gradient(135deg,#0a0e17 0%,#0d1b2a 50%,#0a1628 100%);
+  }
+  .sources-list { list-style:none; columns:2; column-gap:24px; margin-top:12px; }
+  .sources-list li { font-size:0.72rem; color:rgba(255,255,255,0.3); padding:4px 0; break-inside:avoid; line-height:1.4; }
+
+  /* BACKGROUNDS */
+  .bg1 { background:linear-gradient(160deg,#0b111f 0%,#0f1a2e 50%,#09101a 100%); }
+  .bg2 { background:linear-gradient(135deg,#0a1628 0%,#0d2140 30%,#0a1a2e 70%,#070e18 100%); }
+  .bg3 { background:linear-gradient(160deg,#080c18 0%,#0c1a30 50%,#0a1220 100%); }
+  .bg4 { background:linear-gradient(160deg,#070a12 0%,#0a0e17 100%); }
+
+  /* HINT */
+  .kbd-hint {
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:999;
+    font-size:0.6rem; color:rgba(255,255,255,0.12); letter-spacing:0.08em;
+    background:rgba(0,0,0,0.5); padding:5px 14px; border-radius:16px;
+    backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.04);
+    pointer-events:none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width:768px) {
+    .slide { padding:48px 5%; }
+    .two-col, .debate-row { grid-template-columns:1fr; gap:20px; }
+    .kn-row { gap:10px; }
+    .kn-item { min-width:100px; padding:14px 10px; }
+    .kn-item .big { font-size:1.5rem; }
+    .hero-meta { gap:16px; flex-wrap:wrap; }
+    .card-grid { grid-template-columns:1fr 1fr; }
+    .toc-grid { grid-template-columns:1fr 1fr; }
+    .sources-list { columns:1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="nav-bar" id="navBar">
+  <div class="nav-brand">Marineland <span>·</span> BTS MCO</div>
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="goSlide(-1)">‹</button>
+    <span class="slide-counter" id="slideCounter">1 / 18</span>
+    <button class="nav-btn" onclick="goSlide(1)">›</button>
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 · HERO -->
+<!-- ============================================================ -->
+<section class="slide slide-hero" data-index="0">
+  <div class="wave-bg">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C360,120 720,0 1080,60 C1260,90 1350,60 1440,60 L1440,120 L0,120 Z" fill="#5dade2" opacity="0.25"/></svg>
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,80 C240,40 480,100 720,60 C960,20 1200,80 1440,50 L1440,120 L0,120 Z" fill="#85c1e9" opacity="0.15"/></svg>
+  </div>
+  <div class="hero-badge">Culture générale · BTS MCO</div>
+  <h1 class="hero-title">
+    <span class="highlight">Marineland</span><br>d'Antibes
+    <span class="year">1970 — 2025</span>
+  </h1>
+  <p class="hero-sub">Histoire et fermeture du plus grand zoo marin d'Europe<br>— 55 ans entre émerveillement et controverses</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="num">55</div><div class="label">Années d'existence</div></div>
+    <div class="hero-meta-item"><div class="num">26</div><div class="label">Hectares</div></div>
+    <div class="hero-meta-item"><div class="num">4 000</div><div class="label">Animaux</div></div>
+    <div class="hero-meta-item"><div class="num">1,2 M</div><div class="label">Visiteurs / an (pic)</div></div>
+  </div>
+  <div class="scroll-indicator"><span>Défiler</span><div class="arrow"></div></div>
+  <div class="slide-number">01</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 · SOMMAIRE -->
+<!-- ============================================================ -->
+<section class="slide bg1" data-index="1">
+  <div class="slide-content">
+    <div class="label">Sommaire</div>
+    <h2 class="title">Plan de la <span class="hl">présentation</span></h2>
+    <p class="sub">En 18 slides, tout ce qu'il faut savoir sur Marineland.</p>
+    <div class="toc-grid">
+      <a class="toc-item" href="#s03"><span class="toc-num">01</span><span class="toc-text">Qu'est-ce que Marineland ?<small>Présentation générale</small></span></a>
+      <a class="toc-item" href="#s04"><span class="toc-num">02</span><span class="toc-text">Le fondateur · Héros de guerre<small>Roland de La Poype</small></span></a>
+      <a class="toc-item" href="#s05"><span class="toc-num">03</span><span class="toc-text">Le fondateur · Visionnaire<small>L'industriel et Marineland</small></span></a>
+      <a class="toc-item" href="#s06"><span class="toc-num">04</span><span class="toc-text">Chronologie 1/2<small>1970 → 2013</small></span></a>
+      <a class="toc-item" href="#s07"><span class="toc-num">05</span><span class="toc-text">Chronologie 2/2<small>2015 → 2025</small></span></a>
+      <a class="toc-item" href="#s08"><span class="toc-num">06</span><span class="toc-text">Chiffres clés 1/2<small>Superficie, animaux, visiteurs</small></span></a>
+      <a class="toc-item" href="#s09"><span class="toc-num">07</span><span class="toc-text">Chiffres clés 2/2<small>Économie et emplois</small></span></a>
+      <a class="toc-item" href="#s10"><span class="toc-num">08</span><span class="toc-text">Faune & attractions<small>Espèces présentes</small></span></a>
+      <a class="toc-item" href="#s11"><span class="toc-num">09</span><span class="toc-text">La loi du 30 novembre 2021<small>Interdiction des cétacés</small></span></a>
+      <a class="toc-item" href="#s12"><span class="toc-num">10</span><span class="toc-text">Les inondations de 2015<small>La catastrophe</small></span></a>
+      <a class="toc-item" href="#s13"><span class="toc-num">11</span><span class="toc-text">Causes du déclin 1/2<small>Externes</small></span></a>
+      <a class="toc-item" href="#s14"><span class="toc-num">12</span><span class="toc-text">Causes du déclin 2/2<small>Internes</small></span></a>
+      <a class="toc-item" href="#s15"><span class="toc-num">13</span><span class="toc-text">La fermeture<small>5 janvier 2025</small></span></a>
+      <a class="toc-item" href="#s16"><span class="toc-num">14</span><span class="toc-text">Débat éthique<small>Captivité vs protection</small></span></a>
+      <a class="toc-item" href="#s17"><span class="toc-num">15</span><span class="toc-text">Conclusion<small>Ce qu'il faut retenir</small></span></a>
+    </div>
+  </div>
+  <div class="slide-number">02</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 · QU'EST-CE QUE MARINELAND ? -->
+<!-- ============================================================ -->
+<section class="slide bg2" id="s03" data-index="2">
+  <div class="slide-content">
+    <div class="label">Introduction</div>
+    <h2 class="title">Qu'est-ce que <span class="hl">Marineland</span> ?</h2>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div style="font-size:1.05rem;line-height:1.7;color:rgba(255,255,255,0.7);">
+        <p><strong style="color:#e8edf5;">Marineland d'Antibes</strong> était le <strong>plus grand zoo marin d'Europe</strong>, situé sur la Côte d'Azur (Alpes-Maritimes).</p>
+        <p style="margin-top:14px;">Fondé en <strong>1970</strong>, il s'étendait sur <strong>26 hectares</strong> et abritait environ <strong>4 000 animaux</strong> de 150 espèces.</p>
+        <p style="margin-top:14px;">Il comprenait un parc zoologique avec delphinarium, le parc aquatique Aquasplash, un minigolf Adventure Golf, un parc enfant Kid's Island, et un hôtel 3 étoiles.</p>
+        <p style="margin-top:14px;">Premier site touristique de la région PACA, jusqu'à <strong>1,2 million de visiteurs/an</strong>.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:8px;">Localisation</div>
+          <div style="font-size:1.2rem;font-weight:500;">Antibes, Côte d'Azur</div>
+          <div style="font-size:0.8rem;color:rgba(255,255,255,0.35);">Alpes-Maritimes, France</div>
+        </div>
+        <div class="card">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:8px;">Statut</div>
+          <span class="pill red">Fermé le 5 janvier 2025</span>
+        </div>
+        <div class="card">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.25);margin-bottom:8px;">Propriétaire</div>
+          <div style="font-size:1rem;font-weight:500;">Parques Reunidos</div>
+          <div style="font-size:0.8rem;color:rgba(255,255,255,0.35);">Groupe espagnol · Rachat en 2006</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">03</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 · LE FONDATEUR 1/2 — HÉROS DE GUERRE -->
+<!-- ============================================================ -->
+<section class="slide bg3" id="s04" data-index="3">
+  <div class="slide-content">
+    <div class="label">Portrait 1/2</div>
+    <h2 class="title">Roland <span class="hl">de La Poype</span></h2>
+    <div class="sub">1920 — 2012 · Héros de la Seconde Guerre mondiale</div>
+    <div class="divider"></div>
+
+    <div class="two-col" style="align-items:start;">
+      <div>
+        <div class="card" style="margin-bottom:14px;">
+          <p style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+            Né le <strong style="color:#e8edf5;">28 juillet 1920</strong> dans le Puy-de-Dôme. À <strong>19 ans</strong>, il s'engage comme élève-pilote. Après la débâcle de 1940, il rejoint l'Angleterre et les <strong style="color:#e8edf5;">Forces aériennes françaises libres</strong>.
+          </p>
+        </div>
+        <div class="card">
+          <p style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+            Il intègre la célèbre escadrille <strong style="color:#e8edf5;">Normandie-Niémen</strong> sur le front soviétique. Pilote d'élite, il remporte <strong style="color:#e8edf5;">16 victoires aériennes</strong> confirmées. Surnommé « le Marquis », il commande la 1<sup>re</sup> escadrille en 1945.
+          </p>
+        </div>
+      </div>
+      <div>
+        <div class="kn-row" style="flex-direction:column;gap:12px;">
+          <div class="kn-item" style="text-align:left;padding:18px 20px;">
+            <div class="big" style="font-size:2.2rem;">16</div>
+            <div class="desc" style="font-size:0.85rem;">Victoires aériennes confirmées</div>
+          </div>
+          <div class="kn-item" style="text-align:left;padding:18px 20px;">
+            <div class="big" style="font-size:1.3rem;color:rgba(255,255,255,0.3);">1942</div>
+            <div class="desc" style="font-size:0.85rem;">Arrivée en URSS avec le groupe Normandie</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;">
+          <span class="pill">Compagnon de la Libération</span>
+          <span class="pill">Grand-Croix de la Légion d'Honneur</span>
+          <span class="pill">Héros de l'Union soviétique</span>
+          <span class="pill">Croix de Guerre 39-45</span>
+        </div>
+        <div class="quote" style="margin-top:14px;">
+          Il fait partie des <strong>23 derniers</strong> compagnons de la Libération. Ses cendres reposent à Trept (Isère).
+          <cite>— Hommage national aux Invalides, octobre 2012</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">04</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 · LE FONDATEUR 2/2 — VISIONNAIRE -->
+<!-- ============================================================ -->
+<section class="slide bg3" id="s05" data-index="4">
+  <div class="slide-content">
+    <div class="label">Portrait 2/2</div>
+    <h2 class="title">L'industriel <span class="hl">visionnaire</span></h2>
+    <div class="sub">Du shampoing DOP à la Citroën Méhari, puis Marineland</div>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div>
+        <div class="card" style="margin-bottom:14px;">
+          <p style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+            Après-guerre, il devient <strong style="color:#e8edf5;">pionnier de la plasturgie</strong>. Il crée le célèbre <strong style="color:#e8edf5;">berlingot DOP</strong> pour L'Oréal (design Vasarely) et invente la carrosserie en plastique de la <strong style="color:#e8edf5;">Citroën Méhari</strong>.
+          </p>
+        </div>
+        <div class="card">
+          <p style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+            <strong style="color:#e8edf5;">En 1970</strong>, passionné par le monde marin, il fonde le Marineland d'Antibes avec une <strong style="color:#e8edf5;">mission éducative</strong> : « <em>mieux faire connaître les animaux marins pour mieux les comprendre et les protéger</em>. »
+          </p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="kn-item" style="text-align:left;padding:20px 24px;">
+          <div class="big" style="font-size:1.8rem;">1970</div>
+          <div class="desc" style="font-size:0.85rem;">Création de Marineland — un terrain de 25 ha à La Brague, Antibes</div>
+        </div>
+        <div class="quote">
+          « Nous avons toujours aimé les animaux. L'objectif était que l'on puisse voir évoluer ces animaux et les comprendre. »
+          <cite>— Isabelle de La Poype, fille du fondateur</cite>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="pill">Inventeur Berlingot DOP</span>
+          <span class="pill">Inventeur Citroën Méhari</span>
+          <span class="pill">Maire de Champigné</span>
+          <span class="pill">Retraite en 1985</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">05</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6 · CHRONOLOGIE 1/2 — L'ASCENSION -->
+<!-- ============================================================ -->
+<section class="slide bg1" id="s06" data-index="5">
+  <div class="slide-content">
+    <div class="label">Chronologie 1/2</div>
+    <h2 class="title">L'ascension <span class="hl">1970 → 2013</span></h2>
+    <div class="divider"></div>
+
+    <div class="timeline" style="max-width:680px;margin-left:auto;margin-right:auto;">
+      <div class="tl-item">
+        <div class="tl-year">22 juin 1970</div>
+        <div class="tl-text"><strong>Ouverture</strong> par Roland de La Poype. Premiers pensionnaires : 2 éléphants de mer, 4 dauphins, 2 orques, 4 phoques, 1 otarie. L'eau des bassins est pompée directement de la Méditerranée.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1996</div>
+        <div class="tl-text">Inauguration du <strong>Tunnel des Requins</strong> : 30 m de long, 2 millions de litres d'eau. La fréquentation bondit de <strong>+35 %</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2000</div>
+        <div class="tl-text">Construction du <strong>bassin géant des orques</strong> : 44 millions de litres d'eau de mer, 64 m de long, 11 m de profondeur. Gradins de 4 000 places.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2006</div>
+        <div class="tl-text">Rachat par <strong>Parques Reunidos</strong> (Espagne) pour environ <strong>75 M€</strong>. Roland de La Poype se retire.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2010 - 2013</div>
+        <div class="tl-text">Arrivée des <strong>ours polaires</strong> Flocke et Raspoutine sur 2 200 m². Pic de fréquentation : <strong>1,2 million</strong> de visiteurs en 2013. Sortie du documentaire choc <em>Blackfish</em>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">06</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7 · CHRONOLOGIE 2/2 — LE DÉCLIN -->
+<!-- ============================================================ -->
+<section class="slide bg1" id="s07" data-index="6">
+  <div class="slide-content">
+    <div class="label">Chronologie 2/2</div>
+    <h2 class="title">Le déclin <span class="hl">2015 → 2025</span></h2>
+    <div class="divider"></div>
+
+    <div class="timeline" style="max-width:680px;margin-left:auto;margin-right:auto;">
+      <div class="tl-item">
+        <div class="tl-year">Octobre 2015</div>
+        <div class="tl-text"><strong>Inondations catastrophiques</strong> : le parc est dévasté. ~50 animaux meurent (dont l'orque Valentin, 19 ans). <strong>5 mois</strong> de fermeture pour reconstruction. Ouverture du Marineland Hôtel (95 chambres).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">30 nov. 2021</div>
+        <div class="tl-text">Promulgation de la <strong>loi contre la maltraitance animale</strong> : interdiction des <strong>spectacles de cétacés</strong> à compter du <strong>1<sup>er</sup> décembre 2026</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023 - 2024</div>
+        <div class="tl-text">Mortalité des orques : <strong>Moana</strong> (12 ans, septicémie) et <strong>Inouk</strong> (25 ans, ingestion de métal). Fréquentation chute à <strong>425 000</strong> visiteurs/an.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">4 décembre 2024</div>
+        <div class="tl-text"><strong>Annonce choc</strong> de la direction : projet de fermeture définitive un mois plus tard. « L'équilibre économique n'est plus garanti. »</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">5 janvier 2025</div>
+        <div class="tl-text"><strong>Fermeture définitive</strong> après 54 ans d'activité. Les 4 000 animaux doivent être relocalisés. Wikie et Keijo (orques) toujours en attente de solution.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">07</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8 · CHIFFRES 1/2 — DONNÉES GÉNÉRALES -->
+<!-- ============================================================ -->
+<section class="slide bg2" id="s08" data-index="7">
+  <div class="slide-content">
+    <div class="label">Chiffres 1/2</div>
+    <h2 class="title">Données <span class="hl">générales</span></h2>
+    <div class="divider"></div>
+
+    <div class="kn-row">
+      <div class="kn-item"><div class="big">26 <span class="unit">ha</span></div><div class="desc">Superficie du domaine</div></div>
+      <div class="kn-item"><div class="big">4 000</div><div class="desc">Animaux · 150 espèces</div></div>
+      <div class="kn-item"><div class="big">44 <span class="unit">M</span></div><div class="desc">Litres d'eau dans le bassin des orques</div></div>
+      <div class="kn-item"><div class="big">4 000</div><div class="desc">Places dans les gradins</div></div>
+    </div>
+
+    <div style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <div class="card" style="text-align:center;padding:28px;">
+          <div style="font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:#5dade2;">1,2 M</div>
+          <div style="font-size:0.9rem;color:rgba(255,255,255,0.4);">Visiteurs/an au pic (2013)</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="text-align:center;padding:28px;">
+          <div style="font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:#e74c3c;">425 k</div>
+          <div style="font-size:0.9rem;color:rgba(255,255,255,0.4);">Visiteurs/an en 2024 (−65 % en 10 ans)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px;">
+      « La fréquentation a été divisée par trois en dix ans. »
+      <cite>— Direction de Marineland, décembre 2024</cite>
+    </div>
+  </div>
+  <div class="slide-number">08</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9 · CHIFFRES 2/2 — ÉCONOMIE -->
+<!-- ============================================================ -->
+<section class="slide bg2" id="s09" data-index="8">
+  <div class="slide-content">
+    <div class="label">Chiffres 2/2</div>
+    <h2 class="title">Économie & <span class="hl">emplois</span></h2>
+    <div class="divider"></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">Chiffre d'affaires 2023</div>
+        <div class="stat-num">20,9 M€</div>
+        <div class="stat-label">Perte nette : −5,73 M€</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">Rachat 2006</div>
+        <div class="stat-num">75 M€</div>
+        <div class="stat-label">Prix payé par Parques Reunidos</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">Investissement 2014</div>
+        <div class="stat-num">30 M€</div>
+        <div class="stat-label">Hôtel + restaurant de 450 places</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">Emplois</div>
+        <div class="stat-num">103</div>
+        <div class="stat-label">Salariés permanents concernés</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;">
+      <div class="card" style="text-align:center;padding:28px;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:#f1c40f;">450 saisonniers</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:4px;">au plus haut — le plus gros employeur saisonnier de la Côte d'Azur</div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px;">
+      « Marineland, c'était aussi un poids lourd économique pour le tourisme azuréen. »
+      <cite>— La Quotidienne, analyse économique</cite>
+    </div>
+  </div>
+  <div class="slide-number">09</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 · FAUNE & ATTRACTIONS -->
+<!-- ============================================================ -->
+<section class="slide bg3" id="s10" data-index="9">
+  <div class="slide-content">
+    <div class="label">Faune</div>
+    <h2 class="title">Espèces & <span class="hl">attractions</span></h2>
+    <div class="divider"></div>
+
+    <div class="species-row">
+      <div class="sp-item"><div class="icon">🐋</div><div class="name">Orques</div></div>
+      <div class="sp-item"><div class="icon">🐬</div><div class="name">Grands dauphins</div></div>
+      <div class="sp-item"><div class="icon">🦭</div><div class="name">Otaries (4 esp.)</div></div>
+      <div class="sp-item"><div class="icon">🐻‍❄️</div><div class="name">Ours polaires</div></div>
+      <div class="sp-item"><div class="icon">🦈</div><div class="name">Requins</div></div>
+      <div class="sp-item"><div class="icon">🐧</div><div class="name">Manchots</div></div>
+      <div class="sp-item"><div class="icon">🐢</div><div class="name">Tortues marines</div></div>
+      <div class="sp-item"><div class="icon">🦜</div><div class="name">Flamants des Caraïbes</div></div>
+    </div>
+
+    <div class="card-grid" style="margin-top:20px;">
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#5dade2;margin-bottom:8px;">⭐ Attraction phare</div>
+        <div style="font-size:1.05rem;font-weight:600;">Tunnel des Requins</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.45);">30 m · 2 M litres · Ouvert en 1996</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#5dade2;margin-bottom:8px;">🎪 Spectacles</div>
+        <div style="font-size:1.05rem;font-weight:600;">Orques, dauphins & otaries</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Jusqu'à 4 000 spectateurs par séance</div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#5dade2;margin-bottom:8px;">🎢 Parcs associés</div>
+        <div style="font-size:1.05rem;font-weight:600;">Aquasplash · Kid's Island · Golf</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Aquasplash & Adventure Golf restent ouverts</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">10</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 · LOI 2021 -->
+<!-- ============================================================ -->
+<section class="slide bg1" id="s11" data-index="10">
+  <div class="slide-content">
+    <div class="label">Contexte juridique</div>
+    <h2 class="title">La loi du 30 nov. <span class="hl">2021</span></h2>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div>
+        <p style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+          La <strong style="color:#e8edf5;">loi n° 2021-1539</strong> visant à lutter contre la maltraitance animale marque un tournant historique dans le rapport de la France aux animaux sauvages.
+        </p>
+        <div class="card" style="margin-top:14px;">
+          <h4 style="font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;color:#e74c3c;margin-bottom:8px;">Ce que la loi interdit à partir du 1<sup>er</sup> déc. 2026</h4>
+          <ul style="list-style:none;">
+            <li style="padding:5px 0;font-size:0.88rem;color:rgba(255,255,255,0.6);">✕ Spectacles avec participation de cétacés</li>
+            <li style="padding:5px 0;font-size:0.88rem;color:rgba(255,255,255,0.6);">✕ Contacts directs entre public et cétacés</li>
+            <li style="padding:5px 0;font-size:0.88rem;color:rgba(255,255,255,0.6);">✕ Détention et reproduction en captivité</li>
+          </ul>
+          <div style="margin-top:8px;font-size:0.8rem;color:rgba(255,255,255,0.3);">Exceptions : recherche scientifique et refuges agréés</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:12px;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:10px;">Calendrier</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Fin des cirques avec animaux sauvages</span><span class="pill">2028</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Fin des spectacles de cétacés</span><span class="pill amber">Déc. 2026</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Fin de la détention des cétacés</span><span class="pill amber">Déc. 2026</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:0.85rem;color:rgba(255,255,255,0.45);">Fermeture anticipée Marineland</span><span class="pill red">Janv. 2025</span></div>
+          </div>
+        </div>
+        <div class="quote">
+          « 90 % des visiteurs venaient pour les orques et les dauphins. L'équilibre économique n'était plus garanti. »
+          <cite>— Communiqué Marineland, 4 décembre 2024</cite>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">11</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12 · INONDATIONS 2015 -->
+<!-- ============================================================ -->
+<section class="slide bg2" id="s12" data-index="11">
+  <div class="slide-content">
+    <div class="label">Tournant</div>
+    <h2 class="title">Les inondations <span class="hl">d'octobre 2015</span></h2>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <p>Le <strong style="color:#e8edf5;">3 octobre 2015</strong>, des pluies diluviennes s'abattent sur la Côte d'Azur. Marineland est <strong>submergé par les eaux et la boue</strong>.</p>
+        <p style="margin-top:12px;">Privé d'électricité, les pompes cessent de fonctionner. L'orque <strong>Valentin</strong> (19 ans) meurt, ainsi que des requins, otaries et tortues. Au total, <strong>~50 animaux périssent</strong>.</p>
+        <p style="margin-top:12px;">Le parc reste <strong style="color:#e8edf5;">fermé 5 mois</strong> pour reconstruction. Réouverture le 21 mars 2016. Cet épisode fragilise durablement Marineland.</p>
+      </div>
+      <div class="card" style="text-align:center;padding:36px;">
+        <div style="font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;color:#e74c3c;">~50</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.4);margin-top:4px;">Animaux morts</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:20px 0;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:#f1c40f;">5 mois</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.35);">de fermeture</div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:20px 0;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:#5dade2;">90 %</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.35);">du parc détruit</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">12</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13 · CAUSES DU DÉCLIN 1/2 — EXTERNES -->
+<!-- ============================================================ -->
+<section class="slide bg4" id="s13" data-index="12">
+  <div class="slide-content">
+    <div class="label">Analyse 1/2</div>
+    <h2 class="title">Causes du déclin <span class="hl">— facteurs externes</span></h2>
+    <div class="divider"></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#e74c3c;margin-bottom:10px;">📉 Baisse de fréquentation</div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;">
+          <span style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:#e74c3c;">−65 %</span>
+          <span style="font-size:0.8rem;color:rgba(255,255,255,0.35);">en 10 ans</span>
+        </div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          1,2 M (2013) → 425 000 (2024). Aggravé par la pandémie de Covid-19.
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#f1c40f;margin-bottom:10px;">⚖️ Loi de 2021</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          Interdiction des spectacles de cétacés en 2026. Or, <strong>90 % des visiteurs</strong> venaient pour les orques et dauphins.
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#e74c3c;margin-bottom:10px;">🐬 Pressions associatives</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          Depuis <em>Blackfish</em> (2013), des associations comme <strong>One Voice</strong>, <strong>L214</strong> et la <strong>Fondation Brigitte Bardot</strong> dénoncent la captivité. L'opinion bascule.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">13</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14 · CAUSES DU DÉCLIN 2/2 — INTERNES -->
+<!-- ============================================================ -->
+<section class="slide bg4" id="s14" data-index="13">
+  <div class="slide-content">
+    <div class="label">Analyse 2/2</div>
+    <h2 class="title">Causes du déclin <span class="hl">— facteurs internes</span></h2>
+    <div class="divider"></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#f1c40f;margin-bottom:10px;">💰 Déficit structurel</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          CA 2023 : <strong>20,9 M€</strong> pour une perte de <strong>−5,73 M€</strong>. Le modèle économique dépendait totalement des spectacles.
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#e74c3c;margin-bottom:10px;">☠️ Mortalité des orques</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          <strong>Moana</strong> (12 ans, septicémie, oct. 2023) et <strong>Inouk</strong> (25 ans, ingestion de métal, mars 2024). Ces drames ont nourri la controverse médiatique.
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#f1c40f;margin-bottom:10px;">🌍 Changement de regard</div>
+        <div style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+          <strong>80 %</strong> des visiteurs préfèrent désormais les expériences éthiques. « La société ne veut plus voir des cétacés enfermés pour le divertissement. »
+        </div>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:20px;">
+      « La fermeture de Marineland résulte d'un changement de regard sur les animaux. »
+      <cite>— Louis Schweitzer, Fondation Droit animal, éthique et sciences</cite>
+    </div>
+  </div>
+  <div class="slide-number">14</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15 · FERMETURE -->
+<!-- ============================================================ -->
+<section class="slide bg1" id="s15" data-index="14">
+  <div class="slide-content">
+    <div class="label">Dénouement</div>
+    <h2 class="title">5 janvier 2025 · <span class="hl">Fermeture définitive</span></h2>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div style="font-size:0.95rem;line-height:1.7;color:rgba(255,255,255,0.65);">
+        <p>Le <strong style="color:#e8edf5;">4 décembre 2024</strong>, la direction annonce le projet de fermeture en CSE. Un mois plus tard, le <strong style="color:#e8edf5;">5 janvier 2025</strong>, le parc ferme pour toujours.</p>
+        <p style="margin-top:12px;">Les derniers jours voient une affluence record, des visiteurs venus dire adieu, des employés émus. « <em>Pour nous, c'est un deuil</em> », confie un dresseur au <em>Monde</em>.</p>
+        <p style="margin-top:12px;"><strong style="color:#e8edf5;">Aquasplash</strong> et <strong style="color:#e8edf5;">Adventure Golf</strong> restent ouverts en 2025. L'hôtel devient le <strong style="color:#e8edf5;">So.Blue Hôtel</strong>.</p>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:12px;padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">Devenir des orques</div>
+          <p style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+            <strong>Wikie</strong> (femelle, 24 ans) et <strong>Keijo</strong> (mâle, 12 ans) sont les deux derniers orques de Marineland. Le transfert au Japon a été bloqué par le gouvernement. La piste du <strong>Loro Parque</strong> à Tenerife est contestée. <strong style="color:#e74c3c;">Aucune solution trouvée à ce jour.</strong>
+          </p>
+        </div>
+        <div class="card" style="padding:24px;">
+          <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-bottom:8px;">4 000 animaux à relocaliser</div>
+          <p style="font-size:0.9rem;color:rgba(255,255,255,0.55);line-height:1.5;">
+            Dauphins, otaries, manchots, tortues, poissons, coraux… Chaque espèce doit trouver une structure d'accueil conforme aux normes de bien-être animal.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">15</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16 · DÉBAT ÉTHIQUE -->
+<!-- ============================================================ -->
+<section class="slide bg2" id="s16" data-index="15">
+  <div class="slide-content">
+    <div class="label">Débat</div>
+    <h2 class="title">Captivité vs protection : <span class="hl">le grand débat</span></h2>
+    <div class="divider"></div>
+
+    <div class="debate-row">
+      <div class="debate-col pour">
+        <h4>🟢 POUR les parcs marins</h4>
+        <ul>
+          <li><strong>Éducation</strong> : découvrir des espèces inaccessibles et développer une conscience écologique</li>
+          <li><strong>Recherche</strong> : études impossibles en milieu naturel (acoustique, reproduction)</li>
+          <li><strong>Conservation</strong> : participation aux programmes de reproduction d'espèces menacées</li>
+          <li><strong>Bien-être</strong> : relation privilégiée soigneurs-animaux basée sur le renforcement positif</li>
+          <li><strong>Économie</strong> : moteur touristique local (emplois, hôtellerie)</li>
+        </ul>
+      </div>
+      <div class="debate-col contre">
+        <h4>🔴 CONTRE la captivité</h4>
+        <ul>
+          <li><strong>Espace</strong> : les bassins sont 10 000× plus petits que l'habitat naturel</li>
+          <li><strong>Souffrance</strong> : comportements stéréotypés, apathie, agressivité chez les orques captives</li>
+          <li><strong>Mortalité</strong> : espérance de vie bien inférieure à celle des orques sauvages</li>
+          <li><strong>Spectacles</strong> : numéros sans rapport avec le comportement naturel des animaux</li>
+          <li><strong>Alternatives</strong> : observation en mer, sanctuaires, documentaires, réalité virtuelle</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote" style="margin-top:16px;">
+      « Il n'existe pas de sanctuaire susceptible d'accueillir les animaux au niveau européen. »
+      <cite>— Ministère de la Transition écologique, réponse à l'Assemblée nationale</cite>
+    </div>
+  </div>
+  <div class="slide-number">16</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17 · CONCLUSION -->
+<!-- ============================================================ -->
+<section class="slide bg3" id="s17" data-index="16">
+  <div class="slide-content">
+    <div class="label">Synthèse</div>
+    <h2 class="title">Ce qu'il faut <span class="hl">retenir</span></h2>
+    <div class="divider"></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#5dade2;margin-bottom:8px;">🏛️ Un géant disparu</div>
+        <p style="font-size:0.9rem;line-height:1.5;color:rgba(255,255,255,0.55);">
+          Plus grand zoo marin d'Europe pendant <strong>55 ans</strong>. Sa fermeture marque la <strong>fin d'un modèle</strong> touristique et zoologique.
+        </p>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#f1c40f;margin-bottom:8px;">📜 Une loi historique</div>
+        <p style="font-size:0.9rem;line-height:1.5;color:rgba(255,255,255,0.55);">
+          La <strong>loi du 30 novembre 2021</strong> contre la maltraitance animale a précipité la fermeture. Elle illustre l'<strong>évolution des consciences</strong>.
+        </p>
+      </div>
+      <div class="card">
+        <div style="font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#2ecc71;margin-bottom:8px;">🌊 Un avenir à réinventer</div>
+        <p style="font-size:0.9rem;line-height:1.5;color:rgba(255,255,255,0.55);">
+          Vers de <strong>nouveaux modèles</strong> : sanctuaires marins, observation éthique en mer, centres de recherche et réhabilitation.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;padding:24px;margin-top:20px;">
+      <div style="font-size:0.9rem;color:rgba(255,255,255,0.4);line-height:1.6;">
+        <strong>54 ans</strong> d'histoire · <strong>4 000</strong> animaux · <strong>~40 millions</strong> de visiteurs<br>
+        <span style="color:rgba(255,255,255,0.25);">Un héritage complexe entre émerveillement et questionnement éthique</span>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">17</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18 · SOURCES & MERCI -->
+<!-- ============================================================ -->
+<section class="slide slide-thanks" data-index="17">
+  <div style="max-width:700px;text-align:center;position:relative;z-index:1;">
+    <div class="hero-badge" style="margin-bottom:20px;">Merci de votre attention</div>
+    <h2 class="hero-title" style="font-size:clamp(2rem,4vw,3.5rem);">Des <span class="highlight">questions</span> ?</h2>
+    <p style="font-size:0.95rem;color:rgba(255,255,255,0.35);margin-top:12px;">Présentation — BTS Management Commercial Opérationnel · Culture générale</p>
+    <div style="margin:28px auto;width:40px;height:2px;background:rgba(255,255,255,0.08);"></div>
+
+    <div style="text-align:left;max-width:500px;margin:0 auto;">
+      <div style="font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.15);margin-bottom:10px;">Sources</div>
+      <ul class="sources-list">
+        <li>Wikipédia — Marineland d'Antibes</li>
+        <li>Le Monde — « Marineland vit ses derniers jours »</li>
+        <li>Le Figaro — « L'inéluctable fermeture du parc »</li>
+        <li>Nice-Matin — « Marineland ferme ce dimanche »</li>
+        <li>Légifrance — Loi n° 2021-1539</li>
+        <li>Ministère de la Transition écologique</li>
+        <li>Assemblée nationale — Question n° 4344</li>
+        <li>France Info — Adoption de la loi</li>
+        <li>Site officiel — marineland.fr</li>
+        <li>La Quotidienne — Analyse économique</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:28px;display:flex;gap:14px;justify-content:center;">
+      <span style="font-size:0.65rem;color:rgba(255,255,255,0.1);">BTS MCO 2025</span>
+      <span style="font-size:0.65rem;color:rgba(255,255,255,0.06);">·</span>
+      <span style="font-size:0.65rem;color:rgba(255,255,255,0.1);">Culture générale</span>
+    </div>
+  </div>
+  <div class="slide-number">18</div>
+</section>
+
+<div class="kbd-hint">← → ou molette pour naviguer</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let isScrolling = false;
+
+  function updateSlide(index) {
+    current = Math.max(0, Math.min(index, total - 1));
+    document.getElementById('slideCounter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+    slides.forEach((s, i) => s.style.display = i === current ? 'flex' : 'none');
+    document.getElementById('navBar').classList.toggle('hidden', current === 0);
+    scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function goSlide(dir) {
+    if (isScrolling) return;
+    isScrolling = true;
+    updateSlide(current + dir);
+    setTimeout(() => { isScrolling = false; }, 350);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (current < total - 1) goSlide(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (current > 0) goSlide(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); updateSlide(0); }
+    else if (e.key === 'End') { e.preventDefault(); updateSlide(total - 1); }
+  });
+
+  document.addEventListener('wheel', e => {
+    if (isScrolling) return;
+    if (e.deltaY > 0 && current < total - 1) { e.preventDefault(); goSlide(1); }
+    else if (e.deltaY < 0 && current > 0) { e.preventDefault(); goSlide(-1); }
+  }, { passive: false });
+
+  let touchY = 0;
+  document.addEventListener('touchstart', e => { touchY = e.changedTouches[0].screenY; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const d = touchY - e.changedTouches[0].screenY;
+    if (Math.abs(d) > 50) { if (d > 0 && current < total - 1) goSlide(1); else if (d < 0 && current > 0) goSlide(-1); }
+  }, { passive: true });
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.nav-bar')) return;
+    const x = e.clientX, w = window.innerWidth;
+    if (x > w * 0.7 && current < total - 1) goSlide(1);
+    else if (x < w * 0.3 && current > 0) goSlide(-1);
+  });
+
+  window.addEventListener('hashchange', () => {
+    const h = location.hash;
+    if (h) {
+      const el = document.querySelector(h) || document.querySelector('[data-index]' + h);
+      if (el) {
+        const s = el.closest('[data-index]');
+        if (s) { const i = parseInt(s.dataset.index); if (!isNaN(i)) updateSlide(i); }
+      }
+    }
+  });
+
+  updateSlide(0);
+</script>
+</body>
+</html>
