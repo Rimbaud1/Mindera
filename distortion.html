@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distortion — Téléchargement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@property --g1{syntax:'<color>';initial-value:#a855f7;inherits:false}
+@property --g2{syntax:'<color>';initial-value:#06b6d4;inherits:false}
+
+:root{
+  --bg:#06060b;--v:#a855f7;--o:#f97316;--g:#22c55e;--c:#06b6d4;
+  --card:rgba(10,10,18,.75);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:#e8e8f0;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  overflow-x:hidden;line-height:1.5;
+}
+
+/* ═══ CANVAS BG ═══ */
+#canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bg-noise{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ═══ CARD WRAPPER (3D space) ═══ */
+.card-space{perspective:1200px;z-index:10;position:relative}
+.card{
+  width:min(92vw,580px);
+  background:var(--card);
+  backdrop-filter:blur(60px) saturate(1.4);
+  -webkit-backdrop-filter:blur(60px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:24px;padding:clamp(2rem,5vw,3.5rem) clamp(1.5rem,4vw,3rem);
+  text-align:center;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.03) inset,
+    0 40px 80px rgba(0,0,0,.55),
+    0 15px 30px rgba(0,0,0,.3);
+  transform-style:preserve-3d;
+  transition:transform .15s ease-out,box-shadow .3s ease;
+  will-change:transform;
+}
+
+/* dynamic glow on card (follows mouse) */
+.card-glow{
+  position:absolute;inset:-1px;border-radius:24px;pointer-events:none;
+  opacity:0;transition:opacity .5s ease;
+  z-index:-1;filter:blur(40px);
+}
+.card:hover .card-glow{opacity:.25}
+
+/* animated border */
+.card::before{
+  content:'';position:absolute;inset:-1px;border-radius:24px;
+  background:conic-gradient(from var(--a),var(--g1),var(--g2),var(--g1));
+  z-index:-1;opacity:.35;
+  animation:borderSpin 6s linear infinite;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;-webkit-mask-composite:xor;
+  padding:1px;
+}
+@keyframes borderSpin{to{--a:360deg}}
+
+/* ═══ LOGO ═══ */
+.logo-wrap{position:relative;width:80px;height:80px;margin:0 auto 1.75rem}
+.logo-ring{
+  position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid transparent;
+  border-top-color:var(--v);border-right-color:var(--c);
+  animation:spin 3s linear infinite;
+}
+.logo-ring.r2{
+  inset:-12px;border-top-color:var(--o);border-right-color:var(--g);
+  animation-duration:5s;animation-direction:reverse;opacity:.4;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.logo-core{
+  width:80px;height:80px;border-radius:20px;
+  background:linear-gradient(135deg,var(--v),var(--c));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 50px rgba(168,85,247,.3),0 0 100px rgba(168,85,247,.1);
+  animation:corePulse 4s ease-in-out infinite;
+}
+@keyframes corePulse{
+  0%,100%{box-shadow:0 0 50px rgba(168,85,247,.3),0 0 100px rgba(168,85,247,.1)}
+  50%{box-shadow:0 0 70px rgba(168,85,247,.5),0 0 140px rgba(168,85,247,.2)}
+}
+.logo-core svg{filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+
+/* ═══ TYPOGRAPHY ═══ */
+.title{
+  font-size:clamp(2.2rem,7vw,3.2rem);font-weight:900;letter-spacing:-.04em;
+  line-height:1;margin-bottom:.5rem;
+  background:linear-gradient(180deg,#fff 20%,#a0a0c0 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.subtitle{
+  font-size:.85rem;font-weight:400;color:rgba(255,255,255,.35);
+  letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* ═══ PLATFORM SELECTOR ═══ */
+.platforms{
+  display:flex;gap:.6rem;justify-content:center;margin:2.25rem 0;
+}
+.plat{
+  flex:1;min-width:150px;max-width:200px;
+  padding:1.25rem 1rem;border-radius:16px;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,.05);
+  background:rgba(255,255,255,.01);
+  transition:all .45s cubic-bezier(.16,1,.3,1);
+  position:relative;overflow:hidden;text-align:center;user-select:none;
+}
+.plat::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity .45s ease;
+}
+.plat:hover{
+  border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.025);
+  transform:translateY(-3px);
+}
+.plat.selected{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.plat.win::before{background:radial-gradient(ellipse at 50% 0%,rgba(6,182,212,.12),transparent 60%)}
+.plat.lnx::before{background:radial-gradient(ellipse at 50% 0%,rgba(249,115,22,.12),transparent 60%)}
+.plat.selected::before{opacity:1}
+
+.plat-icon{
+  display:block;margin-bottom:.35rem;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.plat:hover .plat-icon{transform:scale(1.12) translateY(-2px)}
+.plat-name{font-weight:700;font-size:.9rem;display:block;transition:color .3s ease}
+.plat.win.selected .plat-name{color:var(--c)}
+.plat.lnx.selected .plat-name{color:var(--o)}
+.plat-ext{font-size:.68rem;color:rgba(255,255,255,.3);margin-top:.15rem;display:block}
+
+.plat-check{
+  position:absolute;top:.65rem;right:.75rem;
+  width:20px;height:20px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  opacity:0;transform:scale(.5);
+}
+.plat.selected .plat-check{opacity:1;transform:scale(1)}
+.plat.win.selected .plat-check{background:var(--c);border-color:var(--c)}
+.plat.lnx.selected .plat-check{background:var(--o);border-color:var(--o)}
+.plat-check::after{
+  content:'';width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;
+  transform:rotate(45deg);margin-top:-2px;
+}
+
+/* ═══ DOWNLOAD BUTTON ═══ */
+.dl-area{margin:1.75rem 0;position:relative}
+.dl-btn{
+  display:inline-flex;align-items:center;gap:.85rem;
+  padding:1.15rem 3rem;font-family:inherit;font-size:1.05rem;font-weight:700;
+  color:#fff;text-decoration:none;border:none;border-radius:16px;cursor:pointer;
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--v) 0%,#7c3aed 50%,var(--c) 100%);
+  background-size:200% 200%;animation:gradShift 4s ease infinite;
+  box-shadow:0 8px 32px rgba(168,85,247,.3),0 2px 8px rgba(0,0,0,.3);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  letter-spacing:.02em;
+}
+@keyframes gradShift{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+.dl-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 12px 40px rgba(168,85,247,.45),0 4px 12px rgba(0,0,0,.3);
+}
+
+/* ripple */
+.dl-btn .ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  transform:scale(0);animation:ripple .7s ease-out forwards;
+}
+@keyframes ripple{to{transform:scale(5);opacity:0}}
+
+/* shine sweep */
+.dl-btn::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shine 3s ease-in-out infinite;
+}
+@keyframes shine{0%,70%,100%{left:-100%}30%{left:150%}}
+
+.dl-icon{width:20px;height:20px;position:relative;z-index:1}
+.dl-icon svg{display:block;width:100%;height:100%}
+.dl-text{position:relative;z-index:1}
+.dl-arrow{
+  position:relative;z-index:1;font-size:1.1rem;
+  animation:dlBounce 2.5s ease-in-out infinite;
+}
+@keyframes dlBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* glow aura */
+.dl-aura{
+  position:absolute;inset:0;border-radius:16px;pointer-events:none;
+  background:linear-gradient(135deg,var(--v),var(--c),var(--o),var(--g));
+  filter:blur(24px);opacity:0;transition:opacity .5s ease;z-index:-1;
+  animation:auraHue 5s linear infinite;
+}
+.dl-area:hover .dl-aura{opacity:.3}
+@keyframes auraHue{to{filter:blur(24px) hue-rotate(360deg)}}
+
+/* ═══ INFO ROW ═══ */
+.info-row{
+  display:flex;justify-content:center;gap:1.75rem;flex-wrap:wrap;
+  margin-top:1.5rem;font-size:.78rem;color:rgba(255,255,255,.3);
+}
+.info-row .i{display:flex;align-items:center;gap:.45rem}
+.info-row .val{font-weight:600;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums}
+
+/* ═══ BOTTOM ═══ */
+.bottom{
+  margin-top:2rem;padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,.04);
+  font-size:.75rem;color:rgba(255,255,255,.25);
+}
+.bottom a{color:var(--v);text-decoration:none;font-weight:500;transition:color .2s}
+.bottom a:hover{color:var(--c)}
+.bottom .req{margin-top:.5rem;font-size:.7rem}
+.bottom code{
+  background:rgba(168,85,247,.1);color:var(--v);
+  padding:.1em .35em;border-radius:3px;font-size:.85em;
+}
+
+/* ═══ ENTRANCE ═══ */
+.enter{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.enter.show{opacity:1;transform:translateY(0)}
+.enter.d1{transition-delay:.08s}
+.enter.d2{transition-delay:.16s}
+.enter.d3{transition-delay:.24s}
+.enter.d4{transition-delay:.32s}
+.enter.d5{transition-delay:.4s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:520px){
+  .card{padding:1.75rem 1.25rem;border-radius:18px}
+  .platforms{flex-direction:column;align-items:stretch}
+  .plat{max-width:none}
+  .dl-btn{padding:1rem 2.25rem;font-size:.95rem;width:100%;justify-content:center}
+  .info-row{flex-direction:column;gap:.4rem;align-items:center}
+  .logo-wrap{width:64px;height:64px}
+  .logo-ring{inset:-4px}
+  .logo-ring.r2{inset:-8px}
+  .logo-core{width:64px;height:64px;border-radius:16px}
+}
+
+/* ═══ REDUCED MOTION ═══ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  .card{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<div class="bg-noise"></div>
+
+<div class="card-space">
+<div class="card" id="card">
+  <div class="card-glow" id="cardGlow"></div>
+
+  <!-- LOGO -->
+  <div class="logo-wrap enter">
+    <div class="logo-ring"></div>
+    <div class="logo-ring r2"></div>
+    <div class="logo-core">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M18 4L4 18l14 14 14-14L18 4z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="18" cy="18" r="5" stroke="#fff" stroke-width="1.5" opacity=".6"/>
+        <line x1="18" y1="8" x2="18" y2="13" stroke="#fff" stroke-width="1.5"/>
+        <line x1="18" y1="23" x2="18" y2="28" stroke="#fff" stroke-width="1.5"/>
+        <line x1="8" y1="18" x2="13" y2="18" stroke="#fff" stroke-width="1.5"/>
+        <line x1="23" y1="18" x2="28" y2="18" stroke="#fff" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <h1 class="title enter d1">Distortion</h1>
+  <p class="subtitle enter d2">timeOnaute · Godot 4.6</p>
+
+  <!-- PLATFORMS -->
+  <div class="platforms">
+    <button class="plat win selected enter d2" onclick="pick('win',this)">
+      <span class="plat-check"></span>
+      <span class="plat-icon">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <rect x="2" y="4" width="30" height="20" rx="3" stroke="#fff" stroke-width="1.5" opacity=".85"/>
+          <line x1="2" y1="26" x2="32" y2="26" stroke="#fff" stroke-width="1.5" opacity=".5"/>
+          <rect x="10" y="10" width="14" height="2.5" rx="1.2" fill="#fff" opacity=".5"/>
+          <rect x="10" y="14.5" width="9" height="2" rx="1" fill="#fff" opacity=".4"/>
+          <circle cx="26" cy="14" r="2" fill="#fff" opacity=".35"/>
+        </svg>
+      </span>
+      <span class="plat-name">Windows</span>
+      <span class="plat-ext">.exe · ZIP</span>
+    </button>
+    <button class="plat lnx enter d3" onclick="pick('lnx',this)">
+      <span class="plat-check"></span>
+      <span class="plat-icon">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <circle cx="17" cy="10" r="5.5" stroke="#fff" stroke-width="1.5" opacity=".85"/>
+          <path d="M5 28c0-5.5 5-10 12-10s12 4.5 12 10" stroke="#fff" stroke-width="1.5" opacity=".5"/>
+          <circle cx="15" cy="9" r="1.2" fill="#fff" opacity=".65"/>
+          <circle cx="20" cy="9" r="1.2" fill="#fff" opacity=".65"/>
+          <path d="M14 12.5c0 1 .8 2 3 2s3-1 3-2" stroke="#fff" stroke-width="1" opacity=".4"/>
+        </svg>
+      </span>
+      <span class="plat-name">Linux</span>
+      <span class="plat-ext">.x86_64 · tar.gz</span>
+    </button>
+  </div>
+
+  <!-- DOWNLOAD BUTTON -->
+  <div class="dl-area enter d3">
+    <div class="dl-aura"></div>
+    <a href="https://drive.proton.me/urls/ACBWS7KB8G#2DCYULBs3045" target="_blank" class="dl-btn" id="dlBtn" onclick="ripple(event)">
+      <span class="dl-icon">
+        <svg viewBox="0 0 22 22" fill="none">
+          <path d="M11 2v12M5 10l6 6 6-6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="dl-text">Télécharger pour Windows</span>
+      <span class="dl-arrow">↓</span>
+    </a>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-row enter d4">
+    <span class="i"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="2" y="1" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1" fill="none"/><line x1="2" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg> <span class="val" id="sizeVal">385 Mo</span></span>
+    <span class="i"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="1" y="2" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1" fill="none"/><rect x="4" y="5" width="6" height="4" rx="1" fill="currentColor" opacity=".3"/></svg> <span id="reqVal">Windows 10+</span></span>
+    <span class="i"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M5 7l1.5 1.5L9 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Standalone</span>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom enter d5">
+    <p><a href="https://github.com/mbennab/Distortion" target="_blank">Code source</a> · Jeu d'aventure narratif 2D</p>
+    <p class="req">Dialogue IA avancé : créez <code>.env</code> avec <code>OPENROUTER_API_KEY</code></p>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ═══════════ CANVAS PARTICLES ═══════════ */
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], mouse = {x: -999, y: -999};
+const COLORS = ['#a855f7','#06b6d4','#f97316','#22c55e'];
+const COUNT = 80;
+
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+
+class Particle {
+  constructor(){ this.reset(); }
+  reset(){
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - .5) * .3;
+    this.vy = (Math.random() - .5) * .3;
+    this.r = Math.random() * 1.8 + .5;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.alpha = Math.random() * .5 + .1;
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = Math.random() * .02 + .008;
+  }
+  update(){
+    this.x += this.vx; this.y += this.vy;
+    this.pulse += this.pulseSpeed;
+    if(this.x < -10 || this.x > W+10 || this.y < -10 || this.y > H+10) this.reset();
+  }
+  draw(){
+    const a = this.alpha + Math.sin(this.pulse) * .15;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = Math.max(0, Math.min(1, a));
+    ctx.fill();
+  }
+}
+
+for(let i = 0; i < COUNT; i++) particles.push(new Particle());
+
+/* connections */
+function drawLines(){
+  ctx.globalAlpha = 1;
+  for(let i = 0; i < particles.length; i++){
+    for(let j = i + 1; j < particles.length; j++){
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = dx*dx + dy*dy;
+      if(dist < 120*120){
+        const a = (1 - dist / (120*120)) * .08;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = particles[i].color;
+        ctx.globalAlpha = a;
+        ctx.lineWidth = .5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+/* mouse repulsion */
+addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+function animate(){
+  ctx.clearRect(0, 0, W, H);
+  for(const p of particles){
+    const dx = p.x - mouse.x, dy = p.y - mouse.y;
+    const dist = dx*dx + dy*dy;
+    if(dist < 150*150){
+      const f = (150*150 - dist) / (150*150) * .8;
+      p.vx += (dx / Math.sqrt(dist)) * f * .15;
+      p.vy += (dy / Math.sqrt(dist)) * f * .15;
+    }
+    p.vx *= .98; p.vy *= .98;
+    p.update(); p.draw();
+  }
+  drawLines();
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ═══════════ 3D CARD TILT ═══════════ */
+const card = document.getElementById('card');
+const glow = document.getElementById('cardGlow');
+const cardSpace = document.querySelector('.card-space');
+
+cardSpace.addEventListener('mousemove', e => {
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const cx = rect.width / 2, cy = rect.height / 2;
+  const rotX = ((y - cy) / cy) * -6;
+  const rotY = ((x - cx) / cx) * 6;
+  card.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  glow.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(168,85,247,.2), rgba(6,182,212,.1), transparent)`;
+});
+cardSpace.addEventListener('mouseleave', () => {
+  card.style.transform = 'rotateX(0) rotateY(0)';
+  glow.style.opacity = '0';
+  setTimeout(() => glow.style.opacity = '', 500);
+});
+
+/* ═══════════ ENTRANCE ANIMATIONS ═══════════ */
+requestAnimationFrame(() => {
+  document.querySelectorAll('.enter').forEach(el => el.classList.add('show'));
+});
+
+/* ═══════════ PLATFORM PICKER ═══════════ */
+const data = {
+  win: { href:'https://drive.proton.me/urls/ACBWS7KB8G#2DCYULBs3045', text:'Télécharger pour Windows', size:'385 Mo', req:'Windows 10+' },
+  lnx: { href:'https://drive.proton.me/urls/AP30XAW6FW#RpWqRwlVE1tM', text:'Télécharger pour Linux',  size:'377 Mo', req:'Linux x86_64' }
+};
+let cur = 'win';
+
+function pick(p, btn){
+  document.querySelectorAll('.plat').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  cur = p;
+  const d = data[p];
+  const link = document.getElementById('dlBtn');
+  link.href = d.href;
+  link.querySelector('.dl-text').textContent = d.text;
+  document.getElementById('sizeVal').textContent = d.size;
+  document.getElementById('reqVal').textContent = d.req;
+}
+
+/* ═══════════ RIPPLE ═══════════ */
+function ripple(e){
+  const btn = e.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const s = Math.max(rect.width, rect.height);
+  r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
+  btn.appendChild(r);
+  r.addEventListener('animationend', () => r.remove());
+}
+</script>
+</body>
+</html>
