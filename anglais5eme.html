@@ -1,0 +1,1370 @@
+
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglais 5ème - Les Verbes Irréguliers</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Flashcard 3D Flip effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        
+        /* Shimmer effect for buttons */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .shimmer-btn {
+            background: linear-gradient(90deg, #4f46e5, #818cf8, #4f46e5);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col text-slate-800 antialiased overflow-x-hidden pb-20 md:pb-0">
+
+    <!-- TOP BAR (Desktop & Global status) -->
+    <header class="bg-white border-b border-slate-100 shadow-sm sticky top-0 z-30 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2 rounded-2xl shadow-md shadow-indigo-100">
+                    <i data-lucide="sparkles" class="w-6 h-6 animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-indigo-900 tracking-wide">EnglishHero</h1>
+                    <p class="text-xs text-slate-400 font-medium">Mission : Prétérit 5ème</p>
+                </div>
+            </div>
+
+            <!-- XP, Level, and Streak -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full" title="Série de jours consécutifs">
+                    <span class="text-lg">🔥</span>
+                    <span id="streak-val" class="font-bold text-amber-700 text-sm">1</span>
+                </div>
+                <div class="flex items-center space-x-2 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-full">
+                    <div class="text-xs font-bold text-indigo-700">
+                        Niv. <span id="level-val">1</span>
+                    </div>
+                    <div class="w-16 bg-slate-200 rounded-full h-2 overflow-hidden">
+                        <div id="xp-bar" class="bg-indigo-600 h-2 transition-all duration-500" style="width: 10%"></div>
+                    </div>
+                    <span id="xp-val" class="text-xs font-bold text-indigo-900">10 XP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:py-8 flex flex-col">
+        
+        <!-- ==================== TAB 1: ACUEIL & DASHBOARD ==================== -->
+        <section id="tab-home" class="tab-content space-y-6">
+            <!-- Hero banner card -->
+            <div class="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-6 text-white shadow-xl shadow-indigo-100 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-white">
+                    <i data-lucide="award" class="w-64 h-64"></i>
+                </div>
+                <div class="relative z-10 space-y-3">
+                    <span class="bg-indigo-500/50 text-white text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Hello Champion ! 👋</span>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Prêt à devenir un as des verbes irréguliers ?</h2>
+                    <p class="text-indigo-100 max-w-lg text-sm md:text-base">
+                        Révise tes fiches de cours de manière ultra-fun, gagne de l'expérience et débloque tous les badges de réussite !
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('learn')" class="bg-white text-indigo-700 hover:bg-indigo-50 font-bold px-5 py-2.5 rounded-2xl shadow-md transition-all active:scale-95 text-sm flex items-center space-x-2">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            <span>Lancer l'apprentissage</span>
+                        </button>
+                        <button onclick="switchTab('quiz')" class="bg-indigo-500 hover:bg-indigo-400 font-bold px-5 py-2.5 rounded-2xl border border-indigo-400/30 transition-all active:scale-95 text-sm flex items-center space-x-2">
+                            <i data-lucide="trophy" class="w-4 h-4"></i>
+                            <span>Défier le Quiz</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress & Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-slate-800" id="stat-mastered">0 / 23</div>
+                        <div class="text-xs text-slate-400 font-medium uppercase">Verbes maîtrisés</div>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-amber-100 text-amber-600 rounded-xl">
+                        <i data-lucide="refresh-cw" class="w-6 h-6 animate-spin-slow"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-slate-800" id="stat-review">0 / 23</div>
+                        <div class="text-xs text-slate-400 font-medium uppercase">Verbes à réviser</div>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-indigo-100 text-indigo-600 rounded-xl">
+                        <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-slate-800" id="stat-highscore">0 pts</div>
+                        <div class="text-xs text-slate-400 font-medium uppercase">Score Express Max</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Rule Highlight card -->
+            <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+                <div class="flex items-center space-x-2 text-indigo-600">
+                    <i data-lucide="info" class="w-5 h-5"></i>
+                    <h3 class="font-bold text-lg">💡 Le prétérit en 5ème, c'est quoi ?</h3>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Il sert à exprimer une <strong>action passée, datée et révolue</strong> (terminée !).
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                    <div class="p-3 bg-indigo-50/50 rounded-2xl border border-indigo-50 text-xs">
+                        <span class="font-bold text-indigo-800 block mb-1">👍 Forme Affirmative</span>
+                        <code class="text-indigo-600">Sujet + Base Verbale + ed</code><br>
+                        Ex : <span class="italic">I worked yesterday.</span>
+                    </div>
+                    <div class="p-3 bg-rose-50/50 rounded-2xl border border-rose-50 text-xs">
+                        <span class="font-bold text-rose-800 block mb-1">👎 Forme Négative</span>
+                        <code class="text-rose-600">Sujet + didn't + Base Verbale</code><br>
+                        Ex : <span class="italic">He didn't work.</span>
+                    </div>
+                    <div class="p-3 bg-amber-50/50 rounded-2xl border border-amber-50 text-xs">
+                        <span class="font-bold text-amber-800 block mb-1">❓ Forme Interrogative</span>
+                        <code class="text-amber-600">Did + Sujet + Base Verbale ?</code><br>
+                        Ex : <span class="italic">Did they work ?</span>
+                    </div>
+                </div>
+                <div class="p-3 bg-amber-100/40 rounded-2xl border border-amber-100 text-xs text-amber-800 flex items-start space-x-2">
+                    <span>⚠️</span>
+                    <p><strong>Attention !</strong> Les verbes irréguliers ne suivent pas la règle du "+ed" à la forme affirmative. Ils ont une forme particulière qu'il faut apprendre par cœur !</p>
+                </div>
+            </div>
+
+            <!-- Badge Shelf -->
+            <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+                <h3 class="font-bold text-lg text-slate-800 flex items-center space-x-2">
+                    <span>🏆</span>
+                    <span>Mes Badges Accomplis</span>
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4" id="badges-container">
+                    <!-- Badges injected dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: FLASHCARDS ==================== -->
+        <section id="tab-learn" class="tab-content hidden space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-indigo-950">🃏 Les Flashcards Magiques</h2>
+                <p class="text-xs md:text-sm text-slate-500">Clique sur la carte pour la retourner, puis auto-évalue toi !</p>
+            </div>
+
+            <!-- Flashcard Arena -->
+            <div class="max-w-md mx-auto w-full flex flex-col items-center space-y-6 py-4">
+                <!-- Spaced repetition progress -->
+                <div class="w-full flex items-center justify-between text-xs text-slate-500 px-2">
+                    <span>Progression pile : <strong id="card-index-text">1 / 23</strong></span>
+                    <span id="card-status-pill" class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold">À apprendre</span>
+                </div>
+
+                <!-- Interactive Flip Card Container -->
+                <div class="w-full h-80 perspective-1000 cursor-pointer" onclick="flipCard()">
+                    <div id="flashcard" class="w-full h-full preserve-3d transition-transform duration-500 relative rounded-3xl shadow-xl shadow-indigo-100/40 border border-slate-100">
+                        
+                        <!-- CARD FRONT (French / Riddle) -->
+                        <div class="absolute inset-0 backface-hidden bg-white rounded-3xl p-6 flex flex-col justify-between items-center text-center">
+                            <div class="text-slate-300 font-bold tracking-widest text-xs uppercase">Traduire ce verbe</div>
+                            <div class="my-auto space-y-3">
+                                <h3 id="card-french" class="text-3xl md:text-4xl font-extrabold text-indigo-950">devenir</h3>
+                                <div class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1 rounded-full font-bold inline-block">Appuie pour retourner</div>
+                            </div>
+                            <div class="w-full bg-slate-50 py-3 rounded-2xl flex justify-center items-center text-xs text-slate-400">
+                                <i data-lucide="help-circle" class="w-4 h-4 mr-1"></i> Révéler les formes anglaises
+                            </div>
+                        </div>
+
+                        <!-- CARD BACK (English / Answer) -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-indigo-900 to-indigo-950 text-white rounded-3xl p-6 flex flex-col justify-between items-center text-center">
+                            <div class="text-indigo-400 font-bold tracking-widest text-xs uppercase">Solution</div>
+                            
+                            <div class="my-auto space-y-4 w-full">
+                                <div class="space-y-1">
+                                    <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Infinitif</div>
+                                    <div id="card-infinitive" class="text-2xl font-bold text-emerald-400">To become</div>
+                                </div>
+                                <div class="border-t border-indigo-800/40 w-16 mx-auto my-2"></div>
+                                <div class="space-y-1">
+                                    <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Prétérit (Past Tense)</div>
+                                    <div id="card-preterit" class="text-3xl font-extrabold text-yellow-400 tracking-wide">became</div>
+                                </div>
+
+                                <!-- TTS Speak Button -->
+                                <button onclick="event.stopPropagation(); speakCurrentCard();" class="mt-2 bg-indigo-800 hover:bg-indigo-700 text-white p-2.5 rounded-full inline-flex items-center justify-center transition-all active:scale-90" title="Écouter la prononciation anglaise">
+                                    <i data-lucide="volume-2" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+
+                            <div class="w-full text-xs text-indigo-300">
+                                💡 Appuie à nouveau pour revenir devant
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Learning Action Buttons -->
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <button onclick="markCard(false)" class="bg-rose-50 border border-rose-100 text-rose-600 hover:bg-rose-100 font-bold py-3.5 px-4 rounded-2xl shadow-sm transition-all flex items-center justify-center space-x-2 active:scale-95">
+                        <i data-lucide="x-circle" class="w-5 h-5"></i>
+                        <span>À revoir ! 🔴</span>
+                    </button>
+                    <button onclick="markCard(true)" class="bg-emerald-50 border border-emerald-100 text-emerald-600 hover:bg-emerald-100 font-bold py-3.5 px-4 rounded-2xl shadow-sm transition-all flex items-center justify-center space-x-2 active:scale-95">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        <span>Je le sais ! 🟢</span>
+                    </button>
+                </div>
+
+                <!-- Card list quick controls -->
+                <div class="flex items-center justify-between w-full text-xs text-slate-400 pt-2 px-2">
+                    <button onclick="prevCard()" class="hover:text-indigo-600 flex items-center space-x-1">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> <span>Précédent</span>
+                    </button>
+                    <button onclick="resetCardsLearning()" class="hover:text-indigo-600 flex items-center space-x-1">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> <span>Réinitialiser la pile</span>
+                    </button>
+                    <button onclick="nextCard()" class="hover:text-indigo-600 flex items-center space-x-1">
+                        <span>Suivant</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: QUIZ ==================== -->
+        <section id="tab-quiz" class="tab-content hidden space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-indigo-950">🏆 Le Grand Quiz d'Anglais</h2>
+                <p class="text-xs md:text-sm text-slate-500">10 questions aléatoires pour décrocher le badge de Maître !</p>
+            </div>
+
+            <div id="quiz-start-screen" class="max-w-md mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm text-center space-y-5">
+                <div class="mx-auto w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center">
+                    <i data-lucide="sparkles" class="w-8 h-8"></i>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-slate-800">Prêt à tester tes connaissances ?</h3>
+                    <p class="text-slate-500 text-sm">
+                        Le quiz mélange des questions à choix multiples et des questions à écrire pour tester ta mémoire orthographique !
+                    </p>
+                </div>
+                <button onclick="startQuiz()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-indigo-100 active:scale-95 transition-all text-sm shimmer-btn">
+                    C'est parti ! 🚀
+                </button>
+            </div>
+
+            <!-- Quiz Play View -->
+            <div id="quiz-play-screen" class="hidden max-w-lg mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
+                <!-- Header -->
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Question <span id="quiz-q-num">1</span> / 10</span>
+                    <span id="quiz-score-pill" class="bg-indigo-50 text-indigo-600 text-xs font-bold px-2.5 py-1 rounded-full">Score: 0 XP</span>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div id="quiz-progress" class="bg-indigo-600 h-2 transition-all duration-300" style="width: 10%"></div>
+                </div>
+
+                <!-- Question Prompt -->
+                <div class="text-center py-4 space-y-2">
+                    <div id="quiz-q-type-badge" class="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full font-semibold inline-block">Traduire</div>
+                    <h3 id="quiz-q-text" class="text-2xl font-extrabold text-slate-800">Quel est le prétérit du verbe "to write" ?</h3>
+                </div>
+
+                <!-- MCQ Options -->
+                <div id="quiz-mcq-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Option buttons will go here -->
+                </div>
+
+                <!-- Write / TextInput Option Container -->
+                <div id="quiz-write-container" class="hidden space-y-3">
+                    <input type="text" id="quiz-write-input" placeholder="Tape ta réponse en anglais ici..." class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-center text-lg">
+                    <button onclick="submitWrittenAnswer()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all active:scale-95 text-sm">
+                        Valider ma réponse
+                    </button>
+                </div>
+
+                <!-- Feedback Display (Success/Error modal area) -->
+                <div id="quiz-feedback" class="hidden rounded-2xl p-4 flex items-center space-x-3 text-sm transition-all">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- Quiz Result Screen -->
+            <div id="quiz-result-screen" class="hidden max-w-md mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm text-center space-y-6">
+                <div class="relative inline-block">
+                    <span class="text-5xl">🏆</span>
+                    <div class="absolute -top-1 -right-1 bg-indigo-600 text-white rounded-full p-1 animate-ping"></div>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-extrabold text-indigo-950">Quiz Terminé !</h3>
+                    <p class="text-slate-500 text-sm">Voici ton score et les récompenses obtenues !</p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-3xl font-extrabold text-indigo-600" id="quiz-res-score">8 / 10</div>
+                        <div class="text-xs text-slate-400 uppercase font-bold mt-1">Bonnes réponses</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-extrabold text-amber-500" id="quiz-res-xp">+80 XP</div>
+                        <div class="text-xs text-slate-400 uppercase font-bold mt-1">XP Gagnés</div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                    <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all active:scale-95 text-sm">
+                        Recommencer le Quiz
+                    </button>
+                    <button onclick="switchTab('learn')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl transition-all active:scale-95 text-sm">
+                        Continuer à réviser
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: VERBE EXPRESS GAME ==================== -->
+        <section id="tab-game" class="tab-content hidden space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-indigo-950">⚡ Verbe Express (Chrono)</h2>
+                <p class="text-xs md:text-sm text-slate-500">Donne un maximum de bonnes réponses en 60 secondes !</p>
+            </div>
+
+            <!-- Start screen -->
+            <div id="game-start-screen" class="max-w-md mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm text-center space-y-5">
+                <div class="mx-auto w-16 h-16 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center">
+                    <i data-lucide="zap" class="w-8 h-8"></i>
+                </div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-slate-800">Le défi de rapidité !</h3>
+                    <p class="text-slate-500 text-sm">
+                        Traduis ou trouve le prétérit le plus vite possible. Chaque bonne réponse te donne du temps bonus (+2s) ! Une mauvaise réponse t'en retire (-3s).
+                    </p>
+                </div>
+                <button onclick="startGame()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-rose-100 active:scale-95 transition-all text-sm shimmer-btn">
+                    Démarrer le chrono ⏱️
+                </button>
+            </div>
+
+            <!-- Game Board -->
+            <div id="game-play-screen" class="hidden max-w-lg mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6 relative overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2 text-rose-600">
+                        <i data-lucide="timer" class="w-5 h-5"></i>
+                        <span id="game-timer" class="font-extrabold text-xl">60s</span>
+                    </div>
+                    <div class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-sm font-bold">
+                        Score: <span id="game-score">0</span> pts
+                    </div>
+                </div>
+
+                <!-- Word Display Area -->
+                <div class="text-center py-6 space-y-2">
+                    <span id="game-prompt-type" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Trouver le prétérit de</span>
+                    <h3 id="game-prompt-word" class="text-3xl font-extrabold text-indigo-950">Manger (To Eat)</h3>
+                </div>
+
+                <!-- Simple Multiple Choices for high speed tapping -->
+                <div id="game-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Dynamic game buttons -->
+                </div>
+
+                <!-- Small Visual Timer Bar -->
+                <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                    <div id="game-timer-bar" class="bg-rose-500 h-1.5 transition-all duration-100" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <!-- Game Result Screen -->
+            <div id="game-result-screen" class="hidden max-w-md mx-auto bg-white border border-slate-100 rounded-3xl p-6 shadow-sm text-center space-y-6">
+                <span class="text-5xl">⚡</span>
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-extrabold text-slate-800">Temps écoulé !</h3>
+                    <p class="text-slate-500 text-sm">Tu as été d'une rapidité légendaire !</p>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-3xl font-extrabold text-rose-600" id="game-res-final-score">18</div>
+                        <div class="text-xs text-slate-400 uppercase font-bold mt-1">Points marqués</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-extrabold text-amber-500" id="game-res-xp">+54 XP</div>
+                        <div class="text-xs text-slate-400 uppercase font-bold mt-1">XP Gagnés</div>
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                    <button onclick="startGame()" class="bg-rose-500 hover:bg-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-md transition-all active:scale-95 text-sm">
+                        Rejouer immédiatement
+                    </button>
+                    <button onclick="switchTab('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl transition-all active:scale-95 text-sm">
+                        Retourner à l'accueil
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: DICTIONNAIRE / LISTE ==================== -->
+        <section id="tab-list" class="tab-content hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <h2 class="text-2xl font-bold text-indigo-950">📖 Le Répertoire de Poche</h2>
+                    <p class="text-xs md:text-sm text-slate-500">La liste complète des 23 verbes de tes fiches de cours.</p>
+                </div>
+                <!-- Interactive search -->
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="verb-search" oninput="filterVerbs()" placeholder="Rechercher un verbe..." class="pl-10 pr-4 py-2 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-full md:w-64">
+                </div>
+            </div>
+
+            <!-- Filter Pills -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="setFilter('all')" id="filter-all" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm shadow-indigo-100">
+                    Tous (23)
+                </button>
+                <button onclick="setFilter('mastered')" id="filter-mastered" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    Maîtrisés ✅
+                </button>
+                <button onclick="setFilter('review')" id="filter-review" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
+                    À réviser ❌
+                </button>
+            </div>
+
+            <!-- Verb Cards Grid (Perfect for responsive layouts) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="verbs-grid">
+                <!-- Verb cards injected dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MOBILE PERSISTENT BOTTOM NAV BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-2 px-4 shadow-xl flex justify-around items-center md:hidden z-30">
+        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center space-y-1 text-indigo-600">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Accueil</span>
+        </button>
+        <button onclick="switchTab('learn')" id="nav-learn" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600">
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Flashcards</span>
+        </button>
+        <button onclick="switchTab('quiz')" id="nav-quiz" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600">
+            <i data-lucide="trophy" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Quiz</span>
+        </button>
+        <button onclick="switchTab('game')" id="nav-game" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Express</span>
+        </button>
+        <button onclick="switchTab('list')" id="nav-list" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600">
+            <i data-lucide="list-ordered" class="w-5 h-5"></i>
+            <span class="text-[10px] font-bold">Liste</span>
+        </button>
+    </nav>
+
+    <!-- DESKTOP TOP HEADER ACCESSIBILITY (Hidden on mobile, replaces bottom nav on big screens) -->
+    <div class="hidden md:block bg-white border-b border-slate-100 shadow-sm py-1.5">
+        <div class="max-w-5xl mx-auto px-4 flex justify-center space-x-8 text-sm">
+            <button onclick="switchTab('home')" id="d-nav-home" class="py-2 border-b-2 border-indigo-600 font-bold text-indigo-600 flex items-center space-x-1.5 transition-all">
+                <i data-lucide="home" class="w-4 h-4"></i> <span>Accueil</span>
+            </button>
+            <button onclick="switchTab('learn')" id="d-nav-learn" class="py-2 border-b-2 border-transparent font-bold text-slate-400 hover:text-indigo-600 hover:border-indigo-600 flex items-center space-x-1.5 transition-all">
+                <i data-lucide="book-open" class="w-4 h-4"></i> <span>Flashcards</span>
+            </button>
+            <button onclick="switchTab('quiz')" id="d-nav-quiz" class="py-2 border-b-2 border-transparent font-bold text-slate-400 hover:text-indigo-600 hover:border-indigo-600 flex items-center space-x-1.5 transition-all">
+                <i data-lucide="trophy" class="w-4 h-4"></i> <span>Quiz</span>
+            </button>
+            <button onclick="switchTab('game')" id="d-nav-game" class="py-2 border-b-2 border-transparent font-bold text-slate-400 hover:text-indigo-600 hover:border-indigo-600 flex items-center space-x-1.5 transition-all">
+                <i data-lucide="zap" class="w-4 h-4"></i> <span>Verbe Express (Jeu)</span>
+            </button>
+            <button onclick="switchTab('list')" id="d-nav-list" class="py-2 border-b-2 border-transparent font-bold text-slate-400 hover:text-indigo-600 hover:border-indigo-600 flex items-center space-x-1.5 transition-all">
+                <i data-lucide="list-ordered" class="w-4 h-4"></i> <span>Liste des verbes</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- AUDIO NOTIFICATION TOAST -->
+    <div id="toast-notif" class="fixed top-16 right-4 max-w-sm w-full bg-slate-900 text-white rounded-2xl shadow-xl p-4 flex items-center space-x-3 transition-all duration-300 transform translate-x-full opacity-0 z-50">
+        <span class="text-2xl" id="toast-emoji">🎉</span>
+        <div>
+            <h4 class="font-bold text-sm" id="toast-title">Niveau Supérieur !</h4>
+            <p class="text-xs text-slate-300" id="toast-body">Tu as débloqué un nouveau badge.</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== APP STATE & DATA ====================
+        // The list is carefully constructed from the uploaded image worksheets
+        const VERB_LIST = [
+            // Image 1: Fiche Le Prétérit
+            { french: "devenir", infinitive: "become", preterit: "became", type: "img1" },
+            { french: "acheter", infinitive: "buy", preterit: "bought", type: "img1" },
+            { french: "avoir", infinitive: "have", preterit: "had", type: "img1" },
+            { french: "manger", infinitive: "eat", preterit: "ate", type: "img1" },
+            { french: "boire", infinitive: "drink", preterit: "drank", type: "img1" },
+            { french: "prendre", infinitive: "take", preterit: "took", type: "img1" },
+            { french: "voir", infinitive: "see", preterit: "saw", type: "img1" },
+            { french: "aller", infinitive: "go", preterit: "went", type: "img1" },
+            { french: "apporter", infinitive: "bring", preterit: "brought", type: "img1" },
+            { french: "obtenir", infinitive: "get", preterit: "got", type: "img1" },
+            { french: "garder", infinitive: "keep", preterit: "kept", type: "img1" },
+            { french: "dormir", infinitive: "sleep", preterit: "slept", type: "img1" },
+            { french: "partir, laisser, quitter", infinitive: "leave", preterit: "left", type: "img1" },
+            { french: "mettre", infinitive: "put", preterit: "put", type: "img1" },
+            { french: "trouver", infinitive: "find", preterit: "found", type: "img1" },
+
+            // Image 2: Irregular verbs +
+            { french: "écrire", infinitive: "write", preterit: "wrote", type: "img2" },
+            { french: "parler", infinitive: "speak", preterit: "spoke", type: "img2" },
+            { french: "penser", infinitive: "think", preterit: "thought", type: "img2" },
+            { french: "savoir", infinitive: "know", preterit: "knew", type: "img2" },
+            { french: "payer", infinitive: "pay", preterit: "paid", type: "img2" },
+            { french: "voler", infinitive: "fly", preterit: "flew", type: "img2" },
+            { french: "conduire", infinitive: "drive", preterit: "drove", type: "img2" },
+            { french: "lire", infinitive: "read", preterit: "read", type: "img2" } // (Note: spelling read, pronounced "red")
+        ];
+
+        // Gamification / Local Progress System
+        let userState = {
+            xp: 0,
+            level: 1,
+            streak: 1,
+            lastPlayed: null,
+            mastery: {}, // verb index -> level (0: unlearned, 1: review, 3: mastered)
+            highscore: 0,
+            badges: {
+                first_card: { id: "first_card", title: "Premier Pas", desc: "A retourné une flashcard", icon: "✨", unlocked: false },
+                perfect_quiz: { id: "perfect_quiz", title: "Maître du Quiz", desc: "A fait 10/10 à un Quiz", icon: "🔥", unlocked: false },
+                speed_star: { id: "speed_star", title: "Doigts de Fée", desc: "15 pts en mode Express", icon: "⚡", unlocked: false },
+                conqueror: { id: "conqueror", title: "Verbes en Or", desc: "A maîtrisé les 23 verbes", icon: "👑", unlocked: false }
+            }
+        };
+
+        // UI Session state variables
+        let currentTab = "home";
+        let activeCardIndex = 0;
+        let isCardFlipped = false;
+        let activeQuizQuestions = [];
+        let currentQuizIndex = 0;
+        let currentQuizScore = 0;
+        let currentQuizAnswerSelected = false;
+        
+        // Game variables (Express Mode)
+        let gameActive = false;
+        let gameScore = 0;
+        let gameTimeRemaining = 60;
+        let gameTimerInterval = null;
+        let currentGameQuestion = null;
+
+        // Filtering variable for list view
+        let currentListFilter = "all";
+
+        // ==================== INIT & MOUNT ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load state from localStorage if available
+            const savedState = localStorage.getItem('english_hero_5eme');
+            if (savedState) {
+                try {
+                    userState = JSON.parse(savedState);
+                } catch (e) {
+                    console.error("Impossible de récupérer l'avancement", e);
+                }
+            }
+
+            // Ensure all 23 verbs are represented in mastery
+            VERB_LIST.forEach((_, idx) => {
+                if (userState.mastery[idx] === undefined) {
+                    userState.mastery[idx] = 0; // Unlearned
+                }
+            });
+
+            // Initialize icons
+            lucide.createIcons();
+
+            // Refresh dashboards
+            updateDashboard();
+            renderBadges();
+            setupFlashcard();
+            renderVerbsList();
+
+            // Handle streaks on load
+            verifyStreak();
+        });
+
+        // ==================== ENGINE: GAMIFICATION & XP ====================
+        function addXP(amount) {
+            userState.xp += amount;
+            
+            // Calculate Level (Every 150 XP is a level)
+            const targetLevel = Math.floor(userState.xp / 150) + 1;
+            if (targetLevel > userState.level) {
+                userState.level = targetLevel;
+                showToast("🎉 Niveau Supérieur !", `Tu es passé niveau ${targetLevel} ! Continue comme ça.`, "✨");
+                playAudio('badge');
+            }
+
+            updateDashboard();
+            saveProgress();
+        }
+
+        function unlockBadge(badgeId) {
+            if (userState.badges[badgeId] && !userState.badges[badgeId].unlocked) {
+                userState.badges[badgeId].unlocked = true;
+                showToast("🏆 Nouveau Badge !", `Tu as débloqué : ${userState.badges[badgeId].title}`, "⭐");
+                playAudio('badge');
+                renderBadges();
+                saveProgress();
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('english_hero_5eme', JSON.stringify(userState));
+        }
+
+        function updateDashboard() {
+            // Progress bars & numbers
+            document.getElementById('xp-val').innerText = `${userState.xp} XP`;
+            document.getElementById('level-val').innerText = userState.level;
+            
+            const nextLevelXpThreshold = (userState.level) * 150;
+            const prevLevelXpThreshold = (userState.level - 1) * 150;
+            const progressPct = ((userState.xp - prevLevelXpThreshold) / 150) * 100;
+            document.getElementById('xp-bar').style.width = `${Math.min(100, Math.max(5, progressPct))}%`;
+
+            document.getElementById('streak-val').innerText = userState.streak;
+
+            // Calculations of mastery
+            let masteredCount = 0;
+            let reviewCount = 0;
+            Object.values(userState.mastery).forEach(m => {
+                if (m === 3) masteredCount++;
+                if (m === 1) reviewCount++;
+            });
+
+            document.getElementById('stat-mastered').innerText = `${masteredCount} / 23`;
+            document.getElementById('stat-review').innerText = `${reviewCount} / 23`;
+            document.getElementById('stat-highscore').innerText = `${userState.highscore} pts`;
+
+            // Check if all 23 verbs mastered
+            if (masteredCount === 23) {
+                unlockBadge('conqueror');
+            }
+        }
+
+        function verifyStreak() {
+            const today = new Date().toDateString();
+            if (userState.lastPlayed) {
+                const lastDate = new Date(userState.lastPlayed).toDateString();
+                const diffTime = Math.abs(new Date(today) - new Date(lastDate));
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 1) {
+                    userState.streak += 1;
+                    showToast("🔥 Streak Continué !", `Journée n°${userState.streak} ! Ne t'arrête pas !`, "🔥");
+                } else if (diffDays > 1) {
+                    userState.streak = 1; // reset
+                }
+            }
+            userState.lastPlayed = new Date().toISOString();
+            saveProgress();
+            document.getElementById('streak-val').innerText = userState.streak;
+        }
+
+        function renderBadges() {
+            const container = document.getElementById('badges-container');
+            container.innerHTML = "";
+
+            Object.values(userState.badges).forEach(b => {
+                const isUnlocked = b.unlocked;
+                container.innerHTML += `
+                    <div class="p-4 rounded-2xl border ${isUnlocked ? 'border-amber-200 bg-amber-50/50' : 'border-slate-100 bg-slate-50/50 grayscale opacity-60'} flex flex-col items-center text-center transition-all">
+                        <span class="text-3xl mb-1">${b.icon}</span>
+                        <h4 class="font-bold text-sm ${isUnlocked ? 'text-amber-800' : 'text-slate-500'}">${b.title}</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5 leading-tight">${b.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // ==================== NOTIFICATIONS & SOUND SYNTHESIS ====================
+        function showToast(title, text, emoji = "🎉") {
+            const toast = document.getElementById('toast-notif');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-body').innerText = text;
+            document.getElementById('toast-emoji').innerText = emoji;
+
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('translate-x-full', 'opacity-0');
+            }, 3500);
+        }
+
+        // Beautiful sound effects using browser Web Audio API (No files required!)
+        function playAudio(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.45);
+                } else if (type === 'incorrect') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                    osc.frequency.setValueAtTime(147, ctx.currentTime + 0.12); // D3
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.45);
+                } else if (type === 'badge') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(261.63, ctx.currentTime); // C4
+                    osc.frequency.setValueAtTime(329.63, ctx.currentTime + 0.08); // E4
+                    osc.frequency.setValueAtTime(392.00, ctx.currentTime + 0.16); // G4
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime + 0.24); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.32); // E5
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.7);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.75);
+                }
+            } catch (err) {
+                console.log("Audio not supported / initialized yet due to user gesture requirement.");
+            }
+        }
+
+        // Pronunciation of Verbs using HTML5 SpeechSynthesis (Very helpful for learning English)
+        function speakCurrentCard() {
+            const verb = VERB_LIST[activeCardIndex];
+            speakWord(`${verb.infinitive}, ${verb.preterit}`);
+        }
+
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                
+                // Fine-tune voice selection to find an English speaker
+                const voices = window.speechSynthesis.getVoices();
+                const enVoice = voices.find(v => v.lang.startsWith('en'));
+                if (enVoice) utterance.voice = enVoice;
+                
+                utterance.rate = 0.85; // Slightly slower speed for 5th grade learners
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // ==================== TABS INTERFACE CONTROLS ====================
+        function switchTab(tabId) {
+            // Clean up any ongoing game states
+            if (gameActive && tabId !== 'game') {
+                stopGame();
+            }
+
+            // Update UI contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            // Bottom Navigation Update
+            document.querySelectorAll('nav button').forEach(el => {
+                el.classList.remove('text-indigo-600');
+                el.classList.add('text-slate-400');
+            });
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-indigo-600');
+            }
+
+            // Desktop Navigation Update
+            document.querySelectorAll('.hidden.md\\:block button').forEach(el => {
+                el.classList.remove('border-indigo-600', 'text-indigo-600');
+                el.classList.add('border-transparent', 'text-slate-400');
+            });
+            const activeDNav = document.getElementById(`d-nav-${tabId}`);
+            if (activeDNav) {
+                activeDNav.classList.remove('border-transparent', 'text-slate-400');
+                activeDNav.classList.add('border-indigo-600', 'text-indigo-600');
+            }
+
+            currentTab = tabId;
+
+            // Context-specific actions
+            if (tabId === 'learn') {
+                setupFlashcard();
+            } else if (tabId === 'list') {
+                renderVerbsList();
+            } else if (tabId === 'home') {
+                updateDashboard();
+            }
+        }
+
+        // ==================== TAB 2: FLASHCARDS LOGIC ====================
+        function setupFlashcard() {
+            const verb = VERB_LIST[activeCardIndex];
+            
+            // Set text values
+            document.getElementById('card-french').innerText = verb.french;
+            document.getElementById('card-infinitive').innerText = `To ${verb.infinitive}`;
+            document.getElementById('card-preterit').innerText = verb.preterit;
+            
+            // Set index value text
+            document.getElementById('card-index-text').innerText = `${activeCardIndex + 1} / ${VERB_LIST.length}`;
+
+            // Reset Flipping animation
+            const cardEl = document.getElementById('flashcard');
+            cardEl.classList.remove('rotate-y-180');
+            isCardFlipped = false;
+
+            // Status Badge
+            const statusPill = document.getElementById('card-status-pill');
+            const mState = userState.mastery[activeCardIndex];
+            if (mState === 3) {
+                statusPill.innerText = "Maîtrisé ✅";
+                statusPill.className = "bg-emerald-50 text-emerald-600 px-2.5 py-0.5 rounded-full font-bold";
+            } else if (mState === 1) {
+                statusPill.innerText = "À réviser ❌";
+                statusPill.className = "bg-rose-50 text-rose-600 px-2.5 py-0.5 rounded-full font-bold";
+            } else {
+                statusPill.innerText = "À apprendre";
+                statusPill.className = "bg-slate-100 text-slate-500 px-2.5 py-0.5 rounded-full font-bold";
+            }
+        }
+
+        function flipCard() {
+            const cardEl = document.getElementById('flashcard');
+            isCardFlipped = !isCardFlipped;
+            if (isCardFlipped) {
+                cardEl.classList.add('rotate-y-180');
+                unlockBadge('first_card');
+                // Read verb aloud when flipped for acoustic learning
+                setTimeout(() => {
+                    if (isCardFlipped) speakCurrentCard();
+                }, 150);
+            } else {
+                cardEl.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            activeCardIndex = (activeCardIndex + 1) % VERB_LIST.length;
+            setupFlashcard();
+        }
+
+        function prevCard() {
+            activeCardIndex = (activeCardIndex - 1 + VERB_LIST.length) % VERB_LIST.length;
+            setupFlashcard();
+        }
+
+        function markCard(known) {
+            userState.mastery[activeCardIndex] = known ? 3 : 1;
+            addXP(5); // Reward learning efforts with 5 XP
+            nextCard();
+        }
+
+        function resetCardsLearning() {
+            if (confirm("Voulez-vous réinitialiser votre progression d'apprentissage sur ces verbes ?")) {
+                VERB_LIST.forEach((_, idx) => {
+                    userState.mastery[idx] = 0;
+                });
+                activeCardIndex = 0;
+                addXP(0); // Triggers update & save
+                setupFlashcard();
+                showToast("Réinitialisé", "La pile de cartes d'apprentissage est remise à zéro.");
+            }
+        }
+
+        // ==================== TAB 3: QUIZ LOGIC ====================
+        function startQuiz() {
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-play-screen').classList.remove('hidden');
+
+            currentQuizScore = 0;
+            currentQuizIndex = 0;
+            
+            // Build 10 dynamic random questions based on the 23 verbs
+            activeQuizQuestions = generateQuizQuestions();
+            displayQuizQuestion();
+        }
+
+        function generateQuizQuestions() {
+            // Shuffle a copy of the indices
+            const indices = Array.from({length: VERB_LIST.length}, (_, i) => i);
+            const shuffled = indices.sort(() => 0.5 - Math.random());
+            
+            // Pick top 10 verbs
+            const selectedIndices = shuffled.slice(0, 10);
+            
+            return selectedIndices.map((vIdx, index) => {
+                const verb = VERB_LIST[vIdx];
+                // alternate question types: 
+                // Type 0: MCQ choose prétérit of French
+                // Type 1: Text write preterit of infinitive
+                // Type 2: MCQ translate French meaning of English Infinitive
+                const qType = index % 3;
+                
+                return {
+                    verbIdx: vIdx,
+                    verb: verb,
+                    type: qType
+                };
+            });
+        }
+
+        function displayQuizQuestion() {
+            currentQuizAnswerSelected = false;
+            const q = activeQuizQuestions[currentQuizIndex];
+            
+            // Update Headers & Score
+            document.getElementById('quiz-q-num').innerText = currentQuizIndex + 1;
+            document.getElementById('quiz-score-pill').innerText = `Score: ${currentQuizScore} pts`;
+            
+            const progressPct = ((currentQuizIndex) / 10) * 100;
+            document.getElementById('quiz-progress').style.width = `${progressPct}%`;
+
+            // Reset components
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            const mcqContainer = document.getElementById('quiz-mcq-container');
+            const writeContainer = document.getElementById('quiz-write-container');
+            mcqContainer.innerHTML = "";
+            document.getElementById('quiz-write-input').value = "";
+
+            if (q.type === 0) {
+                // MCQ: Find prétérit
+                document.getElementById('quiz-q-type-badge').innerText = "Trouve le Prétérit";
+                document.getElementById('quiz-q-text').innerText = `Quel est le prétérit du verbe "to ${q.verb.infinitive}" (${q.verb.french}) ?`;
+                mcqContainer.classList.remove('hidden');
+                writeContainer.classList.add('hidden');
+
+                // Get 4 random past tense choices including the correct one
+                const choices = generateOptions(q.verb.preterit, 'preterit');
+                choices.forEach(opt => {
+                    mcqContainer.innerHTML += `
+                        <button onclick="checkMcqAnswer('${opt.replace(/'/g, "\\'")}', '${q.verb.preterit.replace(/'/g, "\\'")}')" class="quiz-opt-btn bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-300 rounded-2xl py-4 px-4 font-bold text-slate-700 hover:text-indigo-900 transition-all text-center">
+                            ${opt}
+                        </button>
+                    `;
+                });
+            } 
+            else if (q.type === 1) {
+                // TEXT WRITE: Write the preterit of infinitive
+                document.getElementById('quiz-q-type-badge').innerText = "Orthographe (Écris !)";
+                document.getElementById('quiz-q-text').innerText = `Écris le prétérit du verbe "to ${q.verb.infinitive}" (signifiant "${q.verb.french}") :`;
+                mcqContainer.classList.add('hidden');
+                writeContainer.classList.remove('hidden');
+                
+                // Focus input
+                setTimeout(() => document.getElementById('quiz-write-input').focus(), 150);
+            } 
+            else {
+                // MCQ: Translate French meaning of English Infinitive
+                document.getElementById('quiz-q-type-badge').innerText = "Traduction";
+                document.getElementById('quiz-q-text').innerText = `Que signifie le verbe anglais "to ${q.verb.infinitive}" ?`;
+                mcqContainer.classList.remove('hidden');
+                writeContainer.classList.add('hidden');
+
+                const choices = generateOptions(q.verb.french, 'french');
+                choices.forEach(opt => {
+                    mcqContainer.innerHTML += `
+                        <button onclick="checkMcqAnswer('${opt.replace(/'/g, "\\'")}', '${q.verb.french.replace(/'/g, "\\'")}')" class="quiz-opt-btn bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-300 rounded-2xl py-4 px-4 font-bold text-slate-700 hover:text-indigo-900 transition-all text-center">
+                            ${opt}
+                        </button>
+                    `;
+                });
+            }
+        }
+
+        function generateOptions(correctAnswer, propertyName) {
+            const pool = VERB_LIST.map(v => v[propertyName]).filter(v => v !== correctAnswer);
+            const shuffledPool = pool.sort(() => 0.5 - Math.random());
+            const badOptions = shuffledPool.slice(0, 3);
+            const merged = [correctAnswer, ...badOptions];
+            return merged.sort(() => 0.5 - Math.random());
+        }
+
+        function checkMcqAnswer(selected, correct) {
+            if (currentQuizAnswerSelected) return;
+            currentQuizAnswerSelected = true;
+
+            const isCorrect = (selected === correct);
+            handleQuizAnswerFeedback(isCorrect, correct);
+        }
+
+        function submitWrittenAnswer() {
+            if (currentQuizAnswerSelected) return;
+            
+            const typed = document.getElementById('quiz-write-input').value.trim().toLowerCase();
+            const correct = activeQuizQuestions[currentQuizIndex].verb.preterit.trim().toLowerCase();
+
+            if (!typed) {
+                showToast("Écris quelque chose", "Tu dois taper une réponse avant de valider !", "✍️");
+                return;
+            }
+
+            currentQuizAnswerSelected = true;
+            const isCorrect = (typed === correct);
+            handleQuizAnswerFeedback(isCorrect, correct);
+        }
+
+        function handleQuizAnswerFeedback(isCorrect, correctForm) {
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-100', 'bg-rose-50', 'text-rose-700', 'border-rose-100');
+            
+            // Audio pronunciation feedback helper
+            const activeVerb = activeQuizQuestions[currentQuizIndex].verb;
+            speakWord(activeVerb.preterit);
+
+            if (isCorrect) {
+                currentQuizScore++;
+                playAudio('correct');
+                feedbackEl.className = "rounded-2xl p-4 flex items-center space-x-3 text-sm bg-emerald-50 text-emerald-800 border border-emerald-100 mt-4";
+                feedbackEl.innerHTML = `
+                    <span class="text-xl">🎉</span>
+                    <div>
+                        <strong class="font-bold">Excellent !</strong> C'est la bonne réponse.
+                    </div>
+                `;
+                // Upgrade mastery in learning state
+                userState.mastery[activeQuizQuestions[currentQuizIndex].verbIdx] = 3;
+            } else {
+                playAudio('incorrect');
+                feedbackEl.className = "rounded-2xl p-4 flex items-center space-x-3 text-sm bg-rose-50 text-rose-800 border border-rose-100 mt-4";
+                feedbackEl.innerHTML = `
+                    <span class="text-xl">😢</span>
+                    <div>
+                        <strong class="font-bold">Oups !</strong> La bonne réponse était : <span class="underline font-extrabold">${correctForm}</span>.
+                    </div>
+                `;
+                // Downgrade or mark for revision in learning state
+                userState.mastery[activeQuizQuestions[currentQuizIndex].verbIdx] = 1;
+            }
+
+            // Move to next question after short delay
+            setTimeout(() => {
+                currentQuizIndex++;
+                if (currentQuizIndex < 10) {
+                    displayQuizQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, 2500);
+        }
+
+        function finishQuiz() {
+            document.getElementById('quiz-play-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+
+            // Calculate final gained XP
+            const earnedXp = currentQuizScore * 10;
+            addXP(earnedXp);
+
+            document.getElementById('quiz-res-score').innerText = `${currentQuizScore} / 10`;
+            document.getElementById('quiz-res-xp').innerText = `+${earnedXp} XP`;
+
+            if (currentQuizScore === 10) {
+                unlockBadge('perfect_quiz');
+            }
+        }
+
+
+        // ==================== TAB 4: CHRONO / SPEED GAME ====================
+        function startGame() {
+            document.getElementById('game-start-screen').classList.add('hidden');
+            document.getElementById('game-result-screen').classList.add('hidden');
+            document.getElementById('game-play-screen').classList.remove('hidden');
+
+            gameActive = true;
+            gameScore = 0;
+            gameTimeRemaining = 60;
+            
+            document.getElementById('game-score').innerText = gameScore;
+            document.getElementById('game-timer').innerText = `${gameTimeRemaining}s`;
+
+            // Start game countdown loop
+            clearInterval(gameTimerInterval);
+            gameTimerInterval = setInterval(() => {
+                gameTimeRemaining--;
+                document.getElementById('game-timer').innerText = `${gameTimeRemaining}s`;
+                document.getElementById('game-timer-bar').style.width = `${(gameTimeRemaining / 60) * 100}%`;
+
+                if (gameTimeRemaining <= 0) {
+                    endGame();
+                }
+            }, 1000);
+
+            nextGameQuestion();
+        }
+
+        function nextGameQuestion() {
+            if (!gameActive) return;
+
+            // Pick a completely random verb
+            const randIdx = Math.floor(Math.random() * VERB_LIST.length);
+            const verb = VERB_LIST[randIdx];
+
+            // 50% probability to ask English -> Preterit OR French -> English Infinitive
+            const qType = Math.random() > 0.5 ? 'preterit' : 'infinitive';
+            
+            currentGameQuestion = {
+                verb: verb,
+                type: qType
+            };
+
+            const optionsContainer = document.getElementById('game-options');
+            optionsContainer.innerHTML = "";
+
+            if (qType === 'preterit') {
+                document.getElementById('game-prompt-type').innerText = "Trouve le Prétérit de";
+                document.getElementById('game-prompt-word').innerText = `To ${verb.infinitive} (${verb.french})`;
+
+                const opts = generateOptions(verb.preterit, 'preterit');
+                opts.forEach(opt => {
+                    optionsContainer.innerHTML += `
+                        <button onclick="submitGameAnswer('${opt.replace(/'/g, "\\'")}', '${verb.preterit.replace(/'/g, "\\'")}')" class="bg-indigo-50 active:bg-indigo-200 border border-indigo-100 rounded-2xl py-3.5 px-4 font-bold text-indigo-950 text-sm transition-all active:scale-95 text-center">
+                            ${opt}
+                        </button>
+                    `;
+                });
+            } else {
+                document.getElementById('game-prompt-type').innerText = "Traduire en anglais l'action";
+                document.getElementById('game-prompt-word').innerText = verb.french;
+
+                const opts = generateOptions(verb.infinitive, 'infinitive');
+                opts.forEach(opt => {
+                    optionsContainer.innerHTML += `
+                        <button onclick="submitGameAnswer('${opt.replace(/'/g, "\\'")}', '${verb.infinitive.replace(/'/g, "\\'")}')" class="bg-indigo-50 active:bg-indigo-200 border border-indigo-100 rounded-2xl py-3.5 px-4 font-bold text-indigo-950 text-sm transition-all active:scale-95 text-center">
+                            To ${opt}
+                        </button>
+                    `;
+                });
+            }
+        }
+
+        function submitGameAnswer(selected, correct) {
+            if (!gameActive) return;
+
+            if (selected === correct) {
+                // Correct: +1 score, +2s time reward
+                gameScore++;
+                gameTimeRemaining = Math.min(60, gameTimeRemaining + 2);
+                playAudio('correct');
+                document.getElementById('game-score').innerText = gameScore;
+                
+                // Speak word aloud briefly
+                speakWord(correct);
+            } else {
+                // Error: -3s time penalty
+                gameTimeRemaining = Math.max(0, gameTimeRemaining - 3);
+                playAudio('incorrect');
+                showToast("Faux !", `La réponse était : ${correct}`, "❌");
+            }
+
+            document.getElementById('game-timer').innerText = `${gameTimeRemaining}s`;
+            nextGameQuestion();
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameTimerInterval);
+
+            document.getElementById('game-play-screen').classList.add('hidden');
+            document.getElementById('game-result-screen').classList.remove('hidden');
+
+            const earnedXp = gameScore * 3;
+            addXP(earnedXp);
+
+            document.getElementById('game-res-final-score').innerText = gameScore;
+            document.getElementById('game-res-xp').innerText = `+${earnedXp} XP`;
+
+            // Highscore track
+            if (gameScore > userState.highscore) {
+                userState.highscore = gameScore;
+                saveProgress();
+                showToast("🏆 Nouveau Record !", `Tu as battu ton meilleur score avec ${gameScore} points !`, "🔥");
+            }
+
+            if (gameScore >= 15) {
+                unlockBadge('speed_star');
+            }
+        }
+
+        function stopGame() {
+            gameActive = false;
+            clearInterval(gameTimerInterval);
+        }
+
+        // ==================== TAB 5: DICTIONNAIRE / SEARCH LOGIC ====================
+        function renderVerbsList() {
+            const grid = document.getElementById('verbs-grid');
+            grid.innerHTML = "";
+
+            let count = 0;
+            const searchVal = document.getElementById('verb-search').value.toLowerCase().trim();
+
+            VERB_LIST.forEach((v, idx) => {
+                // Filtering based on active filter pill
+                const masteryState = userState.mastery[idx];
+                if (currentListFilter === 'mastered' && masteryState !== 3) return;
+                if (currentListFilter === 'review' && masteryState !== 1) return;
+
+                // Filtering based on search query
+                if (searchVal) {
+                    const matchF = v.french.toLowerCase().includes(searchVal);
+                    const matchI = v.infinitive.toLowerCase().includes(searchVal);
+                    const matchP = v.preterit.toLowerCase().includes(searchVal);
+                    if (!matchF && !matchI && !matchP) return;
+                }
+
+                count++;
+
+                // Visual mastery indicator elements
+                let borderTheme = "border-slate-100 hover:border-indigo-200 bg-white";
+                let statusBadge = `<span class="bg-slate-50 text-slate-400 text-[10px] px-2 py-0.5 rounded-full font-bold">À apprendre</span>`;
+                
+                if (masteryState === 3) {
+                    borderTheme = "border-emerald-100 hover:border-emerald-300 bg-emerald-50/20";
+                    statusBadge = `<span class="bg-emerald-100/60 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">Maîtrisé ✅</span>`;
+                } else if (masteryState === 1) {
+                    borderTheme = "border-rose-100 hover:border-rose-300 bg-rose-50/20";
+                    statusBadge = `<span class="bg-rose-100/60 text-rose-700 text-[10px] px-2 py-0.5 rounded-full font-bold">À réviser ❌</span>`;
+                }
+
+                grid.innerHTML += `
+                    <div class="p-4 rounded-2xl border ${borderTheme} transition-all shadow-sm space-y-2 flex flex-col justify-between">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="font-extrabold text-indigo-950 text-base capitalize">${v.french}</h4>
+                                <p class="text-xs text-slate-400 font-medium">Origine : ${v.type === 'img1' ? 'Fiche 1' : 'Fiche 2'}</p>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        
+                        <div class="pt-2 flex items-center justify-between">
+                            <div class="space-y-0.5">
+                                <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Infinitif</div>
+                                <div class="text-xs font-bold text-slate-700">To ${v.infinitive}</div>
+                            </div>
+                            <div class="space-y-0.5 text-right">
+                                <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Prétérit</div>
+                                <div class="text-sm font-extrabold text-indigo-600 tracking-wide">${v.preterit}</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-100/50 flex justify-between items-center">
+                            <!-- Toggle mastery manually in list -->
+                            <button onclick="toggleMasteryInList(${idx})" class="text-[11px] text-indigo-600 hover:text-indigo-800 font-bold flex items-center space-x-1">
+                                <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+                                <span>Changer statut</span>
+                            </button>
+                            <!-- Play Audio Speech button -->
+                            <button onclick="speakWord('${v.infinitive}, ${v.preterit}')" class="text-slate-400 hover:text-indigo-600 p-1 rounded-full transition-all" title="Entendre la prononciation">
+                                <i data-lucide="volume-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Update lucide icons in the dynamically created cards
+            lucide.createIcons();
+
+            // Handle empty state
+            if (count === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-400">
+                        <i data-lucide="inbox" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p class="font-bold text-sm">Aucun verbe trouvé...</p>
+                        <p class="text-xs">Modifie ton filtre ou écris autre chose !</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function filterVerbs() {
+            renderVerbsList();
+        }
+
+        function setFilter(filterType) {
+            currentListFilter = filterType;
+            
+            // Adjust buttons active classes
+            document.querySelectorAll('#tab-list button[id^="filter-"]').forEach(btn => {
+                btn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200";
+            });
+
+            const activeBtn = document.getElementById(`filter-${filterType}`);
+            if (activeBtn) {
+                activeBtn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm shadow-indigo-100";
+            }
+
+            renderVerbsList();
+        }
+
+        function toggleMasteryInList(index) {
+            // Cycle: 0 -> 1 -> 3 -> 0
+            let current = userState.mastery[index] || 0;
+            let next = 0;
+            if (current === 0) next = 1;
+            else if (current === 1) next = 3;
+            else next = 0;
+
+            userState.mastery[index] = next;
+            addXP(2); // small encouragement XP
+            renderVerbsList();
+            updateDashboard();
+        }
+
+    </script>
+</body>
+</html>
